@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* Brand Colors */
+  --primary: #1E3A5F;
+  /* Deep Navy */
+  --primary-dark: #0A1628;
+  /* Header Dark Navy */
+  --secondary: #2E86AB;
+  /* Steel Blue */
+  --accent: #00B4D8;
+  /* Electric Cyan */
+  --highlight: #00B4D8;
+
+  /* UI Palette */
+  --cta: #00B4D8;
+
+  /* Status Colors */
+  --success: #16A34A;
+  --danger: #DC2626;
+  --warning: #2E86AB;
+  --muted: #8A9BA8;
+
+  /* Backgrounds */
+  --bg: #F0F4F8;
+  /* Light blue-gray bg */
+  --surface: #FFFFFF;
+  /* White for cards */
+  --border: #D1D9E0;
+
+  /* Typography */
+  --text: #0D1B2A;
+  /* Deep Navy Black */
+  --text-light: #5C6B7A;
+  /* Slate Gray */
+  --font-main: 'Inter', sans-serif;
+  --font-arabic: 'Tajawal', 'Cairo', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: var(--font-main);
+  scroll-behavior: smooth;
+}
+
+/* Use Cairo for Arabic text elements if needed specifically, or mix */
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.3s ease;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.app {
+  width: 90%;
+  max-width: 1280px;
+  margin: auto;
+  padding-bottom: 50px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.product-item {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.product-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Global Animations & Utilities */
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #f3f4f6;
+  }
+
+  50% {
+    background-color: #e5e7eb;
+  }
+
+  100% {
+    background-color: #f3f4f6;
+  }
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-on-scroll.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Skeleton Loaders */
+.skeleton {
+  background: #e5e7eb;
+  border-radius: 8px;
+  animation: skeleton-loading 1.5s infinite linear;
+}
+
+/* Button Ripple & Interactive Effects */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Page Transitions */
+.page-fade-enter {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.page-fade-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Breadcrumb & Navigation Flow Utilities */
+.breadcrumb-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0 10px;
+}
+
+.breadcrumb-custom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.breadcrumb-custom a {
+  color: var(--secondary);
+  transition: 0.3s;
+}
+
+.breadcrumb-custom a:hover {
+  color: var(--accent);
+}
+
+.breadcrumb-custom .separator {
+  color: var(--border);
+}
+
+.breadcrumb-custom .current {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.back-link:hover {
+  color: var(--accent);
+  transform: translateX(-5px);
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* Global Spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border);
+  border-top: 4px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.profile-loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 15px;
+  color: var(--text-light);
+  font-weight: 500;
+  animation: fadeIn 0.4s ease-out;
+}

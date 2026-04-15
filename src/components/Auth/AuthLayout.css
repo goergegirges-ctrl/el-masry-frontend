@@ -1,0 +1,218 @@
+.auth-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F0F4F8; /* Light Blue-Gray Foundation */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Header Section (Mobile 30%) */
+.auth-header-section {
+    height: 30vh;
+    background-color: #0A1628; /* Deep Navy */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Static CSS Circuit Pattern Background */
+.auth-header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0, 180, 216, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 180, 216, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+.auth-header-section::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(0, 180, 216, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.auth-logo-container {
+    z-index: 2;
+    text-align: center;
+}
+
+.auth-logo {
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.auth-tagline {
+    color: #00B4D8; /* Electric Cyan */
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+/* Form Container (Mobile 70% Overlap) */
+.auth-form-container {
+    flex: 1;
+    background-color: #FFFFFF;
+    margin-top: -24px; /* Split overlap */
+    border-radius: 24px 24px 0 0;
+    padding: 30px 24px;
+    z-index: 3;
+    box-shadow: 0 -10px 30px rgba(10, 22, 40, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.auth-titles {
+    margin-bottom: 30px;
+}
+
+.auth-title-ar {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0A1628;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.auth-title-en {
+    font-size: 18px;
+    font-weight: 500;
+    color: #4A5568;
+    display: block;
+}
+
+/* Reusable Button across Auth */
+.auth-submit-btn {
+    width: 100%;
+    height: 54px;
+    background-color: #00B4D8;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-submit-btn:active {
+    transform: scale(0.98);
+}
+
+.auth-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Spinner */
+.auth-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: auth-spin 0.8s linear infinite;
+}
+
+@keyframes auth-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Footer links */
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+    color: #4A5568;
+    font-size: 15px;
+}
+
+.auth-link {
+    color: #00B4D8;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+
+/* Input Row for Register side-by-side fields */
+.auth-input-row {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 480px) {
+    .auth-input-row {
+        flex-direction: row;
+        gap: 16px;
+    }
+    .auth-input-row > * {
+        flex: 1;
+    }
+}
+
+
+/* DESKTOP BREAKPOINTS (Phase 5 tasks) */
+@media (min-width: 992px) {
+    .auth-layout {
+        flex-direction: row;
+    }
+
+    .auth-header-section {
+        width: 40vw;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+
+    .auth-form-container {
+        width: 60vw;
+        margin-left: 40vw;
+        height: 100vh;
+        margin-top: 0;
+        border-radius: 0;
+        justify-content: center;
+        align-items: center;
+        padding: 60px;
+        background-color: #F8FAFC;
+    }
+
+    .auth-card {
+        max-width: 500px;
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(10, 22, 40, 0.05);
+    }
+
+    .auth-logo {
+        height: 220px;
+    }
+
+    .auth-tagline {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,244 @@
+.cart {
+  margin-top: 50px;
+  min-height: 60vh;
+}
+
+.cart-title {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cart-content {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.cart-items {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--surface);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.cart-item-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.cart-item-info img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cart-item-details .item-name {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.cart-item-details .item-price {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--bg);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.quantity-controls button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.quantity-controls button:disabled {
+  color: var(--text-light);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-controls span {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 20px;
+  text-align: center;
+}
+
+.item-total {
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 80px;
+  text-align: right;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.remove-btn:hover {
+  text-decoration: underline;
+}
+
+.cart-summary-container {
+  flex: 1;
+  min-width: 300px;
+}
+
+.cart-total {
+  background-color: var(--surface);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 100px;
+}
+
+.cart-total h3 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.cart-total-details {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-light);
+  margin-bottom: 15px;
+}
+
+.delivery-note {
+  font-size: 12px;
+  color: var(--warning);
+}
+
+.cart-total hr {
+  margin: 15px 0;
+  border: none;
+  height: 1px;
+  background-color: var(--border);
+}
+
+.cart-total-details.total-row {
+  color: var(--text);
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: var(--secondary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(31, 122, 140, 0.25);
+}
+
+.checkout-btn:disabled {
+  background-color: var(--text-light);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 50px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.empty-cart p {
+  color: var(--text-light);
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.empty-cart button {
+  padding: 12px 25px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.empty-cart button:hover {
+  background-color: var(--primary-light);
+}
+
+@media (max-width: 900px) {
+  .cart-content {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .cart-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .cart-item-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .item-total {
+    text-align: left;
+  }
+}

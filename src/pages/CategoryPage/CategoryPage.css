@@ -1,0 +1,114 @@
+.category-page {
+    padding: 2rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.category-header {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.category-header h1 {
+    font-size: 2.5rem;
+    color: var(--text);
+    margin: 0;
+}
+
+.category-header p {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Category Selection Grid */
+.categories-grid-circular {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 40px;
+    padding: 20px 0;
+    justify-items: center;
+}
+
+.category-card-circular {
+    cursor: pointer;
+    text-align: center;
+    width: 130px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.category-card-circular .circle-img-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    padding: 5px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    margin-bottom: 15px;
+    transition: all 0.4s ease;
+}
+
+.category-card-circular .circle-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--surface);
+    background: white;
+}
+
+.category-card-circular p {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.category-card-circular:hover {
+    transform: translateY(-10px);
+}
+
+.category-card-circular:hover .circle-img-wrapper {
+    box-shadow: 0 10px 25px rgba(0, 180, 216, 0.4);
+    transform: rotate(5deg);
+}
+
+.category-card-circular:hover p {
+    color: var(--accent);
+}
+
+.error-state {
+    text-align: center;
+    padding: 100px 0;
+}
+
+.category-header.skeleton-pulse {
+    height: 120px;
+    background: #f1f5f9;
+}
+
+/* Re-use or adapt ProductDisplay grid */
+.category-page .product-display-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .category-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 1.5rem;
+    }
+
+    .category-header h1 {
+        font-size: 1.8rem;
+    }
+}

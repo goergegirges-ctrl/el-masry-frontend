@@ -1,0 +1,30 @@
+.breadcrumbs-nav {
+    max-width: 1280px;
+    margin: 20px auto 10px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #888;
+}
+
+.breadcrumbs-nav a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumbs-nav a:hover {
+    color: #ff4c24;
+}
+
+.separator {
+    color: #ccc;
+    font-size: 12px;
+}
+
+.current {
+    color: #1a1a1a;
+    font-weight: 600;
+}

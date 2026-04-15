@@ -1,0 +1,10 @@
+/* Specific adjustments for Register form if any */
+.auth-fields {
+    gap: 8px;
+}
+
+@media (max-width: 480px) {
+    .auth-input-row {
+        gap: 0;
+    }
+}

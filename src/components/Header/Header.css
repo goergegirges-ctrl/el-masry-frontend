@@ -1,0 +1,108 @@
+.header {
+  height: 90vh;
+  min-height: 600px;
+  margin: 10px auto;
+  background: url('/header_img.png') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.header-contents {
+  max-width: 800px;
+  padding: 0 5% 6% 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeInUp 1s ease-out forwards;
+  position: relative;
+  z-index: 2;
+}
+
+.header-contents h1 {
+  font-family: var(--font-arabic);
+  font-weight: 800;
+  color: #ffffff;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-contents p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(16px, 1.2vw, 20px);
+  font-family: var(--font-main);
+  max-width: 90%;
+  line-height: 1.6;
+}
+
+.header-contents button {
+  border: none;
+  color: var(--primary-dark);
+  font-weight: 800;
+  padding: 16px 45px;
+  background-color: var(--highlight);
+  font-size: 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 30px rgba(0, 180, 216, 0.4);
+  font-family: var(--font-arabic);
+}
+
+.header-contents button:hover {
+  background-color: #FFF;
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(0, 180, 216, 0.6);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 70vh;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .header-contents {
+    margin-left: 0;
+    text-align: center;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .header-contents h1 {
+    font-size: 32px;
+  }
+
+  .header-contents p {
+    font-size: 16px;
+  }
+}

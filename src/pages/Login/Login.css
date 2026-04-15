@@ -1,0 +1,23 @@
+.auth-form-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.auth-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* Spacing handled by input wrappers */
+}
+
+.auth-options {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+/* Red Error Overwrite (as per user preference) */
+.Toastify__toast--error {
+    background-color: #DC2626 !important;
+}
