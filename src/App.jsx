@@ -20,6 +20,16 @@ import Wishlist from './pages/Wishlist/Wishlist'
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
 import MobileNavbar from './components/MobileNavbar/MobileNavbar'
 import { Helmet } from 'react-helmet-async'
+import { StoreContext } from './context/StoreContext'
+import { useContext } from 'react'
+
+const ProtectedRoute = ({ children }) => {
+  const { token } = useContext(StoreContext);
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
 const App = () => {
   useScrollReveal();
@@ -42,15 +52,15 @@ const App = () => {
           <Route path='/category' element={<Navigate to="/" />} />
           <Route path='/category/:categorySlug' element={<CategoryPage />} />
           <Route path='/cart' element={<Cart />} />
-          <Route path='/order' element={<Checkout />} />
+          <Route path='/order' element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path='/search' element={<Search />} />
-          <Route path='/order-success' element={<OrderSuccess />} />
-          <Route path='/my-orders' element={<MyOrders />} />
-          <Route path='/orders/:id' element={<OrderDetail />} />
-          <Route path='/wishlist' element={<Wishlist />} />
+          <Route path='/order-success' element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
+          <Route path='/my-orders' element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+          <Route path='/orders/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+          <Route path='/wishlist' element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
           <Route path='/privacy' element={<PrivacyPolicy />} />
         </Routes>
       </div>
