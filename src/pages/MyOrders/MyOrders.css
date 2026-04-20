@@ -40,7 +40,7 @@
 }
 
 .order-item {
-    background: #fff;
+    background: var(--surface);
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
@@ -51,7 +51,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background: #fcfcfc;
+    background: var(--surface-sunken);
 }
 
 .order-info-group {
@@ -67,7 +67,7 @@
 
 .label {
     font-size: 11px;
-    color: #888;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -75,7 +75,7 @@
 .val {
     font-size: 15px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--text);
     margin-top: 4px;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .view-details-btn {
-    background-color: #0A1628;
+    background-color: var(--primary-dark);
     color: white;
     border: none;
     border-radius: 6px;
@@ -118,24 +118,24 @@
 }
 
 .view-details-btn:hover {
-    background-color: #00B4D8;
+    background-color: var(--accent);
 }
 
 .no-orders-state {
     text-align: center;
     padding: 60px 20px;
-    background: #fcfcfc;
+    background: var(--surface-sunken);
     border-radius: 12px;
 }
 
 .no-orders-state p {
     font-size: 18px;
-    color: #555;
+    color: var(--text-light);
     margin-bottom: 20px;
 }
 
 .shop-now-btn {
-    background-color: #00B4D8;
+    background-color: var(--accent);
     color: white;
     border: none;
     border-radius: 6px;
