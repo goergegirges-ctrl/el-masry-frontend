@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
-import axios from "axios"
+import { toast } from 'react-toastify'
 import { useNavigate } from "react-router-dom"
+import axiosClient from '../../utils/axiosClient'
 
 const PlaceOrder = () => {
 
@@ -71,18 +72,17 @@ const PlaceOrder = () => {
     }
 
     try {
-      let response = await axios.post(url + "/api/order/create", orderData);
+      let response = await axiosClient.post("/api/order/create", orderData);
       if (response.data.success) {
-        alert("Order Placed Successfully!");
-        setCartItems({}); // Clear cart
-        navigate("/"); // Redirect to home
-      }
-      else {
-        alert("Error: " + response.data.message);
+        toast.success("تم تقديم الطلب بنجاح! / Order placed successfully!");
+        setCartItems({});
+        navigate("/");
+      } else {
+        toast.error(response.data.message || "حدث خطأ أثناء تقديم الطلب");
       }
     } catch (error) {
-      console.log(error);
-      alert("Error connecting to server");
+      console.error(error);
+      toast.error("تعذر الاتصال بالخادم. يرجى المحاولة مرة أخرى.");
     } finally {
       setIsProcessing(false);
     }
@@ -98,29 +98,36 @@ const PlaceOrder = () => {
           <p className="section-title">1. Customer Information</p>
           <div className="multi-fields">
             <div className="input-group">
-              <input required name='firstName' onChange={onChangeHandler} value={data.firstName} type="text" placeholder='First name' className={errors.firstName ? 'error-input' : ''} />
-              {errors.firstName && <span className='error-msg'>{errors.firstName}</span>}
+              <label htmlFor="firstName">الاسم الأول / First Name *</label>
+              <input id="firstName" required name='firstName' onChange={onChangeHandler} value={data.firstName} type="text" placeholder='First name' className={errors.firstName ? 'error-input' : ''} aria-describedby={errors.firstName ? 'firstName-error' : undefined} aria-invalid={!!errors.firstName} />
+              {errors.firstName && <span id="firstName-error" className='error-msg' role="alert">{errors.firstName}</span>}
             </div>
             <div className="input-group">
-              <input name='lastName' onChange={onChangeHandler} value={data.lastName} type="text" placeholder='Last name (Optional)' />
+              <label htmlFor="lastName">الاسم الأخير / Last Name</label>
+              <input id="lastName" name='lastName' onChange={onChangeHandler} value={data.lastName} type="text" placeholder='Last name (optional)' />
             </div>
           </div>
           <div className="input-group">
-            <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email address (Optional)' />
+            <label htmlFor="email">البريد الإلكتروني / Email</label>
+            <input id="email" name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email address (optional)' />
           </div>
           <div className="input-group">
-            <input required name='phone' onChange={onChangeHandler} value={data.phone} type="text" placeholder='Phone (01xxxxxxxxx)' className={errors.phone ? 'error-input' : ''} />
-            {errors.phone && <span className='error-msg'>{errors.phone}</span>}
+            <label htmlFor="phone">رقم الهاتف / Phone *</label>
+            <input id="phone" required name='phone' onChange={onChangeHandler} value={data.phone} type="tel" inputMode="numeric" placeholder='01xxxxxxxxx' className={errors.phone ? 'error-input' : ''} aria-describedby={errors.phone ? 'phone-error' : 'phone-hint'} aria-invalid={!!errors.phone} />
+            <span id="phone-hint" className='field-hint'>Egyptian mobile number (01x xxxx xxxx)</span>
+            {errors.phone && <span id="phone-error" className='error-msg' role="alert">{errors.phone}</span>}
           </div>
 
           <p className="section-title">2. Delivery Address</p>
           <div className="input-group">
-            <input required name='city' onChange={onChangeHandler} value={data.city} type="text" placeholder='City' className={errors.city ? 'error-input' : ''} />
-            {errors.city && <span className='error-msg'>{errors.city}</span>}
+            <label htmlFor="city">المدينة / City *</label>
+            <input id="city" required name='city' onChange={onChangeHandler} value={data.city} type="text" placeholder='e.g. Cairo, Alexandria' className={errors.city ? 'error-input' : ''} aria-describedby={errors.city ? 'city-error' : undefined} aria-invalid={!!errors.city} />
+            {errors.city && <span id="city-error" className='error-msg' role="alert">{errors.city}</span>}
           </div>
           <div className="input-group">
-            <input required name='street' onChange={onChangeHandler} value={data.street} type="text" placeholder='Full Address / Street' className={errors.street ? 'error-input' : ''} />
-            {errors.street && <span className='error-msg'>{errors.street}</span>}
+            <label htmlFor="street">العنوان بالتفصيل / Full Address *</label>
+            <input id="street" required name='street' onChange={onChangeHandler} value={data.street} type="text" placeholder='Street, building, floor' className={errors.street ? 'error-input' : ''} aria-describedby={errors.street ? 'street-error' : undefined} aria-invalid={!!errors.street} />
+            {errors.street && <span id="street-error" className='error-msg' role="alert">{errors.street}</span>}
           </div>
         </div>
 

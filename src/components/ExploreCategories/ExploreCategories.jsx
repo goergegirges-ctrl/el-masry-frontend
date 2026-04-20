@@ -30,8 +30,8 @@ const ExploreCategories = ({ category, setCategory }) => {
       </div>
 
       <div className="categories-slider-wrapper">
-        <button className="scroll-btn left" onClick={() => scroll('left')}>
-          <ChevronLeft size={24} />
+        <button className="scroll-btn left" onClick={() => scroll('left')} aria-label="تمرير لليسار">
+          <ChevronLeft size={24} aria-hidden="true" />
         </button>
 
         <div className="explore-categories-list" ref={scrollRef}>
@@ -41,25 +41,35 @@ const ExploreCategories = ({ category, setCategory }) => {
             const image = item.image || item.category_image;
 
             return (
-              <div
+              <button
                 key={index}
+                type="button"
                 onClick={() => {
                   navigate(`/category/${slug}`);
                   window.scrollTo(0, 0);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(`/category/${slug}`);
+                    window.scrollTo(0, 0);
+                  }
+                }}
                 className={`explore-categories-item ${category === name ? "active" : ""}`}
+                aria-label={`تصفح فئة ${name}`}
+                aria-current={category === name ? 'true' : undefined}
               >
                 <div className="category-img-wrapper">
-                  <img src={image} alt={name} />
+                  <img src={image} alt="" aria-hidden="true" />
                 </div>
                 <p>{formatCategoryName(name)}</p>
-              </div>
+              </button>
             )
           })}
         </div>
 
-        <button className="scroll-btn right" onClick={() => scroll('right')}>
-          <ChevronRight size={24} />
+        <button className="scroll-btn right" onClick={() => scroll('right')} aria-label="تمرير لليمين">
+          <ChevronRight size={24} aria-hidden="true" />
         </button>
       </div>
       <hr className="categories-hr" />

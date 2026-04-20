@@ -49,7 +49,19 @@
 .login-popup-inputs {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+}
+
+.login-popup-inputs .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.login-popup-inputs label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-light);
 }
 
 .login-popup-inputs input {
@@ -95,17 +107,49 @@
   accent-color: var(--secondary);
 }
 
+.login-popup-condition label,
 .login-popup-condition p {
   font-size: 13px;
   line-height: 1.4;
 }
 
-.login-popup p span {
+.login-popup-condition a {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.login-popup-close {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.login-popup-close img {
+  width: 16px;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.login-popup-close:hover img {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+.auth-switch-btn {
+  background: none;
+  border: none;
   color: var(--secondary);
   font-weight: 600;
   cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
 }
 
-.login-popup p span:hover {
+.auth-switch-btn:hover {
   text-decoration: underline;
 }

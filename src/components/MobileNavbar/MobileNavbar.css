@@ -6,7 +6,7 @@
     width: 100%;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-light);
     padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
     justify-content: space-around;
     align-items: center;
@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #888;
+    color: var(--text-muted);
     text-decoration: none;
     gap: 4px;
     font-size: 10px;
@@ -27,7 +27,7 @@
 }
 
 .nav-item.active {
-    color: #ff4c24;
+    color: var(--accent);
 }
 
 .cart-icon-wrapper {
@@ -38,8 +38,8 @@
     position: absolute;
     top: -5px;
     right: -8px;
-    background: #ff4c24;
-    color: white;
+    background: var(--accent);
+    color: var(--primary-dark);
     font-size: 8px;
     width: 14px;
     height: 14px;

@@ -19,17 +19,37 @@ const ProductItem = ({ id, name, price, description, images, stock, condition, i
     ? images[0]
     : assets.logo;
 
+  const handleCardKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      navigate(`/product/${id}`, { state: { from: window.location.pathname } });
+    }
+  };
+
   return (
-    <div className='product-item' onClick={() => navigate(`/product/${id}`, { state: { from: window.location.pathname } })}>
+    <div
+      className='product-item'
+      onClick={() => navigate(`/product/${id}`, { state: { from: window.location.pathname } })}
+      role="link"
+      tabIndex={0}
+      onKeyDown={handleCardKeyDown}
+      aria-label={name}
+    >
       <div className="product-item-img-container">
 
         {isOutOfStock && (
           <span className="badge out-of-stock">Out of Stock</span>
         )}
 
-        <div className="wishlist-btn-container" onClick={(e) => { e.stopPropagation(); toggleWishlist(id); }}>
-          <Heart size={20} fill={isWishlisted ? "#ff4c24" : "none"} stroke={isWishlisted ? "#ff4c24" : "#888"} />
-        </div>
+        <button
+          type="button"
+          className="wishlist-btn-container"
+          onClick={(e) => { e.stopPropagation(); toggleWishlist(id); }}
+          aria-label={isWishlisted ? `إزالة ${name} من المفضلة` : `إضافة ${name} للمفضلة`}
+          aria-pressed={isWishlisted}
+        >
+          <Heart size={20} fill={isWishlisted ? "#ff4c24" : "none"} stroke={isWishlisted ? "#ff4c24" : "#888"} aria-hidden="true" />
+        </button>
 
         <LazyImage
           src={productImageUrl}
@@ -39,14 +59,23 @@ const ProductItem = ({ id, name, price, description, images, stock, condition, i
 
         {!isOutOfStock && (
           !cartItems[id]
-            ? <div className='add-btn-container' onClick={(e) => { e.stopPropagation(); addToCart(id); }}>
-              <span className='add-icon-plus'>+</span>
-            </div>
+            ? <button
+                type="button"
+                className='add-btn-container'
+                onClick={(e) => { e.stopPropagation(); addToCart(id); }}
+                aria-label={`أضف ${name} للسلة`}
+              >
+                <span className='add-icon-plus' aria-hidden="true">+</span>
+              </button>
             : <div className='product-item-counter' onClick={(e) => e.stopPropagation()}>
-              <img onClick={() => removeFromCart(id)} src={assets.remove_icon_red} alt="Remove" />
-              <p>{cartItems[id]}</p>
-              <img onClick={() => addToCart(id)} src={assets.add_icon_green} alt="Add" />
-            </div>
+                <button type="button" className="counter-btn" onClick={() => removeFromCart(id)} aria-label={`تقليل كمية ${name}`}>
+                  <img src={assets.remove_icon_red} alt="" aria-hidden="true" />
+                </button>
+                <p aria-live="polite" aria-label={`الكمية: ${cartItems[id]}`}>{cartItems[id]}</p>
+                <button type="button" className="counter-btn" onClick={() => addToCart(id)} aria-label={`زيادة كمية ${name}`}>
+                  <img src={assets.add_icon_green} alt="" aria-hidden="true" />
+                </button>
+              </div>
         )}
       </div>
 

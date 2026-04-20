@@ -21,12 +21,18 @@ const Navbar = ({ setShowLogin }) => {
   const searchRef = useRef(null);
   const { getTotalCartCount, product_list, token, userData, getWishlistCount } = useContext(StoreContext);
 
-  // Sticky Scroll Logic
+  // Sticky Scroll Logic — ref guard prevents setState on every scroll tick;
+  // only fires on the actual false→true and true→false transitions.
+  const isStickyRef = useRef(false);
   useEffect(() => {
     const handleScroll = () => {
-      setIsSticky(window.scrollY > 50);
+      const shouldBeSticky = window.scrollY > 50;
+      if (isStickyRef.current !== shouldBeSticky) {
+        isStickyRef.current = shouldBeSticky;
+        setIsSticky(shouldBeSticky);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -92,11 +98,17 @@ const Navbar = ({ setShowLogin }) => {
     <div className={`navbar-wrapper ${isSticky ? 'sticky' : ''}`}>
       <div className='navbar'>
         <div className="navbar-left">
-          <div className={`hamburger-icon ${showMobileMenu ? 'open' : ''}`} onClick={toggleMobileMenu}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+          <button
+            type="button"
+            className={`hamburger-icon ${showMobileMenu ? 'open' : ''}`}
+            onClick={toggleMobileMenu}
+            aria-label={showMobileMenu ? 'إغلاق القائمة' : 'فتح القائمة'}
+            aria-expanded={showMobileMenu}
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
           <Link to='/' onClick={() => setMenu("home")}>
             <img src={assets.logo} className="logo" alt="El-Masry" />
           </Link>
@@ -117,17 +129,20 @@ const Navbar = ({ setShowLogin }) => {
                 }}
                 type="text"
                 placeholder="ابحث هنا | Search here"
-                dir="rtl"
+                dir="auto"
+                aria-label="ابحث عن منتج"
               />
             </div>
 
             {showDropdown && inputValue && (
               <div className="search-dropdown">
                 {searchResults.length > 0 ? (
-                  searchResults.slice(0, 6).map((product) => (
-                    <div
+                  searchResults.slice(0, 6).map((product, index) => (
+                    <button
                       key={product.id}
+                      type="button"
                       className="search-dropdown-item"
+                      style={{ '--i': index }}
                       onClick={() => handleSearchClick(product)}
                     >
                       <img
@@ -139,10 +154,10 @@ const Navbar = ({ setShowLogin }) => {
                         <p className="name">{product.name}</p>
                          <p className="price">{product.price} ج.م</p>
                       </div>
-                    </div>
+                    </button>
                   ))
                 ) : (
-                  <div className="search-no-results">لم يتم العثور على منتجات</div>
+                  <div className="search-no-results" role="status">لم يتم العثور على منتجات</div>
                 )}
               </div>
             )}
@@ -178,7 +193,9 @@ const Navbar = ({ setShowLogin }) => {
         <div className="mobile-menu-content">
           <div className="mobile-header">
             <img src={assets.logo} className="mobile-logo" alt="El-Masry" />
-            <X size={28} onClick={closeMobileMenu} />
+            <button type="button" onClick={closeMobileMenu} className="mobile-close-btn" aria-label="إغلاق القائمة">
+              <X size={28} aria-hidden="true" />
+            </button>
           </div>
           <nav className="mobile-nav">
             <Link to='/' onClick={() => { setMenu("home"); closeMobileMenu() }} className={menu === "home" ? "active" : ""}>الرئيسية</Link>

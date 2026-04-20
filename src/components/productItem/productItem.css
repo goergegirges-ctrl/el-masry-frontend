@@ -3,7 +3,9 @@
   border-radius: 16px;
   background-color: var(--surface);
   border: 1px solid var(--border);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: transform 0.38s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)),
+              box-shadow 0.38s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)),
+              border-color 0.2s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -12,13 +14,14 @@
 }
 
 .product-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.11);
   border-color: var(--accent);
 }
 
 .product-item:active {
   transform: scale(0.98);
+  transition-duration: 0.1s;
 }
 
 .product-item-img-container {
@@ -30,11 +33,11 @@
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.55s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
 .product-item:hover .product-item-image {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .product-item-info {
@@ -104,12 +107,11 @@
   color: var(--highlight);
   font-size: 20px;
   font-weight: 800;
-  font-family: var(--font-mono);
 }
 
 .item-condition {
-  background: #EBF8FF;
-  color: #2B6CB0;
+  background: var(--info-bg);
+  color: var(--info-text);
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 11px;
@@ -144,50 +146,68 @@
 
 .wishlist-btn-container {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
+  transition: transform 0.35s var(--ease-spring, cubic-bezier(0.34, 1.18, 0.64, 1)),
+              background-color 0.2s ease,
+              box-shadow 0.2s ease;
   z-index: 10;
+  border: none;
 }
 
 .wishlist-btn-container:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
   background-color: white;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.wishlist-btn-container:active {
+  transform: scale(1.28);
+  transition-duration: 0.08s;
 }
 
 /* Cart Controls */
 .add-btn-container {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  bottom: 10px;
+  right: 10px;
   background-color: var(--accent);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4);
-  transition: 0.3s;
+  transition: transform 0.4s var(--ease-spring, cubic-bezier(0.34, 1.18, 0.64, 1)),
+              background-color 0.2s ease,
+              box-shadow 0.3s ease;
+  border: none;
 }
 
 .add-btn-container:hover {
-  background-color: #FFF;
-  transform: scale(1.1) rotate(90deg);
+  background-color: var(--surface);
+  transform: scale(1.12) rotate(90deg);
+  box-shadow: 0 6px 18px rgba(0, 180, 216, 0.35);
+}
+
+.add-btn-container:active {
+  transform: scale(0.92) rotate(90deg);
+  transition-duration: 0.08s;
 }
 
 .add-icon-plus {
-  color: #FFFFFF;
+  color: var(--surface);
   font-size: 18px;
   font-weight: 700;
   line-height: 1;
@@ -203,13 +223,31 @@
   gap: 12px;
   padding: 6px 12px;
   border-radius: 30px;
-  background-color: white;
+  background-color: var(--surface);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: counter-enter 0.3s var(--ease-spring, cubic-bezier(0.34, 1.18, 0.64, 1)) forwards;
 }
 
-.product-item-counter img {
-  width: 22px;
+@keyframes counter-enter {
+  from { opacity: 0; transform: scale(0.75); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.counter-btn {
+  background: none;
+  border: none;
+  padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.counter-btn img {
+  width: 22px;
+  pointer-events: none;
 }
 
 .product-item-counter p {
@@ -228,11 +266,11 @@
 }
 
 .stock-status-text.in {
-  color: #2D3748;
-  background-color: #F7FAFC;
+  color: var(--text);
+  background-color: var(--bg);
 }
 
 .stock-status-text.out {
   color: var(--danger);
-  background-color: #FFF5F5;
+  background-color: var(--danger-bg);
 }

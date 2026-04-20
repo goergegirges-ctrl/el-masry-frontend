@@ -15,7 +15,7 @@
   width: 80px;
   height: 80px;
   background-color: var(--primary-dark);
-  color: #FFFFFF;
+  color: var(--surface);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@
 
 .edit-profile-btn:hover {
   background: var(--accent);
-  color: #FFFFFF;
+  color: var(--surface);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
 }
@@ -159,7 +159,7 @@
 
 .action-card {
   background: var(--surface);
-  border-left: 4px solid var(--accent);
+  border: 1px solid var(--border-light);
   padding: 1.25rem;
   display: flex;
   align-items: center;
@@ -172,6 +172,7 @@
 
 .action-card:hover {
   transform: translateY(-2px);
+  border-color: var(--accent);
   box-shadow: 0 10px 15px -3px rgba(10, 22, 40, 0.1);
 }
 
@@ -225,8 +226,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
 }
 
 .info-header h2 {
@@ -251,7 +252,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .info-row:last-child {
@@ -294,7 +295,7 @@
 
 .input-group input {
   padding: 10px 12px;
-  border: 1.5px solid #e2e8f0;
+  border: 1.5px solid var(--border);
   border-radius: 8px;
   font-size: 15px;
   transition: border-color 0.2s;
@@ -320,11 +321,11 @@
 
 .save-btn {
   background: var(--accent);
-  color: #FFFFFF;
+  color: var(--surface);
 }
 
 .cancel-btn {
-  background: #f1f5f9;
+  background: var(--bg);
   color: var(--text-light);
 }
 
@@ -392,7 +393,7 @@
   justify-content: center;
   gap: 10px;
   background-color: var(--primary-dark);
-  color: #FFFFFF;
+  color: var(--surface);
   padding: 14px;
   border-radius: 8px;
   font-weight: 600;
@@ -402,7 +403,7 @@
 }
 
 .logout-btn-redesign:hover {
-  background-color: #1a2a40;
+  background-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(10, 22, 40, 0.3);
 }

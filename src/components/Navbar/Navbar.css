@@ -46,14 +46,18 @@
 
 /* Animated Hamburger Icon */
 .hamburger-icon {
+  box-sizing: content-box; /* padding expands hit area, not visual bars */
   width: 24px;
   height: 18px;
+  padding: 13px 10px; /* total touch target: 44×44px */
   position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   z-index: 10;
+  background: none;
+  border: none;
 }
 
 .hamburger-icon span {
@@ -94,12 +98,13 @@
 .search-input-wrapper {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 12px 20px;
   border-radius: 50px;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  transition: background 0.25s ease,
+              box-shadow 0.35s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)),
+              border-color 0.2s ease;
 }
 
 .search-input-wrapper:focus-within {
@@ -146,12 +151,20 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #FFF;
-  transition: transform 0.2s;
+  transition: transform 0.35s var(--ease-spring, cubic-bezier(0.34, 1.18, 0.64, 1));
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .cart-link:hover, .wishlist-link:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
+}
+
+.cart-link:active, .wishlist-link:active {
+  transform: scale(0.92);
+  transition-duration: 0.08s;
 }
 
 .cart-badge, .wishlist-badge {
@@ -181,14 +194,21 @@
   border-radius: 50px;
   font-weight: 700;
   font-family: var(--font-arabic);
-  transition: all 0.3s ease;
+  transition: transform 0.35s var(--ease-spring, cubic-bezier(0.34, 1.18, 0.64, 1)),
+              background-color 0.2s ease,
+              box-shadow 0.3s ease;
   white-space: nowrap;
 }
 
 .signin-btn:hover {
   background: #FFF;
-  box-shadow: 0 0 15px rgba(0, 180, 216, 0.5);
-  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(0, 180, 216, 0.45);
+  transform: translateY(-3px);
+}
+
+.signin-btn:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.08s;
 }
 
 .profile-link-btn {
@@ -223,6 +243,12 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   z-index: 1001;
   overflow: hidden;
+  animation: dropdown-enter 0.22s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+}
+
+@keyframes dropdown-enter {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
 }
 
 .search-dropdown-item {
@@ -232,7 +258,15 @@
   padding: 12px 20px;
   cursor: pointer;
   border-bottom: 1px solid #f0f4f8;
-  transition: background 0.2s;
+  transition: background 0.18s ease;
+  opacity: 0;
+  animation: item-enter 0.28s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+
+@keyframes item-enter {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .search-dropdown-item:hover {
@@ -329,6 +363,17 @@
 .mobile-logo {
   height: 40px;
   filter: invert(1);
+}
+
+.mobile-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
 }
 
 .mobile-nav {

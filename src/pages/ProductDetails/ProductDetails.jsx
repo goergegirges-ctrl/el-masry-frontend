@@ -4,11 +4,13 @@ import { StoreContext } from '../../context/StoreContext';
 import { assets, category_list } from '../../assets/assets';
 import './ProductDetails.css';
 import Reviews from '../../components/Reviews/Reviews';
+import ProductItem from '../../components/productItem/productItem';
 import { Heart } from 'lucide-react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axiosClient from '../../utils/axiosClient';
 import { Helmet } from 'react-helmet-async';
 import { formatCategoryName } from '../../utils/seoHelpers';
+
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -22,7 +24,7 @@ const ProductDetails = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`${url}/api/product/list`); 
+                const response = await axiosClient.get('/api/product/list'); 
                 if (response.data.success) {
                     const found = response.data.data.find(p => p.id === id);
                     if (found) {
@@ -61,6 +63,13 @@ const ProductDetails = () => {
         const cat = category_list.find(c => c.category_name === product.category);
         return cat ? cat.category_slug : 'other';
     }, [product]);
+
+    const recommendedProducts = useMemo(() => {
+        if (!product?.category || !product_list?.length) return [];
+        return product_list
+            .filter(p => p.category === product.category && p.id !== product.id)
+            .slice(0, 6);
+    }, [product, product_list]);
 
     const renderDescription = (desc) => {
         if (!desc) return <p>No description available for this product.</p>;
@@ -129,9 +138,9 @@ const ProductDetails = () => {
                     )}
                     <span className="current">{product.name}</span>
                 </div>
-                <div className='back-link' onClick={() => navigate(location.state?.from || `/category/${categorySlug}`)}>
+                <button type="button" className='back-link' onClick={() => navigate(location.state?.from || `/category/${categorySlug}`)}>
                     ← Back to {formatCategoryName(product.category) || 'Category'}
-                </div>
+                </button>
             </div>
 
             <div className='product-details-container'>
@@ -162,34 +171,11 @@ const ProductDetails = () => {
                 {/* Right Side: Details */}
                 <div className='product-info-section'>
                     {product.stock > 0 ? (
-                        <span style={{
-                            padding: "6px 16px",
-                            borderRadius: "20px",
-                            background: "#D1FAE5",
-                            color: "#065F46",
-                            fontWeight: "600",
-                            fontSize: "14px",
-                            display: "inline-block",
-                            marginBottom: "10px"
-                        }}>✓ In Stock</span>
+                        <span className="details-stock-badge in-stock">✓ In Stock</span>
                     ) : (
-                        <span style={{
-                            padding: "6px 16px",
-                            borderRadius: "20px",
-                            background: "#FEE2E2",
-                            color: "#991B1B",
-                            fontWeight: "600",
-                            fontSize: "14px",
-                            display: "inline-block",
-                            marginBottom: "10px"
-                        }}>✗ Out of Stock</span>
+                        <span className="details-stock-badge out-of-stock">✗ Out of Stock</span>
                     )}
                     <h1>{product.name}</h1>
-                    <div className="mpn-sku">
-                        <span>MPN: <strong>{product.partNumber || 'N/A'}</strong></span>
-                        <span className="dot">•</span>
-                        <span>SKU: <strong>{product.sku || product.id.slice(-8)}</strong></span>
-                    </div>
 
                     <p className='price'>{product.price} ج.م</p>
 
@@ -224,21 +210,31 @@ const ProductDetails = () => {
                         </div>
                     </div>
 
-                    {product.specifications && Object.keys(product.specifications).length > 0 && (
-                        <div className='specifications'>
-                            <h3>Technical Specifications</h3>
-                            <div className="specs-grid">
-                                {Object.entries(product.specifications).map(([key, val]) => (
-                                    <div key={key} className="spec-row">
-                                        <label>{key}</label>
-                                        <span>{val}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
+
+            {recommendedProducts.length > 0 && (
+                <div className="recommended-section">
+                    <h2 className="recommended-title">Recommended Products / منتجات مقترحة</h2>
+                    <div className="recommended-grid">
+                        {recommendedProducts.map(p => (
+                            <ProductItem
+                                key={p.id}
+                                id={p.id}
+                                name={p.name}
+                                price={p.price}
+                                description={p.description}
+                                images={p.images}
+                                stock={p.stock}
+                                condition={p.condition}
+                                isActive={p.isActive}
+                                brand={p.brand}
+                                category={p.category}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <div className="product-bottom-section">
                 <Reviews productId={id} />

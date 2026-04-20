@@ -92,7 +92,7 @@
   }
 
   .header-contents {
-    margin-left: 0;
+    margin-inline-start: 0;
     text-align: center;
     align-items: center;
     max-width: 100%;
