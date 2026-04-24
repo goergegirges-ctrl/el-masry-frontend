@@ -16,6 +16,8 @@ const Search = () => {
 
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const ITEMS_PER_PAGE = 12;
     const [filters, setFilters] = useState({
         minPrice: "",
         maxPrice: "",
@@ -44,6 +46,7 @@ const Search = () => {
 
     useEffect(() => {
         fetchSearchResults();
+        setPage(1);
     }, [searchQuery, categoryQuery, filters.sort]);
 
     const handleFilterChange = (e) => {
@@ -63,11 +66,22 @@ const Search = () => {
                 <h3>Filters</h3>
                 <div className="filter-group">
                     <label>Sort By</label>
-                    <select name="sort" value={filters.sort} onChange={handleFilterChange}>
-                        <option value="newest">Newest</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                    </select>
+                    <div className="chip-group">
+                        {[
+                            { value: 'newest', label: 'Newest' },
+                            { value: 'price-low', label: 'Price ↑' },
+                            { value: 'price-high', label: 'Price ↓' },
+                        ].map(opt => (
+                            <button
+                                key={opt.value}
+                                type="button"
+                                className={`chip${filters.sort === opt.value ? ' active' : ''}`}
+                                onClick={() => setFilters(prev => ({ ...prev, sort: opt.value }))}
+                            >
+                                {opt.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
                 <div className="filter-group">
                     <label>Price Range (ج.م)</label>
@@ -88,26 +102,43 @@ const Search = () => {
                 {loading ? (
                     <div className="loading">Loading...</div>
                 ) : (
-                    <div className="results-grid">
-                        {results.length > 0 ? (
-                            results.map(item => (
-                                <ProductItem
-                                    key={item.id}
-                                    id={item.id}
-                                    name={item.name}
-                                    price={item.price}
-                                    brand={item.brand}
-                                    images={item.images}
-                                    category={item.category}
-                                    description={item.description}
-                                    stock={item.stock}
-                                    condition={item.condition}
-                                />
-                            ))
-                        ) : (
-                            <div className="no-results">No products matched your search.</div>
+                    <>
+                        <div className="results-grid">
+                            {results.length > 0 ? (
+                                results.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE).map(item => (
+                                    <ProductItem
+                                        key={item.id}
+                                        id={item.id}
+                                        name={item.name}
+                                        price={item.price}
+                                        brand={item.brand}
+                                        images={item.images}
+                                        category={item.category}
+                                        description={item.description}
+                                        stock={item.stock}
+                                        condition={item.condition}
+                                    />
+                                ))
+                            ) : (
+                                <div className="no-results">No products matched your search.</div>
+                            )}
+                        </div>
+                        {Math.ceil(results.length / ITEMS_PER_PAGE) > 1 && (
+                            <div className="pag" style={{ justifyContent: 'center', marginTop: '32px' }}>
+                                <button disabled={page === 1} onClick={() => setPage(p => p - 1)}>‹</button>
+                                {Array.from({ length: Math.ceil(results.length / ITEMS_PER_PAGE) }, (_, i) => (
+                                    <button
+                                        key={i + 1}
+                                        className={page === i + 1 ? 'active' : ''}
+                                        onClick={() => { setPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                ))}
+                                <button disabled={page === Math.ceil(results.length / ITEMS_PER_PAGE)} onClick={() => setPage(p => p + 1)}>›</button>
+                            </div>
                         )}
-                    </div>
+                    </>
                 )}
             </div>
         </div>

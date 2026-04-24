@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useEffect } from 'react';
+import React, { useContext, useMemo, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import { category_list } from '../../assets/assets';
@@ -10,6 +10,8 @@ const CategoryPage = () => {
     const { categorySlug } = useParams();
     const navigate = useNavigate();
     const { product_list, loading, url } = useContext(StoreContext);
+    const [page, setPage] = useState(1);
+    const ITEMS_PER_PAGE = 12;
 
     // Map slug back to Arabic name for filtering
     const currentCategory = useMemo(() => {
@@ -20,6 +22,14 @@ const CategoryPage = () => {
         if (!currentCategory) return [];
         return product_list.filter(item => item.category === currentCategory.category_name);
     }, [product_list, currentCategory]);
+
+    const pageCount = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+    const pagedProducts = useMemo(() => {
+        const start = (page - 1) * ITEMS_PER_PAGE;
+        return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
+    }, [filteredProducts, page]);
+
+    useEffect(() => { setPage(1); }, [categorySlug]);
 
     if (loading) {
         return (
@@ -80,8 +90,8 @@ const CategoryPage = () => {
             </div>
 
             <div className="product-display-list">
-                {filteredProducts.length > 0 ? (
-                    filteredProducts.map((item, index) => (
+                {pagedProducts.length > 0 ? (
+                    pagedProducts.map((item, index) => (
                         <ProductItem
                             key={index}
                             id={item.id}
@@ -100,6 +110,22 @@ const CategoryPage = () => {
                     </div>
                 )}
             </div>
+
+            {pageCount > 1 && (
+                <div className="pag" style={{ justifyContent: 'center', marginTop: '32px' }}>
+                    <button disabled={page === 1} onClick={() => setPage(p => p - 1)}>‹</button>
+                    {Array.from({ length: pageCount }, (_, i) => (
+                        <button
+                            key={i + 1}
+                            className={page === i + 1 ? 'active' : ''}
+                            onClick={() => { setPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button disabled={page === pageCount} onClick={() => setPage(p => p + 1)}>›</button>
+                </div>
+            )}
         </div>
     );
 };

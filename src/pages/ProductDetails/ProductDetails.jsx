@@ -21,6 +21,7 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const [mainImage, setMainImage] = useState("");
     const [activeThumb, setActiveThumb] = useState(0);
+    const [activeTab, setActiveTab] = useState('description');
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -182,11 +183,6 @@ const ProductDetails = () => {
 
                     <p className='price'>{product.price} ج.م</p>
 
-                    <div className='description'>
-                        <h3>Description</h3>
-                        {renderDescription(product.description)}
-                    </div>
-
                     <div className='product-actions'>
                         {product.stock > 0 ? (
                             <button
@@ -201,17 +197,41 @@ const ProductDetails = () => {
                         )}
                     </div>
 
-                    <div className='product-meta'>
-                        <div className='meta-item'>
-                            <b>Condition:</b> <span>{product.condition || 'New'}</span>
-                        </div>
-                        <div className='meta-item'>
-                            <b>Category:</b> <span>{formatCategoryName(product.category)}</span>
-                        </div>
-                        <div className='meta-item'>
-                            <b>Status:</b> <span>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
-                        </div>
+                    <div className="tabs" role="tablist">
+                        <button
+                            className={`tab${activeTab === 'description' ? ' active' : ''}`}
+                            onClick={() => setActiveTab('description')}
+                            role="tab"
+                        >
+                            Description
+                        </button>
+                        <button
+                            className={`tab${activeTab === 'details' ? ' active' : ''}`}
+                            onClick={() => setActiveTab('details')}
+                            role="tab"
+                        >
+                            Details
+                        </button>
                     </div>
+
+                    {activeTab === 'description' && (
+                        <div className='description'>
+                            {renderDescription(product.description)}
+                        </div>
+                    )}
+                    {activeTab === 'details' && (
+                        <div className='product-meta'>
+                            <div className='meta-item'>
+                                <b>Condition:</b> <span>{product.condition || 'New'}</span>
+                            </div>
+                            <div className='meta-item'>
+                                <b>Category:</b> <span>{formatCategoryName(product.category)}</span>
+                            </div>
+                            <div className='meta-item'>
+                                <b>Status:</b> <span>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+                            </div>
+                        </div>
+                    )}
 
                 </div>
             </div>
