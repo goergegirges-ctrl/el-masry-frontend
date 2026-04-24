@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import { assets } from '../../assets/assets';
 import { Search, ShoppingCart, X, User, Heart } from 'lucide-react';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import { formatCategoryName } from '../../utils/seoHelpers';
 
 const Navbar = ({ setShowLogin }) => {
@@ -166,6 +167,7 @@ const Navbar = ({ setShowLogin }) => {
 
         <div className="navbar-right">
           <div className="navbar-actions">
+            <ThemeToggle />
             <Link to='/wishlist' className="action-item wishlist-link">
               <Heart size={24} color="#FFFFFF" />
               {getWishlistCount() > 0 && <span className="wishlist-badge">{getWishlistCount()}</span>}

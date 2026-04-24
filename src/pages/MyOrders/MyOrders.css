@@ -10,21 +10,21 @@
 }
 
 .error-banner {
-    background-color: #FEF2F2;
-    border: 1px solid #F87171;
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger);
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #991B1B;
+    color: var(--danger);
     font-size: 14px;
 }
 
 .retry-btn {
-    background-color: #EF4444;
-    color: white;
+    background-color: var(--danger);
+    color: #fff;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -90,18 +90,33 @@
 }
 
 .badge-pending {
-    background: #FEF3C7;
-    color: #92400E;
+    background: var(--warning-bg);
+    color: var(--status-pending);
 }
 
 .badge-processing {
-    background: #DBEAFE;
-    color: #1E40AF;
+    background: var(--info-bg);
+    color: var(--status-confirmed);
 }
 
 .badge-out-for-delivery {
-    background: #FED7AA;
-    color: #92400E;
+    background: var(--warning-bg);
+    color: var(--status-shipped);
+}
+
+.badge-shipped {
+    background: var(--info-bg);
+    color: var(--status-shipped);
+}
+
+.badge-delivered {
+    background: var(--success-bg);
+    color: var(--status-delivered);
+}
+
+.badge-cancelled {
+    background: var(--danger-bg);
+    color: var(--status-cancelled);
 }
 
 .view-details-btn {
@@ -168,11 +183,11 @@
     .order-item {
         width: 100%;
     }
-    
+
     .label {
         font-size: 14px;
     }
-    
+
     .val, .badge, .view-details-btn {
         font-size: 14px;
     }
@@ -180,4 +195,40 @@
     .view-details-btn {
         padding: 8px 10px;
     }
+}
+
+[data-theme="dark"] .error-banner {
+    background-color: var(--danger-bg);
+    border-color: var(--danger);
+    color: #FCA5A5;
+}
+
+[data-theme="dark"] .view-details-btn {
+    background-color: var(--primary);
+}
+
+[data-theme="dark"] .badge-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #FCD34D;
+}
+
+[data-theme="dark"] .badge-processing {
+    background: rgba(46, 134, 171, 0.15);
+    color: #7DD3FC;
+}
+
+[data-theme="dark"] .badge-out-for-delivery,
+[data-theme="dark"] .badge-shipped {
+    background: rgba(0, 119, 166, 0.15);
+    color: #7DD3FC;
+}
+
+[data-theme="dark"] .badge-delivered {
+    background: rgba(22, 163, 74, 0.15);
+    color: #86EFAC;
+}
+
+[data-theme="dark"] .badge-cancelled {
+    background: rgba(220, 38, 38, 0.15);
+    color: #FCA5A5;
 }

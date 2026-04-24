@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+import { useTheme } from './context/ThemeContext'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import Home from './pages/Home/Home'
@@ -33,11 +35,13 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   useScrollReveal();
+  const { theme } = useTheme();
 
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <>
+      <ToastContainer theme={theme === 'dark' ? 'dark' : 'light'} />
       <Helmet>
         <title>El-Masry Electronics | Leading Parts & Tech Store</title>
         <meta name="description" content="Shop the best electronics, auto parts, and tech components at El-Masry Egypt." />

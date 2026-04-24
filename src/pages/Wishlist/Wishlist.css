@@ -19,7 +19,7 @@
   font-size: 2rem;
   font-weight: 800;
   color: var(--primary-dark);
-  font-family: var(--font-arabic), sans-serif;
+  font-family: var(--font-ar), sans-serif;
 }
 
 .wishlist-grid {
@@ -96,4 +96,16 @@
   .wishlist-empty {
     padding: 3rem 1.5rem;
   }
+}
+
+[data-theme="dark"] .wishlist-header h1 {
+  color: var(--text);
+}
+
+[data-theme="dark"] .wishlist-empty {
+  background: var(--surface);
+}
+
+[data-theme="dark"] .empty-icon-wrapper {
+  background: var(--surface-alt);
 }

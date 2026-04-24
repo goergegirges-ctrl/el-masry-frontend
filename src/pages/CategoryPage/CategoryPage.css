@@ -112,3 +112,12 @@
         font-size: 1.8rem;
     }
 }
+
+[data-theme="dark"] .category-header.skeleton-pulse {
+    background: var(--surface);
+}
+
+[data-theme="dark"] .category-card-circular .circle-img-wrapper img {
+    border-color: var(--surface-alt);
+    background: var(--surface-alt);
+}

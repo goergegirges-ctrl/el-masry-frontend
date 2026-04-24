@@ -120,3 +120,48 @@
   --t-base:  250ms;
   --t-slow:  400ms;
 }
+
+/* ==========================================================================
+   Night Mode — token overrides
+   Uses :root[data-theme="dark"] (specificity 0,2,0) so it beats the
+   plain :root blocks (0,1,0) in both tokens.css and index.css regardless
+   of @import order.
+   ========================================================================== */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* ---------- Surfaces ---------- */
+  --bg:             #0A1628;   /* page bg = brand navy-900 */
+  --surface:        #0F2038;   /* cards / dropdowns = navy-800 */
+  --surface-alt:    #162840;   /* alt rows / inset panels */
+  --surface-sunken: #080F1C;   /* deepest recessed areas */
+
+  /* ---------- Text ---------- */
+  --text:       #DDE8F4;   /* primary — cool white, navy-tinted */
+  --text-light: #A8BACE;   /* secondary */
+  --text-muted: #6B8099;   /* clearly subordinate */
+  --muted:      #6B8099;
+
+  /* ---------- Borders ---------- */
+  --border:       #1E3A5F;   /* navy-700 */
+  --border-light: #162840;
+  --line-200:     #1E3A5F;
+  --line-100:     #162840;
+
+  /* ---------- Status backgrounds (darkened) ---------- */
+  --success-bg:   #052e16;
+  --danger-bg:    #450a0a;
+  --warning-bg:   #3a2000;
+  --info-bg:      #0c1a2e;
+  --info-text:    #7DD3FC;
+  --warning-text: #FCD34D;
+
+  /* ---------- Shadows (stronger on dark surfaces) ---------- */
+  --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.20);
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.28);
+  --shadow-md:   0 4px 20px rgba(0, 0, 0, 0.38);
+  --shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.48);
+  --shadow-xl:   0 25px 50px -12px rgba(0, 0, 0, 0.60);
+  --shadow-cyan: 0 8px 30px rgba(0, 180, 216, 0.20);
+}

@@ -1,68 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;600&display=swap');
 @import './tokens.css';
+@import './components.css';
 
 :root {
-  /* Brand Colors */
-  --primary: #1E3A5F;
-  /* Deep Navy */
-  --primary-dark: #0A1628;
-  /* Header Dark Navy */
-  --secondary: #2E86AB;
-  /* Steel Blue */
-  --accent: #00B4D8;
-  /* Electric Cyan */
-  --highlight: #00B4D8;
+  /* Backwards-compatibility aliases — status/brand/surface tokens live in tokens.css */
 
-  /* UI Palette */
-  --cta: #00B4D8;
+  /* Typography aliases */
+  --font-main: var(--font-en);
+  --font-arabic: var(--font-ar);
 
-  /* Status Colors */
-  --success: #16A34A;
-  --danger: #DC2626;
-  --warning: #2E86AB;
-  --muted: #8A9BA8;
+  /* Border aliases */
+  --border: var(--line-200);
+  --border-light: var(--line-100);
+
+  /* Text (light-mode; dark-mode overrides live in tokens.css) */
+  --text: #0D1B2A;
+  --text-light: #5C6B7A;
   --text-muted: #8A9BA8;
+  --muted: #8A9BA8;
 
-  /* Backgrounds */
-  --bg: #F0F4F8;
-  /* Light blue-gray bg */
-  --surface: #FFFFFF;
-  /* White for cards */
+  /* Surface alt (light-mode; dark-mode override lives in tokens.css) */
   --surface-alt: #F8FAFC;
-  /* Slightly off-white for panel headers, alt rows */
-  --border: #D1D9E0;
-  --border-light: #E8EDF2;
 
-  /* Semantic State Colors */
-  --info-bg: #EBF8FF;
+  /* Status extras */
+  --warning-text: var(--warning);
   --info-text: #2B6CB0;
-  --warning-bg: #FFF5F2;
-  --warning-text: #E04420;
-  --danger-bg: #FFF5F5;
   --star-color: #FFC107;
 
-  /* Typography */
-  --text: #0D1B2A;
-  /* Deep Navy Black */
-  --text-light: #5C6B7A;
-  /* Slate Gray */
-  --font-main: 'Inter', sans-serif;
-  --font-arabic: 'Tajawal', 'Cairo', sans-serif;
-
-  /* Spring Easings */
+  /* Legacy easing aliases */
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.18, 0.64, 1);
+
+  /* react-toastify — map to DS status colors */
+  --toastify-color-success: var(--success);
+  --toastify-color-error: var(--danger);
+  --toastify-color-warning: var(--warning);
+  --toastify-color-info: var(--info);
+  --toastify-color-light: var(--surface);
+  --toastify-text-color-light: var(--text);
+  --toastify-color-dark: var(--navy-800);
+  --toastify-text-color-dark: var(--text);
 }
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: var(--font-main);
+  font-family: var(--font-en);
   scroll-behavior: smooth;
 }
 
-/* Use Cairo for Arabic text elements if needed specifically, or mix */
 body {
   min-height: 100vh;
   background-color: var(--bg);
@@ -143,6 +130,11 @@ button:active {
   background: #94a3b8;
 }
 
+/* Lucide icon defaults — stroke-width 1.75 per design system */
+svg.lucide {
+  stroke-width: 1.75;
+}
+
 /* Global Animations & Utilities */
 @keyframes slideInRight {
   from {
@@ -158,15 +150,15 @@ button:active {
 
 @keyframes skeleton-loading {
   0% {
-    background-color: #f3f4f6;
+    background-color: var(--line-100);
   }
 
   50% {
-    background-color: #e5e7eb;
+    background-color: var(--border);
   }
 
   100% {
-    background-color: #f3f4f6;
+    background-color: var(--line-100);
   }
 }
 
@@ -183,7 +175,7 @@ button:active {
 
 /* Skeleton Loaders */
 .skeleton {
-  background: #e5e7eb;
+  background: var(--border);
   border-radius: 8px;
   animation: skeleton-loading 1.5s infinite linear;
 }
@@ -312,6 +304,7 @@ button {
   font-weight: 500;
   animation: fadeIn 0.4s ease-out;
 }
+
 /* Suppress focus ring on mouse click only; preserve it for keyboard */
 button:focus:not(:focus-visible),
 a:focus:not(:focus-visible) {
@@ -342,4 +335,46 @@ button::-moz-focus-inner {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ===================================================================
+   Night Mode — global overrides for hardcoded colors
+   (component-specific overrides live at the bottom of each CSS file)
+   =================================================================== */
+
+/* Smooth transitions only during theme toggle — no impact on hovers */
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition: background-color 0.25s ease,
+              color 0.25s ease,
+              border-color 0.25s ease !important;
+}
+
+/* Scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #0A1628;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #1E3A5F;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #2A4A75;
+}
+
+/* Skeleton loaders (index.css generic .skeleton class) */
+[data-theme="dark"] .skeleton {
+  background: #1E3A5F;
+}
+
+/* PrivacyPolicy page */
+[data-theme="dark"] .privacy-content {
+  color: var(--text);
+}
+
+/* Wishlist page background item */
+[data-theme="dark"] .wishlist-page {
+  color: var(--text);
 }

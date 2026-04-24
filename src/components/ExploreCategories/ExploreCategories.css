@@ -16,7 +16,7 @@
   font-weight: 800;
   font-size: 32px;
   margin-bottom: 10px;
-  font-family: var(--font-arabic);
+  font-family: var(--font-ar);
 }
 
 .explore-categories-text {
@@ -87,7 +87,7 @@
   font-weight: 600;
   font-size: 16px;
   transition: color 0.3s;
-  font-family: var(--font-arabic);
+  font-family: var(--font-ar);
 }
 
 /* Hover & Active States */

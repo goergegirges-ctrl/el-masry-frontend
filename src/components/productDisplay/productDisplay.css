@@ -25,7 +25,7 @@
   outline: none;
   background-color: var(--surface);
   color: var(--text);
-  font-family: var(--font-main);
+  font-family: var(--font-en);
   cursor: pointer;
 }
 
@@ -47,14 +47,14 @@
 
 .skeleton-image {
   height: 200px;
-  background-color: #ddd;
+  background-color: var(--line-100);
   animation: pulse 1.5s infinite;
 }
 
 .skeleton-text {
   height: 20px;
   margin: 10px;
-  background-color: #eee;
+  background-color: var(--border);
   border-radius: 4px;
   animation: pulse 1.5s infinite;
 }
@@ -97,3 +97,6 @@
   color: var(--text-light);
   font-size: 1.2rem;
 }
+
+[data-theme="dark"] .skeleton-image { background-color: var(--navy-700); }
+[data-theme="dark"] .skeleton-text { background-color: var(--navy-800); }

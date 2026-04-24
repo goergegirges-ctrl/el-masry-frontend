@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import axiosClient from '../utils/axiosClient';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const StoreContext = createContext(null);
@@ -208,7 +208,6 @@ const StoreContextProvider = (props) => {
   }
   return (
     <StoreContext.Provider value={contextValue}>
-      <ToastContainer />
       {props.children}
     </StoreContext.Provider>
   );

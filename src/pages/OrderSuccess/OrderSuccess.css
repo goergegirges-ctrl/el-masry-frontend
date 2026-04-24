@@ -7,10 +7,10 @@
 }
 
 .success-card {
-    background: #fff;
+    background: var(--surface);
     padding: 50px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
     text-align: center;
     max-width: 500px;
     width: 100%;
@@ -18,7 +18,7 @@
 
 .success-icon {
     font-size: 60px;
-    color: #4CAF50;
+    color: var(--success);
     margin-bottom: 20px;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .order-details {
-    background: #f8f9fa;
+    background: var(--surface-sunken);
     padding: 20px;
     border-radius: 8px;
     margin: 25px 0;
@@ -41,8 +41,8 @@
 }
 
 .view-orders-btn {
-    background: #1a1a1a;
-    color: white;
+    background: var(--accent);
+    color: var(--navy-900);
     padding: 12px;
     border-radius: 8px;
     text-decoration: none;
@@ -50,7 +50,20 @@
 }
 
 .continue-btn {
-    color: #ff4c24;
+    color: var(--secondary);
     text-decoration: none;
     font-weight: 600;
+}
+
+[data-theme="dark"] .success-card {
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .order-details {
+    background: var(--surface-alt);
+}
+
+[data-theme="dark"] .view-orders-btn {
+    background: var(--primary);
 }

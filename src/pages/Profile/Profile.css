@@ -17,7 +17,7 @@
 }
 
 .logout-btn {
-    background: #0A1628;
+    background: var(--primary-dark);
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -148,7 +148,7 @@
 }
 
 .save-btn {
-    background: #0A1628;
+    background: var(--primary);
     color: white;
     border: none;
 }
@@ -332,4 +332,21 @@
     background: #fee2e2;
     border-color: #fecaca;
     color: #dc2626;
+}
+
+[data-theme="dark"] .form-group input {
+    background: var(--surface-alt);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+[data-theme="dark"] .logout-btn {
+    background: var(--surface-alt);
+    border-color: var(--border);
+    color: var(--danger);
+}
+
+[data-theme="dark"] .logout-btn:hover {
+    background: var(--danger-bg);
+    border-color: var(--danger);
 }

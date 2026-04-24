@@ -27,6 +27,7 @@
 .product-item-img-container {
   position: relative;
   overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, var(--navy-700) 0%, var(--navy-900) 100%);
 }
 
 .product-item-image {
@@ -141,8 +142,8 @@
 }
 
 .badge.low-stock {
-  background-color: var(--danger);
-  color: white;
+  background-color: var(--warning-bg);
+  color: var(--warning);
 }
 
 .wishlist-btn-container {
@@ -274,4 +275,12 @@
 .stock-status-text.out {
   color: var(--danger);
   background-color: var(--danger-bg);
+}
+
+[data-theme="dark"] .wishlist-btn-container {
+  background-color: rgba(15, 32, 56, 0.92);
+}
+
+[data-theme="dark"] .wishlist-btn-container:hover {
+  background-color: var(--surface);
 }

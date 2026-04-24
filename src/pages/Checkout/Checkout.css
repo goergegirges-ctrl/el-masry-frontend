@@ -20,16 +20,18 @@
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 30px;
-    color: #1a1a1a;
+    color: var(--text);
 }
 
 .checkout-left input {
     width: 100%;
     margin-bottom: 15px;
     padding: 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    outline-color: #ff4c24;
+    outline-color: var(--accent);
+    background: var(--surface);
+    color: var(--text);
 }
 
 .multi-fields {
@@ -45,10 +47,10 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: #fcfcfc;
+    background: var(--surface-sunken);
     padding: 20px;
     border-radius: 12px;
-    border: 1px dashed #ddd;
+    border: 1px dashed var(--border);
 }
 
 .payment-option {
@@ -69,10 +71,10 @@
 }
 
 .cart-total {
-    background: #fff;
+    background: var(--surface);
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -81,19 +83,19 @@
 .cart-total-details {
     display: flex;
     justify-content: space-between;
-    color: #555;
+    color: var(--text-light);
     font-size: 15px;
 }
 
 .total-row {
     font-size: 18px;
-    color: #1a1a1a;
+    color: var(--text);
 }
 
 .place-order-btn {
     border: none;
-    color: white;
-    background: #ff4c24;
+    color: var(--navy-900);
+    background: var(--accent);
     padding: 15px;
     border-radius: 8px;
     cursor: pointer;
@@ -103,11 +105,11 @@
 }
 
 .place-order-btn:hover {
-    background: #e04420;
+    background: var(--cyan-500);
 }
 
 .place-order-btn:disabled {
-    background: #ccc;
+    background: var(--ink-300);
     cursor: not-allowed;
 }
 
@@ -123,4 +125,32 @@
     .checkout-right {
         max-width: 100%;
     }
+}
+
+[data-theme="dark"] .checkout-left h2 {
+    color: var(--text);
+}
+
+[data-theme="dark"] .checkout-left input {
+    background: var(--surface-alt);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+[data-theme="dark"] .payment-options {
+    background: var(--surface-alt);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .cart-total {
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .cart-total-details {
+    color: var(--text-light);
+}
+
+[data-theme="dark"] .total-row {
+    color: var(--text);
 }

@@ -28,13 +28,16 @@ document.addEventListener('click', (e) => {
 });
 
 import { HelmetProvider } from 'react-helmet-async'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <HelmetProvider>
-      <StoreContextProvider>
-        <App />
-      </StoreContextProvider>
+      <ThemeProvider>
+        <StoreContextProvider>
+          <App />
+        </StoreContextProvider>
+      </ThemeProvider>
     </HelmetProvider>
   </BrowserRouter>
 )

@@ -14,6 +14,13 @@
     <meta property="og:description" content="المصري إلكترونك لبيع قطع غيار الشاشات والكاميرات والليدات بأفضل سعر في مصر" />
     <meta property="og:image" content="/favicon.png" /> <!-- Using favicon as placeholder for og:image as requested og:image was not specific -->
 
+    <script>
+      (function () {
+        var t = localStorage.getItem('theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

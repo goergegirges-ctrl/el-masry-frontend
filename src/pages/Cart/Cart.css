@@ -167,8 +167,8 @@
 .checkout-btn {
   width: 100%;
   padding: 15px;
-  background-color: var(--secondary);
-  color: white;
+  background-color: var(--accent);
+  color: var(--navy-900);
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -179,9 +179,9 @@
 }
 
 .checkout-btn:hover {
-  background-color: var(--secondary-light);
+  background-color: var(--cyan-500);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(31, 122, 140, 0.25);
+  box-shadow: var(--shadow-cyan);
 }
 
 .checkout-btn:disabled {

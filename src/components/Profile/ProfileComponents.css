@@ -418,10 +418,14 @@
     background: linear-gradient(to top, rgba(240, 244, 248, 1) 80%, rgba(240, 244, 248, 0));
     z-index: 50;
   }
-  
+
   .profile-redesign-container {
     padding-bottom: 8rem;
   }
+}
+
+[data-theme="dark"] .profile-footer-actions {
+  background: linear-gradient(to top, rgba(10, 22, 40, 1) 80%, rgba(10, 22, 40, 0));
 }
 
 

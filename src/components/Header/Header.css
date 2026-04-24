@@ -35,7 +35,7 @@
 }
 
 .header-contents h1 {
-  font-family: var(--font-arabic);
+  font-family: var(--font-ar);
   font-weight: 800;
   color: #ffffff;
   font-size: clamp(28px, 4vw, 48px);
@@ -46,7 +46,7 @@
 .header-contents p {
   color: rgba(255, 255, 255, 0.9);
   font-size: clamp(16px, 1.2vw, 20px);
-  font-family: var(--font-main);
+  font-family: var(--font-en);
   max-width: 90%;
   line-height: 1.6;
 }
@@ -63,7 +63,7 @@
   width: fit-content;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 8px 30px rgba(0, 180, 216, 0.4);
-  font-family: var(--font-arabic);
+  font-family: var(--font-ar);
 }
 
 .header-contents button:hover {
