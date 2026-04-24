@@ -127,17 +127,17 @@ const ProductDetails = () => {
                 <meta name="description" content={product.description?.slice(0, 160) || `Buy ${product.name} at the best price on El-Masry.`} />
             </Helmet>
             <div className='breadcrumb-wrapper'>
-                <div className='breadcrumb-custom'>
+                <nav className='crumbs' aria-label="breadcrumb">
                     <Link to="/">Home</Link>
-                    <span className="separator">/</span>
+                    <span className="sep">/</span>
                     {product.category && (
                         <>
                             <Link to={`/category/${categorySlug}`}>{formatCategoryName(product.category)}</Link>
-                            <span className="separator">/</span>
+                            <span className="sep">/</span>
                         </>
                     )}
                     <span className="current">{product.name}</span>
-                </div>
+                </nav>
                 <button type="button" className='back-link' onClick={() => navigate(location.state?.from || `/category/${categorySlug}`)}>
                     ← Back to {formatCategoryName(product.category) || 'Category'}
                 </button>
@@ -148,9 +148,12 @@ const ProductDetails = () => {
                 <div className='product-images-section'>
                     <div className='main-image-container'>
                         <img src={mainImage} alt={product.name} />
-                        <button className={`wishlist-float ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(id)}>
-                            <Heart size={24} fill={isWishlisted ? "#ff4c24" : "none"} stroke={isWishlisted ? "#ff4c24" : "currentColor"} />
-                        </button>
+                        <div className="tip-wrap wishlist-float-wrap">
+                            <button className={`wishlist-float ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(id)}>
+                                <Heart size={24} fill={isWishlisted ? "var(--danger)" : "none"} stroke={isWishlisted ? "var(--danger)" : "currentColor"} />
+                            </button>
+                            <span className="tip">{isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
+                        </div>
                     </div>
 
                     {product.images && product.images.length > 1 && (

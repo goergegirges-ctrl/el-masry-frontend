@@ -3,6 +3,7 @@ import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { useNavigate } from 'react-router-dom';
 import { assets } from '../../assets/assets';
+import { ShoppingBag } from 'lucide-react';
 
 const Cart = () => {
 
@@ -42,9 +43,11 @@ const Cart = () => {
               return null;
             })
           ) : (
-            <div className="empty-cart">
-              <p>Your cart is empty</p>
-              <button onClick={() => navigate('/')}>Continue Shopping</button>
+            <div className="empty">
+              <div className="ring"><ShoppingBag size={28} strokeWidth={1.75} /></div>
+              <h4>Your cart is empty</h4>
+              <p>Add some products to get started</p>
+              <button className="btn btn-primary md" onClick={() => navigate('/')}>Continue Shopping</button>
             </div>
           )}
         </div>

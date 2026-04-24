@@ -33,10 +33,14 @@
     position: relative;
 }
 
-.wishlist-float {
+.wishlist-float-wrap {
     position: absolute;
     top: 20px;
     right: 20px;
+    z-index: 10;
+}
+
+.wishlist-float {
     background: var(--surface);
     border: none;
     width: 45px;
@@ -48,7 +52,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.3s;
-    z-index: 10;
 }
 
 .wishlist-float:hover {

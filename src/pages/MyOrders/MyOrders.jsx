@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../../context/StoreContext';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../utils/axiosClient';
+import { Package } from 'lucide-react';
 import './MyOrders.css';
 
 const MyOrders = () => {
@@ -119,9 +120,11 @@ const MyOrders = () => {
                         ))
                     ) : (
                         !error && (
-                            <div className="no-orders-state">
-                                <p>No active orders</p>
-                                <button onClick={() => navigate("/")} className="shop-now-btn">Shop Now</button>
+                            <div className="empty">
+                                <div className="ring"><Package size={28} strokeWidth={1.75} /></div>
+                                <h4>No active orders</h4>
+                                <p>Delivered and cancelled orders won't appear here</p>
+                                <button className="btn btn-primary md" onClick={() => navigate("/")}>Shop Now</button>
                             </div>
                         )
                     )}
