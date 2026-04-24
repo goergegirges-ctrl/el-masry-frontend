@@ -33,16 +33,23 @@
   gap: 15px;
 }
 
+.logo-link { display: flex; align-items: center; }
+
 .navbar-left .logo {
-  height: 80px;
+  height: 56px;
   width: auto;
   transition: transform 0.3s ease;
-  filter: brightness(1.1);
 }
 
 .navbar-left .logo:hover {
   transform: scale(1.05);
 }
+
+/* Light / dark logo variants */
+.logo-on-dark  { display: none; }
+
+[data-theme="dark"] .logo-on-light { display: none; }
+[data-theme="dark"] .logo-on-dark  { display: block; height: 44px; }
 
 /* Animated Hamburger Icon */
 .hamburger-icon {
@@ -315,7 +322,7 @@
   }
 
   .navbar-left .logo {
-    height: 50px;
+    height: 44px;
   }
 
 
@@ -362,7 +369,6 @@
 
 .mobile-logo {
   height: 40px;
-  filter: invert(1);
 }
 
 .mobile-close-btn {
@@ -436,6 +442,3 @@
   background: var(--surface);
 }
 
-[data-theme="dark"] .mobile-logo {
-  filter: none;
-}

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="El-Masry Electronics mark (mono on dark)">
+  <g transform="translate(120 120)">
+    <g fill="#FFFFFF">
+      <path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path>
+      <g transform="rotate(30)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(60)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(90)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(120)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(150)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(180)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(210)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(240)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(270)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(300)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+      <g transform="rotate(330)"><path d="M -14 -115 L 14 -115 L 10 -95 L -10 -95 Z"></path></g>
+    </g>
+    <circle r="100" fill="#FFFFFF"></circle>
+    <circle r="82" fill="#0A1628"></circle>
+    <path d="M -48 42 L -48 -42 L 0 20 L 48 -42 L 48 42" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+    <g fill="#FFFFFF">
+      <circle cx="-48" cy="-42" r="5.5"></circle><circle cx="48" cy="-42" r="5.5"></circle>
+      <circle cx="-48" cy="42" r="5.5"></circle><circle cx="48" cy="42" r="5.5"></circle>
+      <circle cx="0" cy="20" r="5.5"></circle>
+    </g>
+  </g>
+</svg>

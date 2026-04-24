@@ -110,8 +110,9 @@ const Navbar = ({ setShowLogin }) => {
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </button>
-          <Link to='/' onClick={() => setMenu("home")}>
-            <img src={assets.logo} className="logo" alt="El-Masry" />
+          <Link to='/' onClick={() => setMenu("home")} className="logo-link">
+            <img src={assets.logoHorizontal} className="logo logo-on-light" alt="El-Masry Electronics" />
+            <img src={assets.logoMarkLight} className="logo logo-on-dark" alt="El-Masry Electronics" />
           </Link>
         </div>
 
@@ -194,7 +195,7 @@ const Navbar = ({ setShowLogin }) => {
       <div className={`mobile-menu ${showMobileMenu ? 'active' : ''}`}>
         <div className="mobile-menu-content">
           <div className="mobile-header">
-            <img src={assets.logo} className="mobile-logo" alt="El-Masry" />
+            <img src={assets.logoMarkLight} className="mobile-logo" alt="El-Masry Electronics" />
             <button type="button" onClick={closeMobileMenu} className="mobile-close-btn" aria-label="إغلاق القائمة">
               <X size={28} aria-hidden="true" />
             </button>
