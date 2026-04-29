@@ -1,33 +1,350 @@
-.auth-form-content {
+/* ==========================================================================
+   Login Page — El-Masry Design System
+   Uses tokens from tokens.css. Standalone shell (no AuthLayout wrapper).
+   Responsive: mobile-first → desktop split.
+   ========================================================================== */
+
+/* ── Shell / page wrapper ── */
+.lp-shell {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-en);
+}
+
+[dir="rtl"] .lp-shell { font-family: var(--font-ar); }
+
+/* Decorative gradient blobs */
+.lp-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+}
+.lp-blob-1 {
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(0, 180, 216, 0.18) 0%, transparent 70%);
+    top: -120px;
+    right: -80px;
+}
+.lp-blob-2 {
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(10, 22, 40, 0.12) 0%, transparent 70%);
+    bottom: -100px;
+    left: -60px;
+}
+
+/* ── Card ── */
+.lp-card {
+    position: relative;
+    z-index: 1;
     width: 100%;
-}
-
-.auth-fields {
+    max-width: 440px;
+    background: var(--surface);
+    border: 1px solid var(--line-100);
+    border-radius: var(--radius-xl);
+    padding: var(--space-10) var(--space-8);
+    box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
-    gap: 0; /* Spacing handled by input wrappers */
+    gap: 0;
 }
 
-.auth-options {
+/* ── Header ── */
+.lp-header {
+    margin-bottom: var(--space-8);
+}
+.lp-kicker {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cyan-600);
+    margin-bottom: var(--space-2);
+}
+.lp-title {
+    margin: 0 0 var(--space-1);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--ink-900);
+    letter-spacing: -0.5px;
+    line-height: var(--lh-tight);
+}
+.lp-sub {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+    line-height: var(--lh-normal);
+}
+
+/* ── Form ── */
+.lp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ── Fields ── */
+.lp-field {
+    margin-bottom: var(--space-4);
+}
+.lp-label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--ink-500);
+    margin-bottom: var(--space-2);
+    letter-spacing: 0.3px;
+}
+.lp-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.lp-input {
+    width: 100%;
+    padding: 13px 14px 13px 42px;
+    border: 1.5px solid var(--line-200);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--ink-900);
+    transition: border-color var(--t-fast) var(--ease-out),
+                box-shadow var(--t-fast) var(--ease-out);
+    -webkit-appearance: none;
+}
+.lp-input:focus {
+    outline: none;
+    border-color: var(--cyan-500);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+}
+.lp-input::placeholder { color: var(--ink-300); }
+
+/* RTL: flip padding */
+[dir="rtl"] .lp-input { padding: 13px 42px 13px 14px; }
+
+/* Icons */
+.lp-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.lp-icon svg { width: 16px; height: 16px; }
+.lp-icon-lead {
+    left: 14px;
+    color: var(--ink-400);
+}
+[dir="rtl"] .lp-icon-lead { left: unset; right: 14px; }
+
+.lp-icon-trail {
+    right: 14px;
+    color: var(--ink-400);
+    pointer-events: all;
+    cursor: pointer;
+}
+[dir="rtl"] .lp-icon-trail { right: unset; left: 14px; }
+
+.lp-pw-toggle {
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: var(--radius-xs);
+    transition: color var(--t-fast);
+}
+.lp-pw-toggle:hover { color: var(--cyan-500); }
+
+/* Forgot row */
+.lp-row {
     display: flex;
     justify-content: flex-end;
-    margin-top: -10px;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-5);
+    margin-top: calc(-1 * var(--space-2));
 }
-
-.auth-forgot-link {
-    color: var(--text-muted);
-    font-size: 14px;
+.lp-forgot {
+    font-size: var(--text-xs);
+    color: var(--ink-400);
     text-decoration: none;
+    font-weight: 600;
+    transition: color var(--t-fast);
+}
+.lp-forgot:hover { color: var(--cyan-600); }
+
+/* ── Primary button ── */
+.lp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--t-base) var(--ease-out);
+}
+.lp-btn-primary {
+    background: var(--navy-700);
+    color: #fff;
+}
+.lp-btn-primary:hover:not(:disabled) {
+    background: var(--navy-900);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+.lp-btn-primary:active:not(:disabled) { transform: translateY(0); }
+.lp-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* ── Spinner ── */
+.lp-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: lp-spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+.lp-spinner-dark {
+    border-color: rgba(10, 22, 40, 0.15);
+    border-top-color: var(--ink-900);
+}
+@keyframes lp-spin { to { transform: rotate(360deg); } }
+
+/* ── Divider ── */
+.lp-divider {
+    position: relative;
+    text-align: center;
+    margin: var(--space-6) 0 var(--space-4);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-400);
+}
+.lp-divider::before,
+.lp-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 60px);
+    height: 1px;
+    background: var(--line-100);
+}
+.lp-divider::before { left: 0; }
+.lp-divider::after  { right: 0; }
+.lp-divider span { position: relative; z-index: 1; padding: 0 10px; background: var(--surface); }
+
+/* ── OAuth social buttons ── */
+.lp-socials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+.lp-soc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 11px var(--space-3);
+    background: var(--surface);
+    border: 1.5px solid var(--line-200);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--ink-900);
+    cursor: pointer;
+    transition: all var(--t-fast) var(--ease-out);
+    white-space: nowrap;
+}
+.lp-soc:hover:not(:disabled) {
+    border-color: var(--ink-300);
+    background: var(--surface-sunken);
+    box-shadow: var(--shadow-xs);
+    transform: translateY(-1px);
+}
+.lp-soc:active:not(:disabled) { transform: translateY(0); }
+.lp-soc:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.oauth-icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ── Footer ── */
+.lp-footer {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+    margin: 0 0 var(--space-5);
+}
+.lp-link {
+    color: var(--cyan-600);
+    font-weight: 700;
+    text-decoration: none;
+    margin-inline-start: 4px;
+    transition: color var(--t-fast);
+}
+.lp-link:hover { color: var(--cyan-400); }
+
+/* ── Trust badge ── */
+.lp-trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-size: 11px;
+    color: var(--ink-400);
+    border-top: 1px solid var(--line-100);
+    padding-top: var(--space-4);
+}
+.lp-trust svg { width: 12px; height: 12px; color: var(--success); }
+
+/* ── Dark mode ── */
+[data-theme="dark"] .lp-card {
+    background: var(--surface);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .lp-input {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--ink-900);
+}
+[data-theme="dark"] .lp-input:focus {
+    border-color: var(--cyan-500);
+}
+[data-theme="dark"] .lp-soc {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .lp-soc:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .lp-divider span { background: var(--surface); }
+
+/* ── Desktop ── */
+@media (min-width: 768px) {
+    .lp-card {
+        padding: var(--space-12) var(--space-12);
+    }
 }
 
-.auth-forgot-link:hover {
-    color: var(--accent);
-}
-
-/* Red Error Overwrite (as per user preference) */
+/* ── Toast error override ── */
 .Toastify__toast--error {
     background-color: #DC2626 !important;
 }

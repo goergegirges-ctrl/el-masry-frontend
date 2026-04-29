@@ -25,6 +25,7 @@ const MyOrders = lazy(() => import('./pages/MyOrders/MyOrders'))
 const OrderDetail = lazy(() => import('./pages/OrderDetail/OrderDetail'))
 const Wishlist = lazy(() => import('./pages/Wishlist/Wishlist'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy/PrivacyPolicy'))
+const AuthCallback = lazy(() => import('./pages/AuthCallback/AuthCallback'))
 
 const ProtectedRoute = ({ children }) => {
   const { token } = useContext(StoreContext);
@@ -68,6 +69,7 @@ const App = () => {
             <Route path='/orders/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
             <Route path='/wishlist' element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
             <Route path='/privacy' element={<PrivacyPolicy />} />
+            <Route path='/auth/callback' element={<AuthCallback />} />
           </Routes>
         </Suspense>
       </div>

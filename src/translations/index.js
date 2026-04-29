@@ -109,6 +109,11 @@ export const translations = {
         auth_loginError: 'تحقق من بريدك الإلكتروني أو كلمة المرور ثم حاول مجدداً.',
         auth_accountCreated: 'مرحباً بك في المصري للإلكترونيات!',
         auth_registerError: 'فشل التسجيل. يرجى المحاولة مجدداً.',
+        auth_orContinueWith: 'أو الدخول بواسطة',
+        auth_continueGoogle: 'Google',
+        auth_continueFacebook: 'Facebook',
+        auth_oauthError: 'فشل تسجيل الدخول بواسطة الحساب الاجتماعي. يرجى المحاولة مجدداً.',
+        auth_oauthProcessing: 'جارٍ تسجيل الدخول...',
 
         // Cart
         cart_title: 'سلة التسوق',
@@ -395,6 +400,11 @@ export const translations = {
         auth_loginError: 'Check your email or password and try again.',
         auth_accountCreated: 'Welcome to El-Masry Electronics!',
         auth_registerError: 'Registration failed. Please try again.',
+        auth_orContinueWith: 'Or continue with',
+        auth_continueGoogle: 'Google',
+        auth_continueFacebook: 'Facebook',
+        auth_oauthError: 'OAuth login failed. Please try again.',
+        auth_oauthProcessing: 'Signing in...',
 
         // Cart
         cart_title: 'Shopping Cart',
