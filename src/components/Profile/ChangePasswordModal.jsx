@@ -3,8 +3,10 @@ import { X, Lock, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'react-toastify';
 import axiosClient from '../../utils/axiosClient';
 import './ProfileComponents.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ChangePasswordModal = ({ isOpen, onClose }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -23,10 +25,10 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.newPassword !== formData.confirmPassword) {
-      return toast.error("New passwords do not match");
+      return toast.error(t('cpw_noMatch'));
     }
     if (formData.newPassword.length < 6) {
-      return toast.error("Password must be at least 6 characters");
+      return toast.error(t('cpw_tooShort'));
     }
 
     setLoading(true);
@@ -37,14 +39,14 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
       });
 
       if (response.data.success) {
-        toast.success("Password changed successfully");
+        toast.success(t('cpw_success'));
         onClose();
       } else {
-        toast.error(response.data.message || "Failed to change password");
+        toast.error(response.data.message || t('cpw_noMatch'));
       }
     } catch (err) {
       console.error("Password change error", err);
-      toast.error(err.response?.data?.message || "Error connecting to server");
+      toast.error(err.response?.data?.message || t('cpw_serverError'));
     } finally {
       setLoading(false);
     }
@@ -58,20 +60,20 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
         </div>
         
         <div className="modal-header-text" style={{marginBottom: '1.5rem'}}>
-          <h2 style={{fontSize: '20px', fontWeight: '700', color: 'var(--text)'}}>Account Security</h2>
-          <p style={{fontSize: '14px', color: 'var(--text-light)'}}>Update your account password</p>
+          <h2 style={{fontSize: '20px', fontWeight: '700', color: 'var(--text)'}}>{t('cpw_title')}</h2>
+          <p style={{fontSize: '14px', color: 'var(--text-light)'}}>{t('cpw_subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="inline-edit-form">
           <div className="input-group">
-            <label>Current Password</label>
+            <label>{t('cpw_current')}</label>
             <div style={{position: 'relative'}}>
-              <input 
-                type={showCurrent ? "text" : "password"} 
+              <input
+                type={showCurrent ? "text" : "password"}
                 name="currentPassword"
                 value={formData.currentPassword}
                 onChange={handleChange}
-                placeholder="Enter current password"
+                placeholder={t('cpw_currentPlaceholder')}
                 required
                 style={{width: '100%', paddingRight: '40px'}}
               />
@@ -86,14 +88,14 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
           </div>
 
           <div className="input-group">
-            <label>New Password</label>
+            <label>{t('cpw_new')}</label>
             <div style={{position: 'relative'}}>
-              <input 
-                type={showNew ? "text" : "password"} 
+              <input
+                type={showNew ? "text" : "password"}
                 name="newPassword"
                 value={formData.newPassword}
                 onChange={handleChange}
-                placeholder="Minimum 6 characters"
+                placeholder={t('cpw_newPlaceholder')}
                 required
                 style={{width: '100%', paddingRight: '40px'}}
               />
@@ -108,25 +110,25 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
           </div>
 
           <div className="input-group">
-            <label>Confirm New Password</label>
-            <input 
-              type="password" 
+            <label>{t('cpw_confirm')}</label>
+            <input
+              type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              placeholder="Repeat new password"
+              placeholder={t('cpw_confirmPlaceholder')}
               required
             />
           </div>
 
-          <button 
-            type="submit" 
-            className="save-btn" 
+          <button
+            type="submit"
+            className="save-btn"
             disabled={loading}
             style={{width: '100%', marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
           >
             {loading ? <div className="spinner" style={{width: '18px', height: '18px', borderThickness: '2px'}}></div> : <Lock size={18} />}
-            {loading ? "Updating..." : "Update Password"}
+            {loading ? t('cpw_updating') : t('cpw_update')}
           </button>
         </form>
       </div>

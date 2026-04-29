@@ -1,9 +1,11 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { useLanguage } from '../../context/LanguageContext';
 import './ThemeToggle.css';
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  const { t } = useLanguage();
   const isDark = theme === 'dark';
 
   return (
@@ -11,7 +13,7 @@ const ThemeToggle = () => {
       type="button"
       className="theme-toggle"
       onClick={toggleTheme}
-      aria-label={isDark ? 'التبديل إلى الوضع النهاري' : 'التبديل إلى الوضع الليلي'}
+      aria-label={isDark ? t('theme_toLight') : t('theme_toDark')}
       title={isDark ? 'Light mode' : 'Night mode'}
     >
       <span className="theme-icon" aria-hidden="true">

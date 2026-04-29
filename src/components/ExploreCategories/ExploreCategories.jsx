@@ -5,11 +5,13 @@ import { category_list } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatCategoryName } from '../../utils/seoHelpers'
+import { useLanguage } from '../../context/LanguageContext'
 
 const ExploreCategories = ({ category, setCategory }) => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const { categories } = useContext(StoreContext);
+  const { t } = useLanguage();
 
   const scroll = (direction) => {
     const { current } = scrollRef;
@@ -25,12 +27,12 @@ const ExploreCategories = ({ category, setCategory }) => {
   return (
     <div className='explore-categories' id='categories-section'>
       <div className="explore-categories-header">
-        <h1>أستكشف فئاتنا</h1>
-        <p className='explore-categories-text'>قطع غيار أصلية وإلكترونيات عالية الجودة.</p>
+        <h1>{t('explore_title')}</h1>
+        <p className='explore-categories-text'>{t('explore_subtitle')}</p>
       </div>
 
       <div className="categories-slider-wrapper">
-        <button className="scroll-btn left" onClick={() => scroll('left')} aria-label="تمرير لليسار">
+        <button className="scroll-btn left" onClick={() => scroll('left')} aria-label={t('explore_scrollLeft')}>
           <ChevronLeft size={24} aria-hidden="true" />
         </button>
 
@@ -56,7 +58,7 @@ const ExploreCategories = ({ category, setCategory }) => {
                   }
                 }}
                 className={`explore-categories-item ${category === name ? "active" : ""}`}
-                aria-label={`تصفح فئة ${name}`}
+                aria-label={`${t('explore_browseCategory')} ${name}`}
                 aria-current={category === name ? 'true' : undefined}
               >
                 <div className="category-img-wrapper">
@@ -68,7 +70,7 @@ const ExploreCategories = ({ category, setCategory }) => {
           })}
         </div>
 
-        <button className="scroll-btn right" onClick={() => scroll('right')} aria-label="تمرير لليمين">
+        <button className="scroll-btn right" onClick={() => scroll('right')} aria-label={t('explore_scrollRight')}>
           <ChevronRight size={24} aria-hidden="true" />
         </button>
       </div>

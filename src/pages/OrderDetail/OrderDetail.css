@@ -40,6 +40,11 @@
     min-height: 44px;
     display: inline-flex;
     align-items: center;
+    gap: 6px;
+}
+
+[dir="rtl"] .back-btn svg {
+    transform: scaleX(-1);
 }
 
 .back-btn:hover {
@@ -248,7 +253,7 @@
     }
 
     .step-label {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .summary-row {

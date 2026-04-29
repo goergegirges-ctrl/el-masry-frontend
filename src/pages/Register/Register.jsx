@@ -1,15 +1,17 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosClient from '../../utils/axiosClient';
 import { StoreContext } from '../../context/StoreContext';
 import { toast } from 'react-toastify';
 import AuthLayout from '../../components/Auth/AuthLayout';
 import AuthInput from '../../components/Auth/AuthInput';
 import PasswordInput from '../../components/Auth/PasswordInput';
+import { useLanguage } from '../../context/LanguageContext';
 import './Register.css';
 
 const Register = () => {
     const { url, setToken, setUserData, syncUserWishlist } = useContext(StoreContext);
+    const { t } = useLanguage();
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         firstName: "",
@@ -29,53 +31,50 @@ const Register = () => {
         event.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post(`${url}/api/users/register`, data);
+            const response = await axiosClient.post('/api/users/register', data);
             if (response.data.success) {
                 setToken(response.data.token);
                 setUserData(response.data.user);
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 await syncUserWishlist(response.data.token, response.data.user);
-                toast.success("Account created! مرحباً بك في المصري للإلكترونيات");
+                toast.success(t('auth_accountCreated'));
                 navigate("/");
             } else {
                 toast.error(response.data.message);
             }
         } catch (error) {
             console.error(error);
-            toast.error("An error occurred during registration. حدث خطأ أثناء التسجيل");
+            toast.error(t('auth_registerError'));
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <AuthLayout 
-            titleAr="إنشاء حساب جديد" 
-            titleEn="Create New Account"
-        >
+        <AuthLayout title={t('auth_createAccount')}>
             <form onSubmit={onRegister} className="auth-form-content">
                 <div className="auth-fields">
                     <div className="auth-input-row">
-                        <AuthInput 
-                            label="الاسم الأول | First Name"
+                        <AuthInput
+                            label={t('auth_firstName')}
                             name="firstName"
                             placeholder="Ahmed"
                             value={data.firstName}
                             onChange={onChangeHandler}
                             autoFocus={true}
                         />
-                        <AuthInput 
-                            label="اسم العائلة | Last Name"
+                        <AuthInput
+                            label={t('auth_lastName')}
                             name="lastName"
                             placeholder="El-Masry"
                             value={data.lastName}
                             onChange={onChangeHandler}
                         />
                     </div>
-                    
-                    <AuthInput 
-                        label="البريد الإلكتروني | Email"
+
+                    <AuthInput
+                        label={t('auth_email')}
                         name="email"
                         type="email"
                         inputMode="email"
@@ -83,9 +82,9 @@ const Register = () => {
                         value={data.email}
                         onChange={onChangeHandler}
                     />
-                    
-                    <PasswordInput 
-                        label="كلمة المرور | Password"
+
+                    <PasswordInput
+                        label={t('auth_password')}
                         name="password"
                         placeholder="••••••••"
                         value={data.password}
@@ -93,22 +92,22 @@ const Register = () => {
                     />
                 </div>
 
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     className="auth-submit-btn"
                     disabled={loading}
                 >
                     {loading ? (
                         <div className="auth-spinner"></div>
                     ) : (
-                        "إنشاء الحساب | Create Account"
+                        t('auth_createBtn')
                     )}
                 </button>
 
                 <div className="auth-footer">
-                    <span>لديك حساب بالفعل؟ | Already have an account?</span>
+                    <span>{t('auth_haveAccount')}</span>
                     <Link to="/login" className="auth-link">
-                        تسجيل الدخول | Login
+                        {t('auth_loginBtn')}
                     </Link>
                 </div>
             </form>

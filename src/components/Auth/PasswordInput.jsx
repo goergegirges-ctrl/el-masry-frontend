@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import './PasswordInput.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const PasswordInput = ({ label, name, value, onChange, placeholder, required = true, autoFocus = false }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const { t } = useLanguage();
 
     return (
         <div className="password-input-wrapper">
@@ -25,7 +27,7 @@ const PasswordInput = ({ label, name, value, onChange, placeholder, required = t
                     type="button"
                     className="password-toggle-btn"
                     onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={showPassword ? t('auth_hidePassword') : t('auth_showPassword')}
                 >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>

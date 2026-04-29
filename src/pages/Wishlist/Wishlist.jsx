@@ -4,9 +4,11 @@ import ProductItem from '../../components/productItem/productItem';
 import { Link } from 'react-router-dom';
 import { Heart, Home } from 'lucide-react';
 import './Wishlist.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Wishlist = () => {
     const { wishlist, product_list } = useContext(StoreContext);
+    const { t } = useLanguage();
 
     // Filter product_list based on IDs in wishlist
     const wishlistedProducts = product_list.filter(product => wishlist.includes(product.id));
@@ -15,7 +17,7 @@ const Wishlist = () => {
         <div className='wishlist-page'>
             <div className="wishlist-header">
                 <Heart size={32} className="heart-icon" fill="#ff4c24" stroke="#ff4c24" />
-                <h1>My Wishlist | قائمة المفضلة</h1>
+                <h1>{t('wish_title')}</h1>
             </div>
 
             {wishlistedProducts.length > 0 ? (
@@ -39,11 +41,11 @@ const Wishlist = () => {
                     <div className="empty-icon-wrapper">
                         <Heart size={64} color="#CBD5E0" />
                     </div>
-                    <h2>Your wishlist is empty</h2>
-                    <p>Tap the heart icon on any product to save it for later!</p>
+                    <h2>{t('wish_empty')}</h2>
+                    <p>{t('wish_emptyMsg')}</p>
                     <Link to="/" className="return-btn">
                         <Home size={20} />
-                        Return to Shop
+                        {t('wish_returnToShop')}
                     </Link>
                 </div>
             )}

@@ -56,21 +56,12 @@
     z-index: 1;
 }
 
-.promo-title-ar {
-    font-family: var(--font-ar);
+.promo-title {
     font-size: 18px;
     font-weight: 800;
     color: #fff;
     line-height: 1.3;
-    direction: rtl;
     margin-bottom: 2px;
-}
-
-.promo-title-en {
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.65);
-    line-height: 1.4;
 }
 
 .promo-subtitle {
@@ -117,6 +108,6 @@
         border-radius: 12px;
     }
 
-    .promo-title-ar { font-size: 16px; }
+    .promo-title { font-size: 16px; }
     .promo-cta { width: 100%; text-align: center; }
 }

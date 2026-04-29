@@ -2,12 +2,16 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
-import { assets } from '../../assets/assets';
+import logoHorizontal from '@/assets/logo-horizontal-light.svg';
+import logoMark from '@/assets/logo-mark-mono-light.svg';
 import { Search, ShoppingCart, X, User, Heart } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
+import { useLanguage } from '../../context/LanguageContext';
 import { formatCategoryName } from '../../utils/seoHelpers';
 
 const Navbar = ({ setShowLogin }) => {
+  const { t } = useLanguage();
   const [menu, setMenu] = useState("home");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
@@ -103,7 +107,7 @@ const Navbar = ({ setShowLogin }) => {
             type="button"
             className={`hamburger-icon ${showMobileMenu ? 'open' : ''}`}
             onClick={toggleMobileMenu}
-            aria-label={showMobileMenu ? 'إغلاق القائمة' : 'فتح القائمة'}
+            aria-label={showMobileMenu ? t('nav_closeMenu') : t('nav_openMenu')}
             aria-expanded={showMobileMenu}
           >
             <span aria-hidden="true"></span>
@@ -111,8 +115,7 @@ const Navbar = ({ setShowLogin }) => {
             <span aria-hidden="true"></span>
           </button>
           <Link to='/' onClick={() => setMenu("home")} className="logo-link">
-            <img src={assets.logoHorizontal} className="logo logo-on-light" alt="El-Masry Electronics" />
-            <img src={assets.logoMarkLight} className="logo logo-on-dark" alt="El-Masry Electronics" />
+            <img src={logoHorizontal} className="logo" alt="El-Masry Electronics" />
           </Link>
         </div>
 
@@ -130,9 +133,9 @@ const Navbar = ({ setShowLogin }) => {
                   }
                 }}
                 type="text"
-                placeholder="ابحث هنا | Search here"
+                placeholder={t('nav_searchPlaceholder')}
                 dir="auto"
-                aria-label="ابحث عن منتج"
+                aria-label={t('nav_searchLabel')}
               />
             </div>
 
@@ -148,7 +151,7 @@ const Navbar = ({ setShowLogin }) => {
                       onClick={() => handleSearchClick(product)}
                     >
                       <img
-                        src={(product.images && product.images.length > 0) ? product.images[0] : assets.logo}
+                        src={(product.images && product.images.length > 0) ? product.images[0] : logoMark}
                         alt={product.name}
                       />
                       <div className="info">
@@ -159,7 +162,7 @@ const Navbar = ({ setShowLogin }) => {
                     </button>
                   ))
                 ) : (
-                  <div className="search-no-results" role="status">لم يتم العثور على منتجات</div>
+                  <div className="search-no-results" role="status">{t('nav_noResults')}</div>
                 )}
               </div>
             )}
@@ -168,6 +171,7 @@ const Navbar = ({ setShowLogin }) => {
 
         <div className="navbar-right">
           <div className="navbar-actions">
+            <LanguageSwitcher />
             <ThemeToggle />
             <Link to='/wishlist' className="action-item wishlist-link">
               <Heart size={24} color="#FFFFFF" />
@@ -180,7 +184,7 @@ const Navbar = ({ setShowLogin }) => {
             {!token ? (
               <button className="signin-btn" onClick={() => navigate('/login')}>
                 <User size={20} />
-                <span>تسجيل الدخول</span>
+                <span>{t('nav_login')}</span>
               </button>
             ) : (
               <Link to='/profile' className="profile-link-btn">
@@ -195,16 +199,16 @@ const Navbar = ({ setShowLogin }) => {
       <div className={`mobile-menu ${showMobileMenu ? 'active' : ''}`}>
         <div className="mobile-menu-content">
           <div className="mobile-header">
-            <img src={assets.logoMarkLight} className="mobile-logo" alt="El-Masry Electronics" />
-            <button type="button" onClick={closeMobileMenu} className="mobile-close-btn" aria-label="إغلاق القائمة">
+            <img src={logoMark} className="mobile-logo" alt="El-Masry Electronics" />
+            <button type="button" onClick={closeMobileMenu} className="mobile-close-btn" aria-label={t('nav_closeMenu')}>
               <X size={28} aria-hidden="true" />
             </button>
           </div>
           <nav className="mobile-nav">
-            <Link to='/' onClick={() => { setMenu("home"); closeMobileMenu() }} className={menu === "home" ? "active" : ""}>الرئيسية</Link>
-            <a href='#categories-section' onClick={() => { setMenu("categories"); closeMobileMenu() }}>الفئات</a>
-            <a href='#products-section' onClick={() => { setMenu("products"); closeMobileMenu() }}>المنتجات</a>
-            <a href='#footer' onClick={() => { setMenu("contact"); closeMobileMenu() }}>اتصل بنا</a>
+            <Link to='/' onClick={() => { setMenu("home"); closeMobileMenu() }} className={menu === "home" ? "active" : ""}>{t('nav_home')}</Link>
+            <a href='#categories-section' onClick={() => { setMenu("categories"); closeMobileMenu() }}>{t('nav_categories')}</a>
+            <a href='#products-section' onClick={() => { setMenu("products"); closeMobileMenu() }}>{t('nav_products')}</a>
+            <a href='#footer' onClick={() => { setMenu("contact"); closeMobileMenu() }}>{t('nav_contact')}</a>
           </nav>
         </div>
         <div className="mobile-overlay" onClick={closeMobileMenu}></div>

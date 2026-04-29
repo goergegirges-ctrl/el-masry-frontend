@@ -81,7 +81,12 @@
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  padding: 0 5px;
+  padding: 0;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .quantity-controls button:disabled {
@@ -111,6 +116,10 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
 }
 
 .remove-btn:hover {
@@ -175,7 +184,9 @@
   font-size: 15px;
   margin-top: 20px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color var(--t-base, 250ms) ease,
+              transform 0.35s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+              box-shadow var(--t-base, 250ms) ease;
 }
 
 .checkout-btn:hover {
@@ -184,40 +195,16 @@
   box-shadow: var(--shadow-cyan);
 }
 
+.checkout-btn:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.08s;
+}
+
 .checkout-btn:disabled {
   background-color: var(--text-light);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-}
-
-.empty-cart {
-  text-align: center;
-  padding: 50px;
-  background: var(--surface);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-}
-
-.empty-cart p {
-  color: var(--text-light);
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-.empty-cart button {
-  padding: 12px 25px;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.empty-cart button:hover {
-  background-color: var(--primary-light);
 }
 
 @media (max-width: 900px) {

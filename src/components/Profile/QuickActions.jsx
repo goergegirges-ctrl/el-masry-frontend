@@ -2,9 +2,11 @@ import React from 'react';
 import { Package, Heart, MessageCircle, Shield, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './ProfileComponents.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const QuickActions = ({ onSecurityClick }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleSupportClick = () => {
     window.open('https://wa.me/201031451015', '_blank');
@@ -13,29 +15,25 @@ const QuickActions = ({ onSecurityClick }) => {
   const actionCards = [
     {
       id: 'orders',
-      title: 'My Orders',
-      desc: 'Track your orders',
+      title: t('profile_myOrders'),
       icon: <Package size={32} />,
       onClick: () => navigate('/my-orders')
     },
     {
       id: 'wishlist',
-      title: 'My Wishlist',
-      desc: 'Saved items',
+      title: t('profile_myWishlist'),
       icon: <Heart size={32} />,
       onClick: () => navigate('/wishlist')
     },
     {
       id: 'support',
-      title: 'Contact Support',
-      desc: 'WhatsApp support',
+      title: t('profile_supportDesc'),
       icon: <MessageCircle size={32} />,
       onClick: handleSupportClick
     },
     {
       id: 'security',
-      title: 'Account Security',
-      desc: 'Change password',
+      title: t('profile_securityDesc'),
       icon: <Shield size={32} />,
       onClick: onSecurityClick
     }
@@ -49,7 +47,6 @@ const QuickActions = ({ onSecurityClick }) => {
             <div className="icon-wrapper">{card.icon}</div>
             <div className="text-wrapper">
               <h3>{card.title}</h3>
-              <p>{card.desc}</p>
             </div>
           </div>
           <ChevronRight className="arrow-icon" size={20} />

@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 import './HighlightedProduct.css';
 import { StoreContext } from '../../context/StoreContext';
 import { X, ShoppingCart, CheckCircle, AlertCircle, Minus, Plus, Heart } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const HighlightedProduct = ({ product, onClose }) => {
     const { url, addToCart, wishlist, toggleWishlist } = useContext(StoreContext);
+    const { t } = useLanguage();
     const isWishlisted = wishlist.includes(product.id);
     const [quantity, setQuantity] = useState(1);
 
@@ -24,9 +26,19 @@ const HighlightedProduct = ({ product, onClose }) => {
 
     return (
         <div className="highlighted-product-container">
-            <div className="highlighted-product-card">
-                <button className="close-highlight-btn" onClick={onClose}>
-                    <X size={24} />
+            <div
+                className="highlighted-product-card"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="hp-product-title"
+            >
+                <button
+                    type="button"
+                    className="close-highlight-btn"
+                    onClick={onClose}
+                    aria-label="إغلاق / Close"
+                >
+                    <X size={24} aria-hidden="true" />
                 </button>
 
                 <div className="highlight-image-section">
@@ -36,7 +48,7 @@ const HighlightedProduct = ({ product, onClose }) => {
                 <div className="highlight-details-section">
                     <div className="highlight-header">
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                            <h2>{product.name}</h2>
+                            <h2 id="hp-product-title">{product.name}</h2>
                             <button 
                                 className="highlight-wishlist-btn" 
                                 onClick={() => toggleWishlist(product.id)}
@@ -48,11 +60,11 @@ const HighlightedProduct = ({ product, onClose }) => {
                         <div className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
                             {product.stock > 0 ? (
                                 <>
-                                    <CheckCircle size={14} /> In Stock
+                                    <CheckCircle size={14} /> {t('hp_inStock')}
                                 </>
                             ) : (
                                 <>
-                                    <AlertCircle size={14} /> Out of Stock
+                                    <AlertCircle size={14} /> {t('hp_outOfStock')}
                                 </>
                             )}
                         </div>
@@ -87,7 +99,7 @@ const HighlightedProduct = ({ product, onClose }) => {
                             disabled={product.stock <= 0}
                         >
                             <ShoppingCart size={20} />
-                            Add {quantity > 1 ? `${quantity} items` : 'to Cart'}
+                            {quantity > 1 ? `${quantity} ${t('hp_itemsToCart')}` : t('hp_addToCart')}
                         </button>
                     </div>
                 </div>

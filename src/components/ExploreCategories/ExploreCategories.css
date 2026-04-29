@@ -7,8 +7,19 @@
 
 .explore-categories-header {
   text-align: right;
-  border-inline-start: 5px solid var(--accent);
-  padding-inline-start: 20px;
+  padding-bottom: 14px;
+  position: relative;
+}
+
+.explore-categories-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: 52px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
 }
 
 .explore-categories h1 {
@@ -148,6 +159,10 @@
   right: -22px;
 }
 
+[dir="rtl"] .scroll-btn { transform: scaleX(-1); }
+[dir="rtl"] .scroll-btn:hover { transform: scaleX(-1) scale(1.12); }
+[dir="rtl"] .scroll-btn:active { transform: scaleX(-1) scale(0.94); }
+
 .categories-hr {
   border: none;
   height: 1px;
@@ -176,9 +191,11 @@
 
   .explore-categories-header {
     text-align: center;
-    border-inline-start: none;
-    padding-inline-start: 0;
-    border-bottom: 3px solid var(--accent);
-    padding-bottom: 10px;
+    padding-bottom: 14px;
+  }
+
+  .explore-categories-header::after {
+    inset-inline-end: 50%;
+    transform: translateX(50%);
   }
 }

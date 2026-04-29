@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
-import { assets, category_list } from '../../assets/assets';
+import { category_list } from '../../assets/assets';
+import logoMark from '@/assets/logo-mark.svg';
 import './ProductDetails.css';
 import Reviews from '../../components/Reviews/Reviews';
 import ProductItem from '../../components/productItem/productItem';
@@ -10,6 +11,7 @@ import { toast } from 'react-toastify';
 import axiosClient from '../../utils/axiosClient';
 import { Helmet } from 'react-helmet-async';
 import { formatCategoryName } from '../../utils/seoHelpers';
+import { useLanguage } from '../../context/LanguageContext';
 
 
 const ProductDetails = () => {
@@ -17,6 +19,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { product_list, addToCart, cartItems, url, token, userData, setUserData, wishlist, toggleWishlist } = useContext(StoreContext);
+    const { t } = useLanguage();
 
     const [product, setProduct] = useState(null);
     const [mainImage, setMainImage] = useState("");
@@ -32,7 +35,7 @@ const ProductDetails = () => {
                         setProduct(found);
                         const defaultImage = (found.images && found.images.length > 0)
                             ? found.images[0]
-                            : assets.logo;
+                            : logoMark;
                         setMainImage(defaultImage);
                     }
                 }
@@ -73,7 +76,7 @@ const ProductDetails = () => {
     }, [product, product_list]);
 
     const renderDescription = (desc) => {
-        if (!desc) return <p>No description available for this product.</p>;
+        if (!desc) return <p>{t('pdp_noDesc')}</p>;
 
         const lines = desc.split('\n').filter(line => line.trim() !== '');
         const isStructured = lines.every(line => line.includes(':') || line.includes('|'));
@@ -83,8 +86,8 @@ const ProductDetails = () => {
                 <table className="description-table">
                     <thead>
                         <tr>
-                            <th>المواصفة</th>
-                            <th>القيمة</th>
+                            <th>{t('pdp_specName')}</th>
+                            <th>{t('pdp_specValue')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,7 +132,7 @@ const ProductDetails = () => {
             </Helmet>
             <div className='breadcrumb-wrapper'>
                 <nav className='crumbs' aria-label="breadcrumb">
-                    <Link to="/">Home</Link>
+                    <Link to="/">{t('pdp_home')}</Link>
                     <span className="sep">/</span>
                     {product.category && (
                         <>
@@ -140,7 +143,7 @@ const ProductDetails = () => {
                     <span className="current">{product.name}</span>
                 </nav>
                 <button type="button" className='back-link' onClick={() => navigate(location.state?.from || `/category/${categorySlug}`)}>
-                    ← Back to {formatCategoryName(product.category) || 'Category'}
+                    ← {t('pdp_backTo')} {formatCategoryName(product.category) || ''}
                 </button>
             </div>
 
@@ -153,7 +156,7 @@ const ProductDetails = () => {
                             <button className={`wishlist-float ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(id)}>
                                 <Heart size={24} fill={isWishlisted ? "var(--danger)" : "none"} stroke={isWishlisted ? "var(--danger)" : "currentColor"} />
                             </button>
-                            <span className="tip">{isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
+                            <span className="tip">{isWishlisted ? t('pdp_removeWishlist') : t('pdp_addWishlist')}</span>
                         </div>
                     </div>
 
@@ -175,9 +178,9 @@ const ProductDetails = () => {
                 {/* Right Side: Details */}
                 <div className='product-info-section'>
                     {product.stock > 0 ? (
-                        <span className="details-stock-badge in-stock">✓ In Stock</span>
+                        <span className="details-stock-badge in-stock">{t('pdp_inStock')}</span>
                     ) : (
-                        <span className="details-stock-badge out-of-stock">✗ Out of Stock</span>
+                        <span className="details-stock-badge out-of-stock">{t('pdp_outOfStock')}</span>
                     )}
                     <h1>{product.name}</h1>
 
@@ -190,10 +193,10 @@ const ProductDetails = () => {
                                 onClick={() => addToCart(id)}
                                 disabled={cartItems?.[id] >= product.stock}
                             >
-                                {cartItems?.[id] ? `In Cart (${cartItems[id]})` : 'Add to Cart'}
+                                {cartItems?.[id] ? `${t('pdp_inCart')} (${cartItems[id]})` : t('pdp_addToCart')}
                             </button>
                         ) : (
-                            <button className='add-to-cart-big disabled' disabled>Out of Stock</button>
+                            <button className='add-to-cart-big disabled' disabled>{t('pdp_outOfStockBtn')}</button>
                         )}
                     </div>
 
@@ -203,14 +206,14 @@ const ProductDetails = () => {
                             onClick={() => setActiveTab('description')}
                             role="tab"
                         >
-                            Description
+                            {t('pdp_description')}
                         </button>
                         <button
                             className={`tab${activeTab === 'details' ? ' active' : ''}`}
                             onClick={() => setActiveTab('details')}
                             role="tab"
                         >
-                            Details
+                            {t('pdp_details')}
                         </button>
                     </div>
 
@@ -222,13 +225,13 @@ const ProductDetails = () => {
                     {activeTab === 'details' && (
                         <div className='product-meta'>
                             <div className='meta-item'>
-                                <b>Condition:</b> <span>{product.condition || 'New'}</span>
+                                <b>{t('pdp_condition')}</b> <span>{product.condition || 'New'}</span>
                             </div>
                             <div className='meta-item'>
-                                <b>Category:</b> <span>{formatCategoryName(product.category)}</span>
+                                <b>{t('pdp_category')}</b> <span>{formatCategoryName(product.category)}</span>
                             </div>
                             <div className='meta-item'>
-                                <b>Status:</b> <span>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+                                <b>{t('pdp_status')}</b> <span>{product.stock > 0 ? t('hp_inStock') : t('pi_outOfStock')}</span>
                             </div>
                         </div>
                     )}
@@ -238,7 +241,7 @@ const ProductDetails = () => {
 
             {recommendedProducts.length > 0 && (
                 <div className="recommended-section">
-                    <h2 className="recommended-title">Recommended Products / منتجات مقترحة</h2>
+                    <h2 className="recommended-title">{t('pdp_recommended')}</h2>
                     <div className="recommended-grid">
                         {recommendedProducts.map(p => (
                             <ProductItem

@@ -46,26 +46,6 @@
   margin-bottom: 0.5rem;
 }
 
-.edit-profile-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  color: var(--accent);
-  border: 1.5px solid var(--accent);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.edit-profile-btn:hover {
-  background: var(--accent);
-  color: var(--surface);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
-}
 
 .email-row {
   display: flex;
@@ -83,7 +63,7 @@
 /* Stats Redesign */
 .profile-stats-redesign {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -121,9 +101,6 @@
   font-weight: 600;
 }
 
-.member-card .stat-value {
-  color: var(--accent);
-}
 
 /* Mobile Optimizations */
 @media (max-width: 480px) {
@@ -367,9 +344,6 @@
   .quick-actions-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
-  }
-  
-    width: 100px;
   }
 }
 

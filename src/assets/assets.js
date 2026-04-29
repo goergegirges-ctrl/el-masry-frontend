@@ -1,6 +1,7 @@
 import basket_icon from './basket_icon.png'
 import logo from './logo.png'
 import logoHorizontal from './logo-horizontal.svg'
+import logoHorizontalLight from './logo-horizontal-light.svg'
 import logoMark from './logo-mark.svg'
 import logoMarkLight from './logo-mark-mono-light.svg'
 import header_img from './header_img.png'
@@ -33,6 +34,7 @@ import parcel_icon from './parcel_icon.png'
 export const assets = {
     logo,
     logoHorizontal,
+    logoHorizontalLight,
     logoMark,
     logoMarkLight,
     basket_icon,

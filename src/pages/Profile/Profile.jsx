@@ -13,9 +13,11 @@ import AccountInfo from '../../components/Profile/AccountInfo';
 import ChangePasswordModal from '../../components/Profile/ChangePasswordModal';
 
 import '../../components/Profile/ProfileComponents.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Profile = () => {
     const { userData, token, setToken, setUserData, getWishlistCount } = useContext(StoreContext);
+    const { t } = useLanguage();
     const navigate = useNavigate();
 
     const [profileData, setProfileData] = useState(null);
@@ -102,14 +104,14 @@ const Profile = () => {
                     lastName: response.data.user.lastName,
                     phone: response.data.user.phone
                 });
-                toast.success("Profile updated successfully");
+                toast.success(t('profile_updateSuccess'));
                 setIsEditing(false);
             } else {
-                toast.error(response.data.message || "Update failed");
+                toast.error(response.data.message || t('profile_updateFailed'));
             }
         } catch (err) {
             console.error("Update error", err);
-            toast.error("Unable to update profile");
+            toast.error(t('profile_updateError'));
         } finally {
             setLoading(false);
         }
@@ -119,7 +121,7 @@ const Profile = () => {
         return (
             <div className="profile-loading-overlay">
                 <div className="spinner"></div>
-                <p>Loading your profile...</p>
+                <p>{t('profile_loading')}</p>
             </div>
         );
     }
@@ -127,28 +129,17 @@ const Profile = () => {
     if (!userData || !profileData) {
         return (
             <div className="profile-container" style={{textAlign: "center", padding: "40px"}}>
-                <p style={{marginBottom: "20px"}}>Session missing or expired.</p>
-                <button onClick={logout} className="logout-btn-navy">Log In Again</button>
+                <p style={{marginBottom: "20px"}}>{t('profile_sessionExpired')}</p>
+                <button onClick={logout} className="logout-btn-navy">{t('profile_loginAgain')}</button>
             </div>
         );
     }
 
     return (
         <div className='profile-redesign-container'>
-            <ProfileHeader 
-                userData={profileData} 
-                onEditClick={() => {
-                    setIsEditing(true);
-                    // Scroll to account info section
-                    document.getElementById('account-info-section')?.scrollIntoView({ behavior: 'smooth' });
-                }} 
-            />
+            <ProfileHeader userData={profileData} />
 
-            <ProfileStats 
-                activeOrders={activeOrdersCount} 
-                wishlistCount={getWishlistCount()} 
-                firstName={profileData.firstName} 
-            />
+            <ProfileStats activeOrders={activeOrdersCount} wishlistCount={getWishlistCount()} />
 
             <QuickActions onSecurityClick={() => setIsModalOpen(true)} />
 
@@ -166,7 +157,7 @@ const Profile = () => {
             <div className="profile-footer-actions">
                 <button onClick={logout} className="logout-btn-redesign">
                     <LogOut size={20} />
-                    <span>Logout from account</span>
+                    <span>{t('profile_logout')}</span>
                 </button>
             </div>
 

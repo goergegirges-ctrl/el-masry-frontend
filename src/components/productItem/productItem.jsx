@@ -2,14 +2,17 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './productItem.css'
 import { assets } from '../../assets/assets'
+import logoMark from '@/assets/logo-mark.svg'
 import { StoreContext } from '../../context/StoreContext'
 import LazyImage from '../Common/LazyImage'
 import { Heart } from 'lucide-react'
 import { formatCategoryName } from '../../utils/seoHelpers'
+import { useLanguage } from '../../context/LanguageContext'
 
-const ProductItem = ({ id, name, price, description, images, stock, condition, isActive, brand, category }) => {
+const ProductItem = React.memo(({ id, name, price, description, images, stock, condition, isActive, brand, category }) => {
 
   const { cartItems, addToCart, removeFromCart, url, wishlist, toggleWishlist } = useContext(StoreContext)
+  const { t } = useLanguage();
   const isWishlisted = wishlist.includes(id);
   const navigate = useNavigate();
 
@@ -17,7 +20,7 @@ const ProductItem = ({ id, name, price, description, images, stock, condition, i
 
   const productImageUrl = (images && images.length > 0)
     ? images[0]
-    : assets.logo;
+    : logoMark;
 
   const handleCardKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -38,14 +41,14 @@ const ProductItem = ({ id, name, price, description, images, stock, condition, i
       <div className="product-item-img-container">
 
         {isOutOfStock && (
-          <span className="badge out-of-stock">Out of Stock</span>
+          <span className="badge out-of-stock">{t('pi_outOfStock')}</span>
         )}
 
         <button
           type="button"
           className="wishlist-btn-container"
           onClick={(e) => { e.stopPropagation(); toggleWishlist(id); }}
-          aria-label={isWishlisted ? `إزالة ${name} من المفضلة` : `إضافة ${name} للمفضلة`}
+          aria-label={isWishlisted ? `${t('pi_removeFromWishlist')} ${name}` : `${t('pi_addToWishlist')} ${name}`}
           aria-pressed={isWishlisted}
         >
           <Heart size={20} fill={isWishlisted ? "#ff4c24" : "none"} stroke={isWishlisted ? "#ff4c24" : "#888"} aria-hidden="true" />
@@ -63,16 +66,16 @@ const ProductItem = ({ id, name, price, description, images, stock, condition, i
                 type="button"
                 className='add-btn-container'
                 onClick={(e) => { e.stopPropagation(); addToCart(id); }}
-                aria-label={`أضف ${name} للسلة`}
+                aria-label={`${t('pi_addToCart')} ${name}`}
               >
                 <span className='add-icon-plus' aria-hidden="true">+</span>
               </button>
             : <div className='product-item-counter' onClick={(e) => e.stopPropagation()}>
-                <button type="button" className="counter-btn" onClick={() => removeFromCart(id)} aria-label={`تقليل كمية ${name}`}>
+                <button type="button" className="counter-btn" onClick={() => removeFromCart(id)} aria-label={`${t('pi_decreaseQty')} ${name}`}>
                   <img src={assets.remove_icon_red} alt="" aria-hidden="true" />
                 </button>
-                <p aria-live="polite" aria-label={`الكمية: ${cartItems[id]}`}>{cartItems[id]}</p>
-                <button type="button" className="counter-btn" onClick={() => addToCart(id)} aria-label={`زيادة كمية ${name}`}>
+                <p aria-live="polite">{cartItems[id]}</p>
+                <button type="button" className="counter-btn" onClick={() => addToCart(id)} aria-label={`${t('pi_increaseQty')} ${name}`}>
                   <img src={assets.add_icon_green} alt="" aria-hidden="true" />
                 </button>
               </div>
@@ -89,13 +92,13 @@ const ProductItem = ({ id, name, price, description, images, stock, condition, i
         <div className="product-item-footer">
           <p className="product-item-price">{price} ج.م</p>
           <p className={`stock-status-text ${isOutOfStock ? 'out' : 'in'}`}>
-            {isOutOfStock ? "Out of Stock" : "In Stock"}
+            {isOutOfStock ? t('pi_outOfStock') : t('pi_inStock')}
           </p>
           {condition && <span className="item-condition">{condition}</span>}
         </div>
       </div>
     </div>
   )
-}
+})
 
 export default ProductItem

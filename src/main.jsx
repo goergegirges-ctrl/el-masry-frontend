@@ -29,14 +29,17 @@ document.addEventListener('click', (e) => {
 
 import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from './context/ThemeContext.jsx'
+import { LanguageProvider } from './context/LanguageContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <HelmetProvider>
       <ThemeProvider>
-        <StoreContextProvider>
-          <App />
-        </StoreContextProvider>
+        <LanguageProvider>
+          <StoreContextProvider>
+            <App />
+          </StoreContextProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </HelmetProvider>
   </BrowserRouter>

@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosClient from '../../utils/axiosClient';
+import { ChevronLeft } from 'lucide-react';
 import { StoreContext } from '../../context/StoreContext';
 import { toast } from 'react-toastify';
 import './OrderDetail.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const OrderDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { url, token } = useContext(StoreContext);
-    
+    const { token } = useContext(StoreContext);
+    const { t } = useLanguage();
+
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -21,25 +24,23 @@ const OrderDetail = () => {
 
         const fetchOrderDetails = async () => {
             try {
-                const response = await axios.get(`${url}/api/order/userorders`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                
+                const response = await axiosClient.get('/api/order/userorders');
+
                 if (response.data.success) {
                     const foundOrder = response.data.data.find(o => o.id === id);
                     if (foundOrder) {
                         setOrder(foundOrder);
                     } else {
-                        toast.error("Order not found or access denied.");
+                        toast.error(t('od_orderNotFound'));
                         navigate('/my-orders');
                     }
                 } else {
-                    toast.error("Failed to load order details.");
+                    toast.error(t('co_serverError'));
                     navigate('/my-orders');
                 }
             } catch (err) {
                 console.error("Error fetching order:", err);
-                toast.error("Unable to securely fetch order.");
+                toast.error(t('co_serverError'));
                 navigate('/my-orders');
             } finally {
                 setLoading(false);
@@ -47,13 +48,13 @@ const OrderDetail = () => {
         };
 
         fetchOrderDetails();
-    }, [id, token, url, navigate]);
+    }, [id, token, navigate]);
 
     if (loading) {
         return (
             <div className="order-detail-container loading-state">
                 <div className="spinner"></div>
-                <p>Loading order details...</p>
+                <p>{t('od_loading')}</p>
             </div>
         );
     }
@@ -80,10 +81,10 @@ const OrderDetail = () => {
 
     // Timeline logic
     const timelineSteps = [
-        { label: 'Order Placed', matches: ['pending', 'processing', 'out for delivery', 'delivered', 'cancelled'] },
-        { label: 'Confirmed', matches: ['processing', 'out for delivery', 'delivered'] },
-        { label: 'Out for Delivery', matches: ['out for delivery', 'delivered'] },
-        { label: 'Delivered', matches: ['delivered'] }
+        { label: t('od_placed'), matches: ['pending', 'processing', 'out for delivery', 'delivered', 'cancelled'] },
+        { label: t('od_confirmed'), matches: ['processing', 'out for delivery', 'delivered'] },
+        { label: t('od_outForDelivery'), matches: ['out for delivery', 'delivered'] },
+        { label: t('od_delivered'), matches: ['delivered'] }
     ];
 
     const currentStatusLower = (order.status || '').toLowerCase();
@@ -104,7 +105,7 @@ const OrderDetail = () => {
     return (
         <div className="order-detail-container">
             <button className="back-btn" onClick={() => navigate(-1)}>
-                &larr; Back to Orders
+                <ChevronLeft size={16} aria-hidden="true" />{t('od_back')}
             </button>
 
             <div className="order-detail-card">
@@ -121,7 +122,7 @@ const OrderDetail = () => {
                     </div>
                     {order.shippingAddress && (
                         <div className="shipping-address">
-                            <h4>Shipping Address</h4>
+                            <h4>{t('od_shippingAddress')}</h4>
                             <p>{order.shippingAddress.street}, {order.shippingAddress.city}</p>
                         </div>
                     )}
@@ -154,21 +155,19 @@ const OrderDetail = () => {
                     <table className="products-table">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Qty</th>
-                                <th>Subtotal</th>
+                                <th>{t('od_colProduct')}</th>
+                                <th>{t('od_colPrice')}</th>
+                                <th>{t('od_colQty')}</th>
+                                <th>{t('od_colSubtotal')}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {order.items.map((item, idx) => (
                                 <tr key={idx}>
-                                    <td>{idx + 1}</td>
                                     <td>{item.name}</td>
-                                    <td>{item.price} EGP</td>
+                                    <td>{item.price} ج.م</td>
                                     <td>{item.quantity}</td>
-                                    <td>{item.price * item.quantity} EGP</td>
+                                    <td>{item.price * item.quantity} ج.م</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -178,16 +177,16 @@ const OrderDetail = () => {
                 {/* Summary */}
                 <div className="order-summary-block">
                     <div className="summary-row">
-                        <span>Subtotal</span>
-                        <span>{order.subtotal} EGP</span>
+                        <span>{t('od_subtotal')}</span>
+                        <span>{order.subtotal} ج.م</span>
                     </div>
                     <div className="summary-row">
-                        <span>Delivery Fee</span>
-                        <span>{order.deliveryFee !== null && order.deliveryFee !== undefined ? `${order.deliveryFee} EGP` : 'TBD'}</span>
+                        <span>{t('od_delivery')}</span>
+                        <span>{order.deliveryFee !== null && order.deliveryFee !== undefined ? `${order.deliveryFee} ج.م` : t('od_tbd')}</span>
                     </div>
                     <div className="summary-row total">
-                        <span>Total</span>
-                        <span>{order.subtotal + (order.deliveryFee || 0)} EGP</span>
+                        <span>{t('od_total')}</span>
+                        <span>{order.subtotal + (order.deliveryFee || 0)} ج.م</span>
                     </div>
                 </div>
             </div>

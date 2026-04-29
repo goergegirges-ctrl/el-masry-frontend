@@ -40,7 +40,12 @@
     cursor: pointer;
     text-align: center;
     width: 130px;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.35s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.category-card-circular:active {
+    transform: scale(0.97);
+    transition-duration: 0.08s;
 }
 
 .category-card-circular .circle-img-wrapper {
@@ -51,7 +56,8 @@
     padding: 5px;
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     margin-bottom: 15px;
-    transition: all 0.4s ease;
+    transition: transform 0.35s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+                box-shadow 0.35s ease;
 }
 
 .category-card-circular .circle-img-wrapper img {
@@ -81,6 +87,31 @@
 
 .category-card-circular:hover p {
     color: var(--accent);
+}
+
+.breadcrumb-wrapper {
+    margin-bottom: 12px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    user-select: none;
+    min-height: 44px;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+[dir="rtl"] .back-link svg {
+    transform: scaleX(-1);
 }
 
 .error-state {

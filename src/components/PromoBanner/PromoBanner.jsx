@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Zap } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 import './PromoBanner.css';
 
-const PromoBanner = ({ title, titleAr, subtitle, ctaLabel = 'Shop Now', ctaPath = '/search' }) => {
+const PromoBanner = ({ ctaPath = '/search' }) => {
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     return (
         <div className="promo-banner reveal-on-scroll">
@@ -12,12 +14,10 @@ const PromoBanner = ({ title, titleAr, subtitle, ctaLabel = 'Shop Now', ctaPath 
                 <Zap size={28} strokeWidth={1.75} />
             </div>
             <div className="promo-text">
-                <p className="promo-title-ar">{titleAr || 'شحن مجاني عند الطلب فوق ٥٠٠ ج.م'}</p>
-                <p className="promo-title-en">{title || 'Free delivery on orders over 500 EGP'}</p>
-                {subtitle && <p className="promo-subtitle">{subtitle}</p>}
+                <p className="promo-title">{t('promo_title')}</p>
             </div>
             <button className="promo-cta" onClick={() => navigate(ctaPath)}>
-                {ctaLabel}
+                {t('promo_cta')}
             </button>
         </div>
     );

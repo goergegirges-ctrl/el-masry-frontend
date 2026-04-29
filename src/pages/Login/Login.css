@@ -17,6 +17,16 @@
     margin-bottom: 20px;
 }
 
+.auth-forgot-link {
+    color: var(--text-muted);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.auth-forgot-link:hover {
+    color: var(--accent);
+}
+
 /* Red Error Overwrite (as per user preference) */
 .Toastify__toast--error {
     background-color: #DC2626 !important;

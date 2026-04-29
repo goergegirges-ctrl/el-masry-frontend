@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../utils/axiosClient';
 import { Package } from 'lucide-react';
 import './MyOrders.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const MyOrders = () => {
-    const { url, token } = useContext(StoreContext);
+    const { token } = useContext(StoreContext);
+    const { t } = useLanguage();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -15,10 +17,8 @@ const MyOrders = () => {
     const fetchOrders = async () => {
         setLoading(true);
         setError(null);
-        console.log("Fetching orders with token present:", !!token);
         try {
             const response = await axiosClient.get('/api/order/userorders');
-            console.log("Orders response:", response.data);
             if (response.data.success) {
                 // Filter active statuses (case-insensitive)
                 const activeOrders = response.data.data.filter(order => {
@@ -33,15 +33,14 @@ const MyOrders = () => {
             console.error("Fetch orders error:", err);
             if (err.response) {
                 if (err.response.status === 401 || err.response.status === 403) {
-                    setError("Session expired. Please login again.");
-                    // In a real app, you would also clear token/user state here
+                    setError(t('profile_sessionExpired'));
                 } else {
-                    setError(err.response.data.message || `Server error: ${err.response.status}`);
+                    setError(err.response.data.message || t('co_serverError'));
                 }
             } else if (err.request) {
-                setError("Server not reachable. Please check your connection.");
+                setError(t('co_serverError'));
             } else {
-                setError("An unexpected error occurred.");
+                setError(t('co_serverError'));
             }
         } finally {
             setLoading(false);
@@ -74,19 +73,19 @@ const MyOrders = () => {
 
     return (
         <div className='my-orders-container'>
-            <h2>My Orders</h2>
-            
+            <h2>{t('orders_title')}</h2>
+
             {error && (
                 <div className="error-banner">
                     <p>⚠️ {error}</p>
-                    <button onClick={fetchOrders} className="retry-btn">Try again</button>
+                    <button onClick={fetchOrders} className="retry-btn">{t('orders_tryAgain')}</button>
                 </div>
             )}
 
             {loading ? (
                 <div className="profile-loading-overlay">
                     <div className="spinner"></div>
-                    <p>Loading orders...</p>
+                    <p>{t('orders_loading')}</p>
                 </div>
             ) : (
                 <div className="orders-list">
@@ -96,11 +95,11 @@ const MyOrders = () => {
                                 <div className="order-head">
                                     <div className="order-info-group">
                                         <div>
-                                            <p className="label">Order ID</p>
+                                            <p className="label">{t('orders_orderId')}</p>
                                             <p className="val">#{order.id.slice(-8).toUpperCase()}</p>
                                         </div>
                                         <div>
-                                            <p className="label">Date</p>
+                                            <p className="label">{t('orders_date')}</p>
                                             <p className="val">{formatDate(order.createdAt)}</p>
                                         </div>
                                     </div>
@@ -108,11 +107,11 @@ const MyOrders = () => {
                                         <span className={`badge ${getBadgeClass(order.status)}`}>
                                             {order.status || 'Unknown'}
                                         </span>
-                                        <button 
+                                        <button
                                             className="view-details-btn"
                                             onClick={() => navigate(`/orders/${order.id}`)}
                                         >
-                                            View Details
+                                            {t('orders_viewDetails')}
                                         </button>
                                     </div>
                                 </div>
@@ -122,9 +121,9 @@ const MyOrders = () => {
                         !error && (
                             <div className="empty">
                                 <div className="ring"><Package size={28} strokeWidth={1.75} /></div>
-                                <h4>No active orders</h4>
-                                <p>Delivered and cancelled orders won't appear here</p>
-                                <button className="btn btn-primary md" onClick={() => navigate("/")}>Shop Now</button>
+                                <h4>{t('orders_noOrders')}</h4>
+                                <p>{t('orders_noOrdersMsg')}</p>
+                                <button className="btn btn-primary md" onClick={() => navigate("/")}>{t('orders_shopNow')}</button>
                             </div>
                         )
                     )}

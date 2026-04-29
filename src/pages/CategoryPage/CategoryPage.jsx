@@ -1,17 +1,28 @@
 import React, { useContext, useMemo, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 import { StoreContext } from '../../context/StoreContext';
 import { category_list } from '../../assets/assets';
 import ProductItem from '../../components/productItem/productItem';
 import './CategoryPage.css';
 import { formatCategoryName } from '../../utils/seoHelpers';
+import { useLanguage } from '../../context/LanguageContext';
+
+const ITEMS_PER_PAGE = 40;
+
+function getPageNumbers(current, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    if (current <= 4) return [1, 2, 3, 4, 5, '...', total];
+    if (current >= total - 3) return [1, '...', total - 4, total - 3, total - 2, total - 1, total];
+    return [1, '...', current - 1, current, current + 1, '...', total];
+}
 
 const CategoryPage = () => {
     const { categorySlug } = useParams();
     const navigate = useNavigate();
     const { product_list, loading, url } = useContext(StoreContext);
+    const { t } = useLanguage();
     const [page, setPage] = useState(1);
-    const ITEMS_PER_PAGE = 12;
 
     // Map slug back to Arabic name for filtering
     const currentCategory = useMemo(() => {
@@ -52,13 +63,13 @@ const CategoryPage = () => {
         return (
             <div className='category-page selection-view'>
                 <div className="category-header">
-                    <h1>Explore Categories</h1>
-                    <p>Select a category to view products</p>
+                    <h1>{t('cat_title')}</h1>
+                    <p>{t('cat_subtitle')}</p>
                 </div>
                 <div className="categories-grid-circular">
-                    {category_list.map((item, index) => (
-                        <div 
-                            key={index} 
+                    {category_list.map((item) => (
+                        <div
+                            key={item.category_slug}
                             className="category-card-circular"
                             onClick={() => navigate(`/category/${item.category_slug}`)}
                         >
@@ -74,26 +85,26 @@ const CategoryPage = () => {
     }
 
     if (!currentCategory) {
-        return <div className='category-page error-state'><h1>Category Not Found</h1></div>;
+        return <div className='category-page error-state'><h1>{t('cat_notFound')}</h1></div>;
     }
 
     return (
         <div className='category-page'>
             <div className='breadcrumb-wrapper'>
                 <div className='back-link' onClick={() => navigate('/')}>
-                    ← Back to Home
+                    <ChevronLeft size={16} aria-hidden="true" />{t('cat_backHome')}
                 </div>
             </div>
             <div className="category-header">
                 <h1>{formatCategoryName(currentCategory.category_name)}</h1>
-                <p>{filteredProducts.length} Products Found</p>
+                <p>{filteredProducts.length} {t('cat_productsFound')}</p>
             </div>
 
             <div className="product-display-list">
                 {pagedProducts.length > 0 ? (
-                    pagedProducts.map((item, index) => (
+                    pagedProducts.map((item) => (
                         <ProductItem
-                            key={index}
+                            key={item.id}
                             id={item.id}
                             name={item.name}
                             description={item.description}
@@ -106,24 +117,30 @@ const CategoryPage = () => {
                     ))
                 ) : (
                     <div className="no-products-found">
-                        <p>No products available in this category yet.</p>
+                        <p>{t('cat_noProducts')}</p>
                     </div>
                 )}
             </div>
 
             {pageCount > 1 && (
-                <div className="pag" style={{ justifyContent: 'center', marginTop: '32px' }}>
-                    <button disabled={page === 1} onClick={() => setPage(p => p - 1)}>‹</button>
-                    {Array.from({ length: pageCount }, (_, i) => (
-                        <button
-                            key={i + 1}
-                            className={page === i + 1 ? 'active' : ''}
-                            onClick={() => { setPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                    <button disabled={page === pageCount} onClick={() => setPage(p => p + 1)}>›</button>
+                <div className="pag-wrapper">
+                    <div className="pag">
+                        <button disabled={page === 1} onClick={() => { setPage(p => p - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>‹</button>
+                        {getPageNumbers(page, pageCount).map((p, i) =>
+                            p === '...' ? (
+                                <span key={`ell-${i}`} className="ellipsis">…</span>
+                            ) : (
+                                <button
+                                    key={p}
+                                    className={page === p ? 'active' : ''}
+                                    onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                >
+                                    {p}
+                                </button>
+                            )
+                        )}
+                        <button disabled={page === pageCount} onClick={() => { setPage(p => p + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>›</button>
+                    </div>
                 </div>
             )}
         </div>

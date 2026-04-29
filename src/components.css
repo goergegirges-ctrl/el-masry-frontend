@@ -325,6 +325,7 @@
 .tab.active { color: var(--cyan-600); border-color: var(--cyan-400); }
 
 /* ------- PAGINATION ------- */
+.pag-wrapper { display: flex; justify-content: center; margin-top: 32px; }
 .pag { display: inline-flex; gap: 4px; }
 .pag button {
   min-width: 36px;
@@ -342,8 +343,8 @@
   gap: 4px;
   padding: 0 10px;
 }
-.pag button:hover { border-color: var(--navy-700); }
-.pag button.active { background: var(--navy-900); color: #fff; border-color: var(--navy-900); }
+.pag button:hover { border-color: var(--accent); color: var(--accent); }
+.pag button.active { background: transparent; color: var(--accent); border-color: var(--accent); font-weight: 700; }
 .pag button[disabled] { opacity: 0.35; cursor: not-allowed; }
 .pag .ellipsis { display: inline-flex; align-items: center; padding: 0 6px; color: var(--ink-500); }
 
@@ -417,3 +418,23 @@
 .empty .ring i { width: 28px; height: 28px; color: var(--ink-500); }
 .empty h4 { margin: 0; font-size: 16px; font-weight: 800; }
 .empty p  { margin: 6px 0 16px; font-size: 13px; color: var(--ink-500); }
+
+/* ------- PAGE LOADER (Suspense fallback) ------- */
+@keyframes page-spin {
+  to { transform: rotate(360deg); }
+}
+.page-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+.page-spinner::after {
+  content: '';
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: page-spin 0.8s linear infinite;
+}

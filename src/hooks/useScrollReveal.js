@@ -2,22 +2,22 @@ import { useEffect } from 'react';
 
 const useScrollReveal = () => {
     useEffect(() => {
-        const reveal = () => {
-            const reveals = document.querySelectorAll('.reveal-on-scroll');
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add('active');
-                }
-            }
-        };
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { rootMargin: '0px 0px -150px 0px', threshold: 0 }
+        );
 
-        window.addEventListener('scroll', reveal);
-        reveal(); // Initial check
+        const elements = document.querySelectorAll('.reveal-on-scroll');
+        elements.forEach((el) => observer.observe(el));
 
-        return () => window.removeEventListener('scroll', reveal);
+        return () => observer.disconnect();
     }, []);
 };
 

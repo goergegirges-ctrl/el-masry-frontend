@@ -2,10 +2,12 @@ import React, { useContext, useState, useMemo } from 'react'
 import './productDisplay.css'
 import { StoreContext } from '../../context/StoreContext'
 import ProductItem from '../productItem/productItem'
+import { useLanguage } from '../../context/LanguageContext'
 
 const ProductDisplay = ({ category }) => {
 
   const { product_list, search, showSearch, loading } = useContext(StoreContext);
+  const { t } = useLanguage();
   const [sortOption, setSortOption] = useState("relevant");
 
   // Normalize category by removing "ال" article prefix for comparison
@@ -39,13 +41,13 @@ const ProductDisplay = ({ category }) => {
   return (
     <div className='product-display' id='products-section'>
       <div className="product-display-header">
-        <h2>{showSearch && search ? `Search results for "${search}"` : 'Top products near you'}</h2>
+        <h2>{showSearch && search ? `${t('pd_searchResultsFor')} "${search}"` : t('pd_topProducts')}</h2>
         <div className="product-sort">
           <select onChange={(e) => setSortOption(e.target.value)} value={sortOption}>
-            <option value="relevant">Relevant</option>
-            <option value="low-high">Price: Low to High</option>
-            <option value="high-low">Price: High to Low</option>
-            <option value="newest">Newest Arrivals</option>
+            <option value="relevant">{t('pd_sortRelevant')}</option>
+            <option value="low-high">{t('pd_sortPriceLow')}</option>
+            <option value="high-low">{t('pd_sortPriceHigh')}</option>
+            <option value="newest">{t('pd_sortNewest')}</option>
           </select>
         </div>
       </div>
@@ -61,9 +63,9 @@ const ProductDisplay = ({ category }) => {
             </div>
           ))
         ) : processedProducts.length > 0 ? (
-          processedProducts.map((item, index) => (
+          processedProducts.map((item) => (
             <ProductItem
-              key={index}
+              key={item.id}
               id={item.id}
               name={item.name}
               description={item.description}
@@ -78,7 +80,7 @@ const ProductDisplay = ({ category }) => {
           ))
         ) : (
           <div className="no-products-found">
-            <p>{category === "All" && !showSearch ? "No featured products yet" : "No products found"}</p>
+            <p>{category === "All" && !showSearch ? t('pd_noFeatured') : t('pd_noProducts')}</p>
           </div>
         )}
       </div>

@@ -165,11 +165,7 @@ const StoreContextProvider = (props) => {
   }
 
   useEffect(() => {
-    async function loadData() {
-      await fetchProductList();
-      await fetchCategories();
-    }
-    loadData();
+    Promise.all([fetchProductList(), fetchCategories()]);
   }, [])
 
   useEffect(() => {

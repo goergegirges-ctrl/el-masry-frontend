@@ -4,8 +4,9 @@ import { Star } from 'lucide-react';
 import axiosClient from '../../utils/axiosClient';
 import { toast } from 'react-toastify';
 import './Reviews.css';
+import { useLanguage } from '../../context/LanguageContext';
 
-const StarRating = ({ value, onChange }) => {
+const StarRating = ({ value, onChange, t }) => {
     const [hovered, setHovered] = useState(0);
     const active = hovered || value;
 
@@ -14,14 +15,14 @@ const StarRating = ({ value, onChange }) => {
             className="star-input"
             onMouseLeave={() => setHovered(0)}
             role="radiogroup"
-            aria-label="تقييم المنتج"
+            aria-label={t('rev_ratingLabel')}
         >
             {[1, 2, 3, 4, 5].map(n => (
                 <span
                     key={n}
                     role="radio"
                     aria-checked={n === value}
-                    aria-label={`${n} من 5 نجوم`}
+                    aria-label={`${n} ${t('rev_starsOf5')}`}
                     tabIndex={n === value ? 0 : -1}
                     className="star-radio"
                     onMouseEnter={() => setHovered(n)}
@@ -68,6 +69,7 @@ const StarDisplay = ({ rating }) => (
 
 const Reviews = ({ productId }) => {
     const { token } = useContext(StoreContext);
+    const { t } = useLanguage();
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
@@ -96,7 +98,7 @@ const Reviews = ({ productId }) => {
     const submitReview = async (e) => {
         e.preventDefault();
         if (!token) {
-            toast.error("Please login to write a review");
+            toast.error(t('rev_loginRequired'));
             return;
         }
 
@@ -107,18 +109,18 @@ const Reviews = ({ productId }) => {
             });
 
             if (response.data.success) {
-                toast.success("Review submitted!");
+                toast.success(t('rev_submitted'));
                 setNewReview({ rating: 5, comment: "" });
                 fetchReviews();
             }
         } catch (error) {
-            toast.error("Failed to submit review");
+            toast.error(t('rev_failed'));
         }
     };
 
     return (
         <div className='reviews-section'>
-            <h3>Customer Reviews / آراء العملاء</h3>
+            <h3>{t('rev_title')}</h3>
 
             <div className="reviews-list">
                 {reviews.length > 0 ? (
@@ -133,31 +135,35 @@ const Reviews = ({ productId }) => {
                         </div>
                     ))
                 ) : (
-                    <p className="no-reviews">No reviews yet. Be the first to review!</p>
+                    <p className="no-reviews">{t('rev_noReviews')}</p>
                 )}
             </div>
 
             {token ? (
                 <form onSubmit={submitReview} className="review-form">
-                    <h4>Write a Review / اكتب تقييمك</h4>
+                    <h4>{t('rev_writeReview')}</h4>
                     <div className="rating-input">
-                        <label>Rating:</label>
+                        <label>{t('rev_rating')}</label>
                         <StarRating
                             value={newReview.rating}
                             onChange={(n) => setNewReview({ ...newReview, rating: n })}
+                            t={t}
                         />
                     </div>
                     <textarea
                         value={newReview.comment}
                         onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-                        placeholder="Share your thoughts about this product..."
+                        placeholder={t('rev_placeholder')}
                         required
                     />
-                    <button type="submit">Submit Review</button>
+                    <button type="submit">{t('rev_submit')}</button>
                 </form>
             ) : (
                 <div className="login-prompt">
-                    Please <a href="/login">login</a> to write a review.
+                    {(() => {
+                        const parts = t('rev_loginRequired').split('{link}');
+                        return <>{parts[0]}<a href="/login">{t('rev_loginLink')}</a>{parts[1]}</>;
+                    })()}
                 </div>
             )}
         </div>
