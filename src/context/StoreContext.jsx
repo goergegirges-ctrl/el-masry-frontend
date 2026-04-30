@@ -16,7 +16,7 @@ const StoreContextProvider = (props) => {
       return {};
     }
   });
-  const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const url = import.meta.env.VITE_API_URL || "http://localhost:4000";
   const [product_list, setProductList] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
