@@ -7,7 +7,6 @@ import './ProductDetails.css';
 import Reviews from '../../components/Reviews/Reviews';
 import ProductItem from '../../components/productItem/productItem';
 import { Heart } from 'lucide-react';
-import { toast } from 'react-toastify';
 import axiosClient from '../../utils/axiosClient';
 import { Helmet } from 'react-helmet-async';
 import { formatCategoryName } from '../../utils/seoHelpers';
@@ -18,29 +17,32 @@ const ProductDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const { product_list, addToCart, cartItems, url, token, userData, setUserData, wishlist, toggleWishlist } = useContext(StoreContext);
+    const { product_list, addToCart, cartItems, wishlist, toggleWishlist } = useContext(StoreContext);
     const { t } = useLanguage();
 
     const [product, setProduct] = useState(null);
-    const [mainImage, setMainImage] = useState("");
+    const [mainImage, setMainImage] = useState('');
     const [activeThumb, setActiveThumb] = useState(0);
     const [activeTab, setActiveTab] = useState('description');
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axiosClient.get('/api/product/list'); 
-                if (response.data.success) {
-                    const found = response.data.data.find(p => p.id === id);
-                    if (found) {
-                        setProduct(found);
-                        const defaultImage = (found.images && found.images.length > 0)
-                            ? found.images[0]
-                            : logoMark;
-                        setMainImage(defaultImage);
-                    }
+                const response = await axiosClient.get(`/api/product/${id}`);
+                if (response.data.success && response.data.data) {
+                    const found = response.data.data;
+                    setProduct(found);
+                    setMainImage(found.images?.[0] ?? logoMark);
+                } else {
+                    setNotFound(true);
                 }
             } catch (err) {
-                console.error("Error fetching product:", err);
+                console.error('Error fetching product:', err);
+                setNotFound(true);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -48,17 +50,15 @@ const ProductDetails = () => {
             const foundProduct = product_list.find(p => p.id === id);
             if (foundProduct) {
                 setProduct(foundProduct);
-                const defaultImage = (foundProduct.images && foundProduct.images.length > 0)
-                    ? foundProduct.images[0]
-                    : (foundProduct.image ? (foundProduct.image.startsWith('http') ? foundProduct.image : `${url}/images/${foundProduct.image}`) : assets.logo);
-                setMainImage(defaultImage);
+                setMainImage(foundProduct.images?.[0] ?? logoMark);
+                setLoading(false);
             } else {
                 fetchProduct();
             }
         } else {
             fetchProduct();
         }
-    }, [id, product_list, url]);
+    }, [id, product_list]);
 
     const isWishlisted = wishlist.includes(id);
 
@@ -77,10 +77,8 @@ const ProductDetails = () => {
 
     const renderDescription = (desc) => {
         if (!desc) return <p>{t('pdp_noDesc')}</p>;
-
         const lines = desc.split('\n').filter(line => line.trim() !== '');
         const isStructured = lines.every(line => line.includes(':') || line.includes('|'));
-
         if (isStructured) {
             return (
                 <table className="description-table">
@@ -105,16 +103,18 @@ const ProductDetails = () => {
                 </table>
             );
         }
-
         return <p>{desc}</p>;
+    };
+
+    if (loading) {
+        return <div className="page-spinner" />;
     }
 
-
-
-    if (!product) {
+    if (notFound || !product) {
         return (
-            <div className='product-details-loading'>
-                <div className='skeleton-pulse' style={{ height: '400px', width: '100%', borderRadius: '20px' }}></div>
+            <div className="pdp-not-found">
+                <p>{t('pdp_noDesc')}</p>
+                <Link to="/">← {t('pdp_home')}</Link>
             </div>
         );
     }
@@ -122,7 +122,7 @@ const ProductDetails = () => {
     const handleThumbClick = (img, index) => {
         setMainImage(img);
         setActiveThumb(index);
-    }
+    };
 
     return (
         <div className='product-details'>
@@ -150,16 +150,6 @@ const ProductDetails = () => {
             <div className='product-details-container'>
                 {/* Left Side: Images */}
                 <div className='product-images-section'>
-                    <div className='main-image-container'>
-                        <img src={mainImage} alt={product.name} />
-                        <div className="tip-wrap wishlist-float-wrap">
-                            <button className={`wishlist-float ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(id)}>
-                                <Heart size={24} fill={isWishlisted ? "var(--danger)" : "none"} stroke={isWishlisted ? "var(--danger)" : "currentColor"} />
-                            </button>
-                            <span className="tip">{isWishlisted ? t('pdp_removeWishlist') : t('pdp_addWishlist')}</span>
-                        </div>
-                    </div>
-
                     {product.images && product.images.length > 1 && (
                         <div className='thumbnail-slider'>
                             {product.images.map((img, index) => (
@@ -173,18 +163,33 @@ const ProductDetails = () => {
                             ))}
                         </div>
                     )}
+                    <div className='main-image-container'>
+                        <img src={mainImage} alt={product.name} />
+                        <div className="tip-wrap wishlist-float-wrap">
+                            <button className={`wishlist-float ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(id)}>
+                                <Heart size={22} fill={isWishlisted ? 'var(--danger)' : 'none'} stroke={isWishlisted ? 'var(--danger)' : 'currentColor'} />
+                            </button>
+                            <span className="tip">{isWishlisted ? t('pdp_removeWishlist') : t('pdp_addWishlist')}</span>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Right Side: Details */}
                 <div className='product-info-section'>
-                    {product.stock > 0 ? (
-                        <span className="details-stock-badge in-stock">{t('pdp_inStock')}</span>
-                    ) : (
-                        <span className="details-stock-badge out-of-stock">{t('pdp_outOfStock')}</span>
-                    )}
+                    {product.brand && <p className="p-brand">{product.brand}</p>}
                     <h1>{product.name}</h1>
+                    <div className="pdp-meta-row">
+                        {product.stock > 0 ? (
+                            <span className="details-stock-badge in-stock">{t('pdp_inStock')}</span>
+                        ) : (
+                            <span className="details-stock-badge out-of-stock">{t('pdp_outOfStock')}</span>
+                        )}
+                        {product.condition && (
+                            <span className="pdp-condition-badge">{product.condition}</span>
+                        )}
+                    </div>
 
-                    <p className='price'>{product.price} ج.م</p>
+                    <p className='price'>{product.price} <span className="price-currency">ج.م</span></p>
 
                     <div className='product-actions'>
                         {product.stock > 0 ? (
@@ -196,20 +201,20 @@ const ProductDetails = () => {
                                 {cartItems?.[id] ? `${t('pdp_inCart')} (${cartItems[id]})` : t('pdp_addToCart')}
                             </button>
                         ) : (
-                            <button className='add-to-cart-big disabled' disabled>{t('pdp_outOfStockBtn')}</button>
+                            <button className='add-to-cart-big' disabled>{t('pdp_outOfStockBtn')}</button>
                         )}
                     </div>
 
-                    <div className="tabs" role="tablist">
+                    <div className="pdp-tabs" role="tablist">
                         <button
-                            className={`tab${activeTab === 'description' ? ' active' : ''}`}
+                            className={`pdp-tab${activeTab === 'description' ? ' active' : ''}`}
                             onClick={() => setActiveTab('description')}
                             role="tab"
                         >
                             {t('pdp_description')}
                         </button>
                         <button
-                            className={`tab${activeTab === 'details' ? ' active' : ''}`}
+                            className={`pdp-tab${activeTab === 'details' ? ' active' : ''}`}
                             onClick={() => setActiveTab('details')}
                             role="tab"
                         >
@@ -225,17 +230,19 @@ const ProductDetails = () => {
                     {activeTab === 'details' && (
                         <div className='product-meta'>
                             <div className='meta-item'>
-                                <b>{t('pdp_condition')}</b> <span>{product.condition || 'New'}</span>
+                                <span className="meta-label">{t('pdp_condition')}</span>
+                                <span className="meta-value">{product.condition || 'New'}</span>
                             </div>
                             <div className='meta-item'>
-                                <b>{t('pdp_category')}</b> <span>{formatCategoryName(product.category)}</span>
+                                <span className="meta-label">{t('pdp_category')}</span>
+                                <span className="meta-value">{formatCategoryName(product.category)}</span>
                             </div>
                             <div className='meta-item'>
-                                <b>{t('pdp_status')}</b> <span>{product.stock > 0 ? t('hp_inStock') : t('pi_outOfStock')}</span>
+                                <span className="meta-label">{t('pdp_status')}</span>
+                                <span className="meta-value">{product.stock > 0 ? t('hp_inStock') : t('pi_outOfStock')}</span>
                             </div>
                         </div>
                     )}
-
                 </div>
             </div>
 

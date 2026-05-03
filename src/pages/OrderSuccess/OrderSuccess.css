@@ -65,5 +65,6 @@
 }
 
 [data-theme="dark"] .view-orders-btn {
-    background: var(--primary);
+    background: var(--accent);
+    color: var(--navy-900);
 }

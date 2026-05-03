@@ -213,6 +213,15 @@
     }
 }
 
+[data-theme="dark"] .highlight-details-section h2 { color: var(--text); }
+[data-theme="dark"] .highlight-price { color: var(--accent); }
+[data-theme="dark"] .qty-btn { color: var(--accent); }
+[data-theme="dark"] .qty-btn:hover:not(:disabled) {
+    background: var(--surface-alt);
+    color: var(--accent);
+}
+[data-theme="dark"] .close-highlight-btn:hover { color: var(--accent); }
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .highlighted-product-card {

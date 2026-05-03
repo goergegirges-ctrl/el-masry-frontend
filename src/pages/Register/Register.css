@@ -316,14 +316,20 @@
     background: var(--surface);
     border-color: rgba(255, 255, 255, 0.06);
 }
+[data-theme="dark"] .rp-title { color: var(--text); }
+[data-theme="dark"] .rp-sub { color: var(--text-light); }
+[data-theme="dark"] .rp-label { color: var(--text-light); }
+[data-theme="dark"] .rp-footer { color: var(--text-light); }
 [data-theme="dark"] .rp-input {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text);
 }
 [data-theme="dark"] .rp-input:focus { border-color: var(--cyan-500); }
 [data-theme="dark"] .rp-soc {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text);
 }
 [data-theme="dark"] .rp-soc:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.08);

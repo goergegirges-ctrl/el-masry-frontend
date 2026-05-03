@@ -30,6 +30,8 @@
   font-family: var(--font-ar);
 }
 
+[data-theme="dark"] .explore-categories h1 { color: var(--text); }
+
 .explore-categories-text {
   color: var(--text-light);
   line-height: 1.6;

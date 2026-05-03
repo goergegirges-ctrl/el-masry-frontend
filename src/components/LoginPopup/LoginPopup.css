@@ -153,3 +153,10 @@
 .auth-switch-btn:hover {
   text-decoration: underline;
 }
+
+[data-theme="dark"] .login-popup-title { color: var(--text); }
+[data-theme="dark"] .login-popup-inputs input {
+  background: var(--surface-alt);
+  border-color: var(--border);
+  color: var(--text);
+}

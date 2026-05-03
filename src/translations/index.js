@@ -115,6 +115,13 @@ export const translations = {
         auth_oauthError: 'فشل تسجيل الدخول بواسطة الحساب الاجتماعي. يرجى المحاولة مجدداً.',
         auth_oauthProcessing: 'جارٍ تسجيل الدخول...',
 
+        // Login hero
+        login_heroHeadline: 'قطع غيار أصلية بأسرع وقت',
+        login_heroSub: 'السوق الاحترافي الأول في مصر لقطع غيار الشاشات — ليدات وتيكونات وبوردات وكوفات بضمان ١٢ شهراً.',
+        login_statBuyersLabel: 'مشترٍ محترف',
+        login_statSKUsLabel: 'منتج متاح',
+        login_statDeliveryLabel: 'توصيل القاهرة',
+
         // Cart
         cart_title: 'سلة التسوق',
         cart_summary: 'ملخص الطلب',
@@ -196,12 +203,27 @@ export const translations = {
         orders_title: 'طلباتي',
         orders_orderId: 'رقم الطلب',
         orders_date: 'التاريخ',
+        orders_items: 'منتجات',
+        orders_total: 'الإجمالي',
         orders_viewDetails: 'عرض التفاصيل',
+        orders_showDetails: 'عرض التفاصيل',
+        orders_hideDetails: 'إخفاء التفاصيل',
         orders_noOrders: 'لا توجد طلبات بعد',
         orders_noOrdersMsg: 'ستظهر طلباتك هنا بعد إتمام أول عملية شراء',
         orders_shopNow: 'تسوق الآن',
         orders_loading: 'جارٍ تحميل الطلبات...',
         orders_tryAgain: 'حاول مجدداً',
+        orders_product: 'المنتجات',
+        orders_subtotal: 'المجموع الفرعي',
+        orders_deliveryFee: 'رسوم التوصيل',
+        orders_deliveryTbd: 'يُحدد لاحقاً',
+        orders_status_pending: 'قيد الانتظار',
+        orders_status_processing: 'قيد التجهيز',
+        orders_status_confirmed: 'مُؤكد',
+        orders_status_shipped: 'تم الشحن',
+        orders_status_outForDelivery: 'في الطريق',
+        orders_status_delivered: 'تم التسليم',
+        orders_status_cancelled: 'ملغي',
 
         // Profile
         profile_loading: 'جارٍ تحميل ملفك الشخصي...',
@@ -406,6 +428,13 @@ export const translations = {
         auth_oauthError: 'OAuth login failed. Please try again.',
         auth_oauthProcessing: 'Signing in...',
 
+        // Login hero
+        login_heroHeadline: 'Genuine TV spare parts, delivered fast.',
+        login_heroSub: "Egypt's professional marketplace for screens, boards, backlight LEDs and flex cables — with 12-month warranty.",
+        login_statBuyersLabel: 'Pro Buyers',
+        login_statSKUsLabel: 'SKUs in Stock',
+        login_statDeliveryLabel: 'Cairo Delivery',
+
         // Cart
         cart_title: 'Shopping Cart',
         cart_summary: 'Order Summary',
@@ -487,12 +516,27 @@ export const translations = {
         orders_title: 'My Orders',
         orders_orderId: 'Order ID',
         orders_date: 'Date',
+        orders_items: 'items',
+        orders_total: 'Total',
         orders_viewDetails: 'View Details',
+        orders_showDetails: 'Show Details',
+        orders_hideDetails: 'Hide Details',
         orders_noOrders: 'No orders yet',
         orders_noOrdersMsg: 'Your orders will appear here once you place one',
         orders_shopNow: 'Shop Now',
         orders_loading: 'Loading orders...',
         orders_tryAgain: 'Try again',
+        orders_product: 'Products',
+        orders_subtotal: 'Subtotal',
+        orders_deliveryFee: 'Delivery Fee',
+        orders_deliveryTbd: 'TBD',
+        orders_status_pending: 'Pending',
+        orders_status_processing: 'Processing',
+        orders_status_confirmed: 'Confirmed',
+        orders_status_shipped: 'Shipped',
+        orders_status_outForDelivery: 'Out for Delivery',
+        orders_status_delivered: 'Delivered',
+        orders_status_cancelled: 'Cancelled',
 
         // Profile
         profile_loading: 'Loading your profile...',

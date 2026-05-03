@@ -136,3 +136,13 @@
     color: var(--warning-text);
     font-weight: 700;
 }
+
+[data-theme="dark"] .star-label { color: var(--text-light); }
+[data-theme="dark"] .review-form {
+    background: var(--surface-alt);
+}
+[data-theme="dark"] .review-form textarea {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text);
+}

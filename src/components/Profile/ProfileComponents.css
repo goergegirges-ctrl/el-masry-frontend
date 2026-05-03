@@ -402,4 +402,20 @@
   background: linear-gradient(to top, rgba(10, 22, 40, 1) 80%, rgba(10, 22, 40, 0));
 }
 
+[data-theme="dark"] .stat-value { color: var(--text); }
+[data-theme="dark"] .icon-wrapper { color: var(--text-light); }
+[data-theme="dark"] .input-group input {
+  background: var(--surface-alt);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .avatar-circle {
+  background-color: var(--surface-alt);
+  color: var(--text);
+}
+[data-theme="dark"] .logout-btn-redesign {
+  background-color: var(--surface-alt);
+  color: var(--text);
+}
+
 

@@ -283,3 +283,6 @@
 [data-theme="dark"] .wishlist-btn-container:hover {
   background-color: var(--surface);
 }
+
+[data-theme="dark"] .product-item-counter p { color: var(--accent); }
+[data-theme="dark"] .wishlist-btn-container:hover { background-color: var(--surface-alt); }

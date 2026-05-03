@@ -438,3 +438,28 @@
   border-radius: 50%;
   animation: page-spin 0.8s linear infinite;
 }
+
+/* ------- DARK MODE ------- */
+[data-theme="dark"] .btn-secondary { color: var(--text); border-color: var(--border); }
+[data-theme="dark"] .iconbtn { color: var(--text-light); border-color: var(--border); }
+[data-theme="dark"] .field label { color: var(--text); }
+[data-theme="dark"] .input,
+[data-theme="dark"] .textarea,
+[data-theme="dark"] .select {
+  color: var(--text);
+  background: var(--surface-alt);
+  border-color: var(--border);
+}
+[data-theme="dark"] .badge.neutral {
+  background: var(--surface-alt);
+  color: var(--text-light);
+  border-color: var(--border);
+}
+[data-theme="dark"] .chip { color: var(--text); border-color: var(--border); }
+[data-theme="dark"] .tab:hover { color: var(--text); }
+[data-theme="dark"] .pag button {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] .crumbs .current { color: var(--text); }

@@ -229,3 +229,8 @@
     text-align: left;
   }
 }
+
+[data-theme="dark"] .cart-title { color: var(--text); }
+[data-theme="dark"] .cart-total h3 { color: var(--text); }
+[data-theme="dark"] .quantity-controls button { color: var(--accent); }
+[data-theme="dark"] .item-total { color: var(--accent); }

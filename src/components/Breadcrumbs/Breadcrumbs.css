@@ -28,3 +28,5 @@
     color: var(--primary-dark);
     font-weight: 600;
 }
+
+[data-theme="dark"] .current { color: var(--text); }

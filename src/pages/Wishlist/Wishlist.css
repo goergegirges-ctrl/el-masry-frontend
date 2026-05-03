@@ -114,3 +114,4 @@
 [data-theme="dark"] .empty-icon-wrapper {
   background: var(--surface-alt);
 }
+[data-theme="dark"] .return-btn:hover { background: var(--cyan-500); }

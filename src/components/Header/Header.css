@@ -73,6 +73,7 @@
   transform: translateY(-5px) scale(1.05);
   box-shadow: 0 12px 40px rgba(0, 180, 216, 0.6);
 }
+[data-theme="dark"] .header-contents button:hover { background-color: var(--cyan-500); }
 
 .header-contents button:active {
   transform: translateY(-3px) scale(0.97);

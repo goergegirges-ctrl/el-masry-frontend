@@ -216,3 +216,5 @@
         font-size: 16px;
     }
 }
+
+[data-theme="dark"] .auth-title-ar { color: var(--text); }
