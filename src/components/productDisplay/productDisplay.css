@@ -101,3 +101,44 @@
 [data-theme="dark"] .skeleton-image { background-color: var(--navy-700); }
 [data-theme="dark"] .skeleton-text { background-color: var(--navy-800); }
 [data-theme="dark"] .product-display h2 { color: var(--text); }
+
+/* View All */
+.view-all-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 36px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line-200);
+  background: var(--surface);
+  color: var(--navy-700);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-ar);
+  text-decoration: none;
+  transition:
+    border-color var(--t-fast, 150ms),
+    background var(--t-fast, 150ms),
+    color var(--t-fast, 150ms),
+    box-shadow var(--t-base, 250ms);
+  cursor: pointer;
+}
+.view-all-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 180, 216, 0.15);
+}
+[data-theme="dark"] .view-all-btn {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+[data-theme="dark"] .view-all-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

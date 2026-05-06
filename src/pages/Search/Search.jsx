@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { StoreContext } from '../../context/StoreContext';
-import axios from 'axios';
+import axiosClient from '../../utils/axiosClient';
 import { Helmet } from 'react-helmet-async';
 import './Search.css';
 import ProductItem from '../../components/productItem/productItem';
@@ -18,7 +17,6 @@ function getPageNumbers(current, total) {
 }
 
 const Search = () => {
-    const { url } = useContext(StoreContext);
     const { t } = useLanguage();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -38,7 +36,7 @@ const Search = () => {
     const fetchSearchResults = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${url}/api/product/search`, {
+            const response = await axiosClient.get('/api/product/search', {
                 params: {
                     q: searchQuery,
                     category: categoryQuery,

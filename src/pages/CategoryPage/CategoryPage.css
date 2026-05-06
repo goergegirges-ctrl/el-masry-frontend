@@ -124,6 +124,69 @@
     background: #f1f5f9;
 }
 
+/* ── COF Prefix Filter Chips ── */
+.prefix-filter-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 0 14px;
+    margin-bottom: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.prefix-filter-bar::-webkit-scrollbar { display: none; }
+
+.prefix-chip {
+    flex-shrink: 0;
+    padding: 7px 18px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line-200);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font-mono, 'Roboto Mono', monospace);
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+    transition:
+        background var(--t-fast, 150ms),
+        border-color var(--t-fast, 150ms),
+        color var(--t-fast, 150ms);
+}
+.prefix-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--info-bg);
+}
+.prefix-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--primary-dark);
+}
+.prefix-chip:active { transform: scale(0.95); }
+
+/* First chip (الكل) uses Arabic font */
+.prefix-chip:first-child {
+    font-family: var(--font-ar);
+}
+
+[data-theme="dark"] .prefix-chip {
+    border-color: var(--border);
+    background: var(--surface);
+    color: var(--text);
+}
+[data-theme="dark"] .prefix-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--info-bg);
+}
+[data-theme="dark"] .prefix-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--primary-dark);
+}
+
 /* Re-use or adapt ProductDisplay grid */
 .category-page .product-display-list {
     display: grid;

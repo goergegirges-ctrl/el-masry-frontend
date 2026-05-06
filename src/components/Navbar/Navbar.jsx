@@ -1,34 +1,38 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import './Navbar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import logoHorizontal from '@/assets/logo-horizontal-light.svg';
 import logoMark from '@/assets/logo-mark-mono-light.svg';
-import { Search, ShoppingCart, X, User, Heart } from 'lucide-react';
+import { Search, ShoppingCart, User, Heart, Home, LayoutGrid, ChevronDown, LogOut, Package } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import { useLanguage } from '../../context/LanguageContext';
 import { formatCategoryName } from '../../utils/seoHelpers';
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = () => {
   const { t } = useLanguage();
-  const [menu, setMenu] = useState("home");
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const navigate = useNavigate();
 
-  // Search States
-  const [inputValue, setInputValue] = useState("");
-  const [debouncedValue, setDebouncedValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
+  const [debouncedValue, setDebouncedValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const searchRef = useRef(null);
-  const { getTotalCartCount, product_list, token, userData, getWishlistCount } = useContext(StoreContext);
-
-  // Sticky Scroll Logic — ref guard prevents setState on every scroll tick;
-  // only fires on the actual false→true and true→false transitions.
+  const categoriesRef = useRef(null);
+  const userRef = useRef(null);
   const isStickyRef = useRef(false);
+
+  const {
+    getTotalCartCount, product_list, token, userData,
+    getWishlistCount, setToken, setUserData, categories,
+  } = useContext(StoreContext);
+
+  // Sticky on scroll
   useEffect(() => {
     const handleScroll = () => {
       const shouldBeSticky = window.scrollY > 50;
@@ -41,21 +45,17 @@ const Navbar = ({ setShowLogin }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Debounce Logic
+  // Debounce search input
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(inputValue);
-    }, 300);
+    const handler = setTimeout(() => setDebouncedValue(inputValue), 300);
     return () => clearTimeout(handler);
   }, [inputValue]);
 
-  // Fuzzy Match Logic
+  // Fuzzy search
   const fuzzyMatch = (productName, query) => {
     const name = productName.toLowerCase();
     const q = query.toLowerCase().trim();
     if (!q) return true;
-
-    // Check if all typed characters appear in order inside the name
     let i = 0;
     for (const char of name) {
       if (char === q[i]) i++;
@@ -64,65 +64,108 @@ const Navbar = ({ setShowLogin }) => {
     return false;
   };
 
-  // Filter Logic
   useEffect(() => {
-    if (debouncedValue.trim() === "") {
+    if (!debouncedValue.trim()) {
       setSearchResults([]);
       setShowDropdown(false);
       return;
     }
-    const filtered = product_list.filter(product =>
-      fuzzyMatch(product.name, debouncedValue)
-    );
-    setSearchResults(filtered);
+    setSearchResults(product_list.filter(p => fuzzyMatch(p.name, debouncedValue)));
     setShowDropdown(true);
   }, [debouncedValue, product_list]);
 
-  // Click Outside to Close
+  // Click outside to close dropdowns
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) setShowDropdown(false);
+      if (userRef.current && !userRef.current.contains(e.target)) setShowUserDropdown(false);
+      if (categoriesRef.current && !categoriesRef.current.contains(e.target)) setShowCategoriesDropdown(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
-  const closeMobileMenu = () => setShowMobileMenu(false);
 
   const handleSearchClick = (product) => {
     navigate(`/product/${product.id}`);
     setShowDropdown(false);
-    setInputValue("");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+    setInputValue('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setToken('');
+    setUserData(null);
+    setShowUserDropdown(false);
+    navigate('/');
+  };
 
   return (
     <div className={`navbar-wrapper ${isSticky ? 'sticky' : ''}`}>
-      <div className='navbar'>
+      <div className="navbar">
+
+        {/* Left: Logo + Desktop Nav Links */}
         <div className="navbar-left">
-          <button
-            type="button"
-            className={`hamburger-icon ${showMobileMenu ? 'open' : ''}`}
-            onClick={toggleMobileMenu}
-            aria-label={showMobileMenu ? t('nav_closeMenu') : t('nav_openMenu')}
-            aria-expanded={showMobileMenu}
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </button>
-          <Link to='/' onClick={() => setMenu("home")} className="logo-link">
+          <Link to="/" className="logo-link">
             <img src={logoHorizontal} className="logo" alt="El-Masry Electronics" />
           </Link>
+
+          <nav className="desktop-nav" aria-label="Main navigation">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) => `nav-pill${isActive ? ' active' : ''}`}
+            >
+              <Home size={15} aria-hidden="true" />
+              <span>{t('nav_home')}</span>
+            </NavLink>
+
+            <div
+              className="nav-pill categories-trigger"
+              ref={categoriesRef}
+              onMouseEnter={() => setShowCategoriesDropdown(true)}
+              onMouseLeave={() => setShowCategoriesDropdown(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setShowCategoriesDropdown(v => !v)}
+                aria-expanded={showCategoriesDropdown}
+                aria-haspopup="true"
+              >
+                <LayoutGrid size={15} aria-hidden="true" />
+                <span>{t('nav_categories')}</span>
+                <ChevronDown
+                  size={12}
+                  className={`chev ${showCategoriesDropdown ? 'open' : ''}`}
+                  aria-hidden="true"
+                />
+              </button>
+
+              {showCategoriesDropdown && categories.length > 0 && (
+                <div className="categories-dropdown" role="menu">
+                  {categories.map((cat, i) => (
+                    <Link
+                      key={i}
+                      to={`/category/${cat.slug || cat.category_slug}`}
+                      className="cat-dropdown-item"
+                      role="menuitem"
+                      onClick={() => setShowCategoriesDropdown(false)}
+                    >
+                      {formatCategoryName(cat.nameAr || cat.category_name)}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </nav>
         </div>
 
+        {/* Center: Search */}
         <div className="navbar-center">
           <div className="navbar-search-bar" ref={searchRef}>
             <div className="search-input-wrapper">
-              <Search className="search-icon" size={20} />
+              <Search className="search-icon" size={20} aria-hidden="true" />
               <input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -151,13 +194,13 @@ const Navbar = ({ setShowLogin }) => {
                       onClick={() => handleSearchClick(product)}
                     >
                       <img
-                        src={(product.images && product.images.length > 0) ? product.images[0] : logoMark}
+                        src={product.images?.length > 0 ? product.images[0] : logoMark}
                         alt={product.name}
                       />
                       <div className="info">
                         <p className="category">{formatCategoryName(product.category)}</p>
                         <p className="name">{product.name}</p>
-                         <p className="price">{product.price} ج.م</p>
+                        <p className="price">{product.price} ج.م</p>
                       </div>
                     </button>
                   ))
@@ -169,52 +212,108 @@ const Navbar = ({ setShowLogin }) => {
           </div>
         </div>
 
+        {/* Right: Actions */}
         <div className="navbar-right">
           <div className="navbar-actions">
             <LanguageSwitcher />
             <ThemeToggle />
-            <Link to='/wishlist' className="action-item wishlist-link">
-              <Heart size={24} color="#FFFFFF" />
-              {getWishlistCount() > 0 && <span className="wishlist-badge">{getWishlistCount()}</span>}
-            </Link>
-            <Link to='/cart' className="action-item cart-link">
-              <ShoppingCart size={24} color="#FFFFFF" />
-              {getTotalCartCount() > 0 && <span className="cart-badge">{getTotalCartCount()}</span>}
-            </Link>
-            {!token ? (
-              <button className="signin-btn" onClick={() => navigate('/login')}>
-                <User size={20} />
-                <span>{t('nav_login')}</span>
-              </button>
-            ) : (
-              <Link to='/profile' className="profile-link-btn">
-                <User size={20} color="#FFFFFF" />
-                <span className="user-name">{userData?.firstName}</span>
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
 
-      <div className={`mobile-menu ${showMobileMenu ? 'active' : ''}`}>
-        <div className="mobile-menu-content">
-          <div className="mobile-header">
-            <img src={logoMark} className="mobile-logo" alt="El-Masry Electronics" />
-            <button type="button" onClick={closeMobileMenu} className="mobile-close-btn" aria-label={t('nav_closeMenu')}>
-              <X size={28} aria-hidden="true" />
-            </button>
+            <Link to="/wishlist" className="action-item wishlist-link" aria-label={t('pi_addToWishlist')}>
+              <Heart size={22} />
+              {getWishlistCount() > 0 && (
+                <span className="wishlist-badge">{getWishlistCount()}</span>
+              )}
+            </Link>
+
+            <Link to="/cart" className="action-item cart-link" aria-label="Cart">
+              <ShoppingCart size={22} />
+              {getTotalCartCount() > 0 && (
+                <span className="cart-badge">{getTotalCartCount()}</span>
+              )}
+            </Link>
+
+            {/* User dropdown */}
+            <div className="user-menu" ref={userRef}>
+              <button
+                type="button"
+                className="user-menu-btn"
+                onClick={() => setShowUserDropdown(v => !v)}
+                aria-expanded={showUserDropdown}
+                aria-haspopup="true"
+              >
+                <User size={18} aria-hidden="true" />
+                {token && userData?.firstName && (
+                  <span className="user-name-label">{userData.firstName}</span>
+                )}
+                <ChevronDown
+                  size={12}
+                  className={`chev ${showUserDropdown ? 'open' : ''}`}
+                  aria-hidden="true"
+                />
+              </button>
+
+              {showUserDropdown && (
+                <div className="user-dropdown" role="menu">
+                  {!token ? (
+                    <>
+                      <Link
+                        to="/login"
+                        className="user-dropdown-item"
+                        role="menuitem"
+                        onClick={() => setShowUserDropdown(false)}
+                      >
+                        <User size={15} aria-hidden="true" />
+                        {t('nav_login')}
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="user-dropdown-item"
+                        role="menuitem"
+                        onClick={() => setShowUserDropdown(false)}
+                      >
+                        <Package size={15} aria-hidden="true" />
+                        {t('auth_register')}
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/profile"
+                        className="user-dropdown-item"
+                        role="menuitem"
+                        onClick={() => setShowUserDropdown(false)}
+                      >
+                        <User size={15} aria-hidden="true" />
+                        {t('nav_profile')}
+                      </Link>
+                      <Link
+                        to="/my-orders"
+                        className="user-dropdown-item"
+                        role="menuitem"
+                        onClick={() => setShowUserDropdown(false)}
+                      >
+                        <Package size={15} aria-hidden="true" />
+                        {t('orders_title')}
+                      </Link>
+                      <button
+                        type="button"
+                        className="user-dropdown-item danger"
+                        role="menuitem"
+                        onClick={handleLogout}
+                      >
+                        <LogOut size={15} aria-hidden="true" />
+                        {t('profile_logout')}
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-          <nav className="mobile-nav">
-            <Link to='/' onClick={() => { setMenu("home"); closeMobileMenu() }} className={menu === "home" ? "active" : ""}>{t('nav_home')}</Link>
-            <a href='#categories-section' onClick={() => { setMenu("categories"); closeMobileMenu() }}>{t('nav_categories')}</a>
-            <a href='#products-section' onClick={() => { setMenu("products"); closeMobileMenu() }}>{t('nav_products')}</a>
-            <a href='#footer' onClick={() => { setMenu("contact"); closeMobileMenu() }}>{t('nav_contact')}</a>
-          </nav>
         </div>
-        <div className="mobile-overlay" onClick={closeMobileMenu}></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Navbar;

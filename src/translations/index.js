@@ -11,12 +11,15 @@ export const translations = {
         nav_categories: 'الفئات',
         nav_products: 'المنتجات',
         nav_contact: 'اتصل بنا',
+        nav_profile: 'ملفي الشخصي',
 
         // Mobile nav
         mob_home: 'الرئيسية',
         mob_search: 'بحث',
         mob_cart: 'السلة',
         mob_account: 'حسابي',
+        mob_wishlist: 'المفضلة',
+        mob_categories: 'الفئات',
 
         // Footer
         footer_company: 'الشركة',
@@ -47,6 +50,7 @@ export const translations = {
         pd_sortNewest: 'الأحدث أولاً',
         pd_noFeatured: 'لا توجد منتجات مميزة حتى الآن',
         pd_noProducts: 'لا توجد منتجات',
+        pd_viewAll: 'عرض جميع المنتجات',
 
         // Product Item
         pi_outOfStock: 'نفد المخزون',
@@ -280,6 +284,7 @@ export const translations = {
         cat_productsFound: 'منتجات متاحة',
         cat_noProducts: 'لا توجد منتجات في هذه الفئة حتى الآن.',
         cat_notFound: 'الفئة غير موجودة',
+        cat_filterAll: 'الكل',
 
         // Order Success
         os_title: 'تم تقديم الطلب!',
@@ -324,12 +329,15 @@ export const translations = {
         nav_categories: 'Categories',
         nav_products: 'Products',
         nav_contact: 'Contact',
+        nav_profile: 'My Profile',
 
         // Mobile nav
         mob_home: 'Home',
         mob_search: 'Search',
         mob_cart: 'Cart',
         mob_account: 'Account',
+        mob_wishlist: 'Wishlist',
+        mob_categories: 'Categories',
 
         // Footer
         footer_company: 'COMPANY',
@@ -360,6 +368,7 @@ export const translations = {
         pd_sortNewest: 'Newest Arrivals',
         pd_noFeatured: 'No featured products yet',
         pd_noProducts: 'No products found',
+        pd_viewAll: 'View All Products',
 
         // Product Item
         pi_outOfStock: 'Out of Stock',
@@ -593,6 +602,7 @@ export const translations = {
         cat_productsFound: 'Products Found',
         cat_noProducts: 'No products available in this category yet.',
         cat_notFound: 'Category Not Found',
+        cat_filterAll: 'All',
 
         // Order Success
         os_title: 'Order Placed!',

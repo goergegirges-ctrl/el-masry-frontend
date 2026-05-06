@@ -1,47 +1,67 @@
 import React, { useContext, useState, useMemo } from 'react'
 import './productDisplay.css'
+import { Link } from 'react-router-dom'
 import { StoreContext } from '../../context/StoreContext'
 import ProductItem from '../productItem/productItem'
 import { useLanguage } from '../../context/LanguageContext'
 
-const ProductDisplay = ({ category }) => {
+const HOMEPAGE_LIMIT = 50;
 
+const ProductDisplay = ({ category }) => {
   const { product_list, search, showSearch, loading } = useContext(StoreContext);
   const { t } = useLanguage();
-  const [sortOption, setSortOption] = useState("relevant");
+  const [sortOption, setSortOption] = useState('relevant');
 
-  // Normalize category by removing "ال" article prefix for comparison
+  const isHomepage = category === 'All' && !showSearch;
+
   const normalizeCategory = (cat) => cat ? cat.replace(/^ال/, '') : '';
 
   const processedProducts = useMemo(() => {
     let products = [...product_list];
 
-    // Filter
-    products = products.filter(item => {
-      const isHomepage = category === "All" && !showSearch;
-      const featuredMatch = !isHomepage || item.isFeatured;
-      const categoryMatch = (category === "All" || normalizeCategory(category) === normalizeCategory(item.category));
-      const searchMatch = !showSearch || search.trim() === "" || item.name.toLowerCase().includes(search.toLowerCase());
-      return featuredMatch && categoryMatch && searchMatch;
-    });
+    // On homepage, show only featured products (mixed from all categories)
+    if (isHomepage) {
+      products = products.filter(item => item.isFeatured);
+    } else {
+      // Category filter
+      if (category !== 'All') {
+        products = products.filter(item =>
+          normalizeCategory(category) === normalizeCategory(item.category)
+        );
+      }
+      // Search filter
+      if (showSearch && search.trim()) {
+        products = products.filter(item =>
+          item.name.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+    }
 
     // Sort
-    if (sortOption === "low-high") {
+    if (sortOption === 'low-high') {
       products.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "high-low") {
+    } else if (sortOption === 'high-low') {
       products.sort((a, b) => b.price - a.price);
-    } else if (sortOption === "newest") {
-      // Newest arrivals first
+    } else if (sortOption === 'newest') {
       products.reverse();
     }
 
+    // Cap homepage at 50
+    if (isHomepage) {
+      products = products.slice(0, HOMEPAGE_LIMIT);
+    }
+
     return products;
-  }, [product_list, category, search, showSearch, sortOption]);
+  }, [product_list, category, search, showSearch, sortOption, isHomepage]);
 
   return (
-    <div className='product-display' id='products-section'>
+    <div className="product-display" id="products-section">
       <div className="product-display-header">
-        <h2>{showSearch && search ? `${t('pd_searchResultsFor')} "${search}"` : t('pd_topProducts')}</h2>
+        <h2>
+          {showSearch && search
+            ? `${t('pd_searchResultsFor')} "${search}"`
+            : t('pd_topProducts')}
+        </h2>
         <div className="product-sort">
           <select onChange={(e) => setSortOption(e.target.value)} value={sortOption}>
             <option value="relevant">{t('pd_sortRelevant')}</option>
@@ -54,7 +74,6 @@ const ProductDisplay = ({ category }) => {
 
       <div className="product-display-list">
         {loading ? (
-          // Skeleton Loaders
           Array(8).fill(0).map((_, index) => (
             <div key={index} className="skeleton-card">
               <div className="skeleton-image"></div>
@@ -80,12 +99,20 @@ const ProductDisplay = ({ category }) => {
           ))
         ) : (
           <div className="no-products-found">
-            <p>{category === "All" && !showSearch ? t('pd_noFeatured') : t('pd_noProducts')}</p>
+            <p>{isHomepage ? t('pd_noFeatured') : t('pd_noProducts')}</p>
           </div>
         )}
       </div>
-    </div>
-  )
-}
 
-export default ProductDisplay
+      {isHomepage && processedProducts.length > 0 && (
+        <div className="view-all-wrapper">
+          <Link to="/search" className="view-all-btn">
+            {t('pd_viewAll')}
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProductDisplay;

@@ -9,6 +9,7 @@ import { formatCategoryName } from '../../utils/seoHelpers';
 import { useLanguage } from '../../context/LanguageContext';
 
 const ITEMS_PER_PAGE = 40;
+const COF_SLUG = 'kofat';
 
 function getPageNumbers(current, total) {
     if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
@@ -17,14 +18,23 @@ function getPageNumbers(current, total) {
     return [1, '...', current - 1, current, current + 1, '...', total];
 }
 
+// Extract the short prefix code from a product name (e.g. "NT-32..." → "NT", "S6C-..." → "S6C")
+function getPrefix(name) {
+    const firstWord = (name || '').trim().split(' ')[0];
+    const code = firstWord.split('-')[0];
+    return code.slice(0, 3).toUpperCase();
+}
+
 const CategoryPage = () => {
     const { categorySlug } = useParams();
     const navigate = useNavigate();
-    const { product_list, loading, url } = useContext(StoreContext);
+    const { product_list, loading } = useContext(StoreContext);
     const { t } = useLanguage();
     const [page, setPage] = useState(1);
+    const [prefixFilter, setPrefixFilter] = useState(null);
 
-    // Map slug back to Arabic name for filtering
+    const isCofCategory = categorySlug === COF_SLUG;
+
     const currentCategory = useMemo(() => {
         return category_list.find(cat => cat.category_slug === categorySlug);
     }, [categorySlug]);
@@ -34,13 +44,44 @@ const CategoryPage = () => {
         return product_list.filter(item => item.category === currentCategory.category_name);
     }, [product_list, currentCategory]);
 
-    const pageCount = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+    // Auto-generated prefix groups — only computed for the كوفات category
+    const prefixes = useMemo(() => {
+        if (!isCofCategory) return [];
+        const seen = new Map();
+        filteredProducts.forEach(p => {
+            const pref = getPrefix(p.name);
+            if (!pref) return;
+            seen.set(pref, (seen.get(pref) || 0) + 1);
+        });
+        return Array.from(seen.entries())
+            .sort((a, b) => b[1] - a[1])
+            .map(([prefix]) => prefix);
+    }, [filteredProducts, isCofCategory]);
+
+    const visibleProducts = useMemo(() => {
+        if (!isCofCategory || !prefixFilter) return filteredProducts;
+        return filteredProducts.filter(p => getPrefix(p.name) === prefixFilter);
+    }, [filteredProducts, isCofCategory, prefixFilter]);
+
+    const pageCount = Math.ceil(visibleProducts.length / ITEMS_PER_PAGE);
     const pagedProducts = useMemo(() => {
         const start = (page - 1) * ITEMS_PER_PAGE;
-        return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
-    }, [filteredProducts, page]);
+        return visibleProducts.slice(start, start + ITEMS_PER_PAGE);
+    }, [visibleProducts, page]);
 
-    useEffect(() => { setPage(1); }, [categorySlug]);
+    // Reset page and filter when switching categories
+    useEffect(() => {
+        setPage(1);
+        setPrefixFilter(null);
+    }, [categorySlug]);
+
+    // Reset to page 1 when prefix filter changes
+    useEffect(() => { setPage(1); }, [prefixFilter]);
+
+    const goToPage = (p) => {
+        setPage(p);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     if (loading) {
         return (
@@ -58,7 +99,6 @@ const CategoryPage = () => {
         );
     }
 
-    // If no category selected, show all categories as choice
     if (!categorySlug) {
         return (
             <div className='category-page selection-view'>
@@ -97,8 +137,30 @@ const CategoryPage = () => {
             </div>
             <div className="category-header">
                 <h1>{formatCategoryName(currentCategory.category_name)}</h1>
-                <p>{filteredProducts.length} {t('cat_productsFound')}</p>
+                <p>{visibleProducts.length} {t('cat_productsFound')}</p>
             </div>
+
+            {isCofCategory && prefixes.length > 0 && (
+                <div className="prefix-filter-bar" role="toolbar" aria-label="Filter by code">
+                    <button
+                        type="button"
+                        className={`prefix-chip${!prefixFilter ? ' active' : ''}`}
+                        onClick={() => setPrefixFilter(null)}
+                    >
+                        {t('cat_filterAll')}
+                    </button>
+                    {prefixes.map(pref => (
+                        <button
+                            key={pref}
+                            type="button"
+                            className={`prefix-chip${prefixFilter === pref ? ' active' : ''}`}
+                            onClick={() => setPrefixFilter(prev => prev === pref ? null : pref)}
+                        >
+                            {pref}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div className="product-display-list">
                 {pagedProducts.length > 0 ? (
@@ -125,7 +187,7 @@ const CategoryPage = () => {
             {pageCount > 1 && (
                 <div className="pag-wrapper">
                     <div className="pag">
-                        <button disabled={page === 1} onClick={() => { setPage(p => p - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>‹</button>
+                        <button disabled={page === 1} onClick={() => goToPage(page - 1)}>‹</button>
                         {getPageNumbers(page, pageCount).map((p, i) =>
                             p === '...' ? (
                                 <span key={`ell-${i}`} className="ellipsis">…</span>
@@ -133,13 +195,13 @@ const CategoryPage = () => {
                                 <button
                                     key={p}
                                     className={page === p ? 'active' : ''}
-                                    onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                    onClick={() => goToPage(p)}
                                 >
                                     {p}
                                 </button>
                             )
                         )}
-                        <button disabled={page === pageCount} onClick={() => { setPage(p => p + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>›</button>
+                        <button disabled={page === pageCount} onClick={() => goToPage(page + 1)}>›</button>
                     </div>
                 </div>
             )}
