@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://elmasry-electronics.com/sitemap.xml
