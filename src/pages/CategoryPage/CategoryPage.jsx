@@ -7,6 +7,7 @@ import ProductItem from '../../components/productItem/productItem';
 import './CategoryPage.css';
 import { formatCategoryName } from '../../utils/seoHelpers';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 
 const ITEMS_PER_PAGE = 40;
 const COF_SLUG = 'kofat';
@@ -130,6 +131,12 @@ const CategoryPage = () => {
 
     return (
         <div className='category-page'>
+            <SEO 
+                title={`${formatCategoryName(currentCategory.category_name)} | المصري إلكترونيكس`}
+                description={`تصفح ${formatCategoryName(currentCategory.category_name)} بأفضل الأسعار في مصر - المصري إلكترونيكس`}
+                url={`https://elmasry-electronics.com/category/${categorySlug}`}
+                image={currentCategory.category_image}
+            />
             <div className='breadcrumb-wrapper'>
                 <div className='back-link' onClick={() => navigate('/')}>
                     <ChevronLeft size={16} aria-hidden="true" />{t('cat_backHome')}

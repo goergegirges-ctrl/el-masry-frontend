@@ -6,6 +6,7 @@ import ExploreCategories from '../../components/ExploreCategories/ExploreCategor
 import ProductDisplay from '../../components/productDisplay/productDisplay'
 import AppDownload from '../../components/AppDownload/Appdownload'
 import HighlightedProduct from '../../components/HighlightedProduct/HighlightedProduct';
+import SEO from '../../components/SEO/SEO';
 
 const Home = ({ selectedProduct, setSelectedProduct }) => {
 
@@ -24,6 +25,12 @@ const Home = ({ selectedProduct, setSelectedProduct }) => {
 
   return (
     <div>
+      <SEO 
+        title="المصري إلكترونيكس | قطع غيار الشاشات والكاميرات في مصر"
+        description="أفضل قطع غيار شاشات وكاميرات في مصر. كوفات المصري، ليدات المصري، تيكونات المصري، بورد المصري. شحن لجميع أنحاء مصر."
+        keywords="المصري إلكترونيكس, كوفات, ليدات, تيكونات, قطع غيار شاشات, مصر, المصري للإلكترونيات"
+        url="https://elmasry-electronics.com/"
+      />
       {selectedProduct && <HighlightedProduct product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
       <Header />
       <PromoBanner />

@@ -8,7 +8,7 @@ import Reviews from '../../components/Reviews/Reviews';
 import ProductItem from '../../components/productItem/productItem';
 import { Heart } from 'lucide-react';
 import axiosClient from '../../utils/axiosClient';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../../components/SEO/SEO';
 import { formatCategoryName } from '../../utils/seoHelpers';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -126,10 +126,12 @@ const ProductDetails = () => {
 
     return (
         <div className='product-details'>
-            <Helmet>
-                <title>{product.name} | El-Masry Electronics</title>
-                <meta name="description" content={product.description?.slice(0, 160) || `Buy ${product.name} at the best price on El-Masry.`} />
-            </Helmet>
+            <SEO 
+                title={`${product.name} | المصري إلكترونيكس`}
+                description={`اشتري ${product.name} بأفضل سعر في مصر من المصري إلكترونيكس. ${product.mpn || product.sku || ''}`}
+                url={`https://elmasry-electronics.com/product/${id}`}
+                image={mainImage}
+            />
             <div className='breadcrumb-wrapper'>
                 <nav className='crumbs' aria-label="breadcrumb">
                     <Link to="/">{t('pdp_home')}</Link>
