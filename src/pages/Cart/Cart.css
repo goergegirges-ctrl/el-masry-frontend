@@ -228,6 +228,35 @@
   .item-total {
     text-align: left;
   }
+
+  .cart-summary-container {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .cart-total {
+    position: static;
+  }
+
+  .checkout-btn {
+    min-height: 52px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-item-info img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cart-item-details .item-name {
+    font-size: 14px;
+  }
+
+  .cart-title {
+    font-size: 20px;
+  }
 }
 
 [data-theme="dark"] .cart-title { color: var(--text); }

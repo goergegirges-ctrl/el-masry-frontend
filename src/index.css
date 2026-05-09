@@ -55,6 +55,12 @@ body {
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  font-size: 15px;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 a {
@@ -377,4 +383,37 @@ button::-moz-focus-inner {
 /* Wishlist page background item */
 [data-theme="dark"] .wishlist-page {
   color: var(--text);
+}
+
+/* ==========================================================================
+   Mobile-first global utilities
+   ========================================================================== */
+
+/* Ensure body text never drops below 14px on small screens */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Global 44px minimum touch targets on mobile */
+@media (max-width: 768px) {
+  button:not([class*="social"]):not([class*="icon"]):not([class*="thumb"]):not([class*="wishlist-float"]):not([class*="pw-toggle"]) {
+    min-height: 44px;
+  }
+
+  a[class*="btn"],
+  a[class*="button"],
+  a[class*="checkout"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Prevent .app container from overflowing on narrow viewports */
+  .app {
+    width: 95%;
+    max-width: 100%;
+  }
 }

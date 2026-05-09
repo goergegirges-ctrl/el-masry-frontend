@@ -27,7 +27,7 @@ const Footer = () => {
           <div className="footer-social" aria-label="وسائل التواصل الاجتماعي / Social media">
             {/* Facebook */}
             <a
-              href="https://www.facebook.com/elmasryelectronics"
+              href="https://www.facebook.com/share/1DJTkEEifq/"
               target="_blank"
               rel="noopener noreferrer"
               className="footer-social-icon"
