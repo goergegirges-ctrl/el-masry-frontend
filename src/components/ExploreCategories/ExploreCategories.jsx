@@ -2,6 +2,7 @@ import { useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ExploreCategories.css'
 import { category_list } from '../../assets/assets'
+import defaultCategoryImg from '../../assets/menu_1.png'
 import { StoreContext } from '../../context/StoreContext'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatCategoryName } from '../../utils/seoHelpers'
@@ -62,7 +63,12 @@ const ExploreCategories = ({ category, setCategory }) => {
                 aria-current={category === name ? 'true' : undefined}
               >
                 <div className="category-img-wrapper">
-                  <img src={image} alt="" aria-hidden="true" />
+                  <img
+                    src={image || defaultCategoryImg}
+                    alt=""
+                    aria-hidden="true"
+                    onError={(e) => { e.currentTarget.src = defaultCategoryImg; }}
+                  />
                 </div>
                 <p>{formatCategoryName(name)}</p>
               </button>

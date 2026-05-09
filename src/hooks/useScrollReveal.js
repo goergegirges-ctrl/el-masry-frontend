@@ -11,13 +11,26 @@ const useScrollReveal = () => {
                     }
                 });
             },
-            { rootMargin: '0px 0px -150px 0px', threshold: 0 }
+            { rootMargin: '0px 0px -50px 0px', threshold: 0 }
         );
 
-        const elements = document.querySelectorAll('.reveal-on-scroll');
-        elements.forEach((el) => observer.observe(el));
+        const observeNew = () => {
+            document.querySelectorAll('.reveal-on-scroll:not(.active)').forEach((el) => {
+                observer.observe(el);
+            });
+        };
 
-        return () => observer.disconnect();
+        // Observe elements already in DOM
+        observeNew();
+
+        // Watch for elements added by lazy-loaded components (Suspense)
+        const mutationObserver = new MutationObserver(observeNew);
+        mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+        return () => {
+            observer.disconnect();
+            mutationObserver.disconnect();
+        };
     }, []);
 };
 
