@@ -73,8 +73,8 @@ a.nav-pill,
 }
 a.nav-pill:hover,
 a.nav-pill.active,
-.categories-trigger:hover > button,
-.categories-trigger > button:hover {
+.categories-trigger > button:hover,
+.categories-trigger > button[aria-expanded="true"] {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
 }
@@ -110,15 +110,6 @@ a.nav-pill.active,
   z-index: 1100;
   padding: 6px;
   animation: dropdown-enter 0.2s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
-}
-/* Invisible bridge fills the 8px gap so onMouseLeave doesn't fire mid-transition */
-.categories-dropdown::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  right: 0;
-  top: -8px;
-  height: 8px;
 }
 .cat-dropdown-item {
   display: block;

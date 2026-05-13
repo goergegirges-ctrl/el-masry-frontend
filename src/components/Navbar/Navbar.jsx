@@ -74,15 +74,26 @@ const Navbar = () => {
     setShowDropdown(true);
   }, [debouncedValue, product_list]);
 
-  // Click outside to close dropdowns
+  // Click outside / Escape to close dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) setShowDropdown(false);
       if (userRef.current && !userRef.current.contains(e.target)) setShowUserDropdown(false);
       if (categoriesRef.current && !categoriesRef.current.contains(e.target)) setShowCategoriesDropdown(false);
     };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setShowDropdown(false);
+        setShowUserDropdown(false);
+        setShowCategoriesDropdown(false);
+      }
+    };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const handleSearchClick = (product) => {
@@ -124,8 +135,6 @@ const Navbar = () => {
             <div
               className="nav-pill categories-trigger"
               ref={categoriesRef}
-              onMouseEnter={() => setShowCategoriesDropdown(true)}
-              onMouseLeave={() => setShowCategoriesDropdown(false)}
             >
               <button
                 type="button"
