@@ -9,6 +9,7 @@ import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import { useLanguage } from '../../context/LanguageContext';
 import { formatCategoryName } from '../../utils/seoHelpers';
+import { category_list } from '../../assets/assets';
 
 const Navbar = () => {
   const { t } = useLanguage();
@@ -31,6 +32,9 @@ const Navbar = () => {
     getTotalCartCount, product_list, token, userData,
     getWishlistCount, setToken, setUserData, categories,
   } = useContext(StoreContext);
+
+  // Fall back to static list while categories API is loading (mirrors MobileNavbar behaviour)
+  const catList = categories && categories.length > 0 ? categories : category_list;
 
   // Sticky on scroll
   useEffect(() => {
@@ -151,9 +155,9 @@ const Navbar = () => {
                 />
               </button>
 
-              {showCategoriesDropdown && categories.length > 0 && (
+              {showCategoriesDropdown && catList.length > 0 && (
                 <div className="categories-dropdown" role="menu">
-                  {categories.map((cat, i) => (
+                  {catList.map((cat, i) => (
                     <Link
                       key={i}
                       to={`/category/${cat.slug || cat.category_slug}`}
