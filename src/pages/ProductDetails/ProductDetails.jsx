@@ -6,7 +6,7 @@ import logoMark from '@/assets/logo-mark.svg';
 import './ProductDetails.css';
 import Reviews from '../../components/Reviews/Reviews';
 import ProductItem from '../../components/productItem/productItem';
-import { Heart } from 'lucide-react';
+import { Heart, Minus, Plus } from 'lucide-react';
 import axiosClient from '../../utils/axiosClient';
 import SEO from '../../components/SEO/SEO';
 import { formatCategoryName } from '../../utils/seoHelpers';
@@ -26,8 +26,10 @@ const ProductDetails = () => {
     const [activeTab, setActiveTab] = useState('description');
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
+        setQuantity(1);
         const fetchProduct = async () => {
             try {
                 const response = await axiosClient.get(`/api/product/${id}`);
@@ -195,13 +197,36 @@ const ProductDetails = () => {
 
                     <div className='product-actions'>
                         {product.stock > 0 ? (
-                            <button
-                                className='add-to-cart-big'
-                                onClick={() => addToCart(id)}
-                                disabled={cartItems?.[id] >= product.stock}
-                            >
-                                {cartItems?.[id] ? `${t('pdp_inCart')} (${cartItems[id]})` : t('pdp_addToCart')}
-                            </button>
+                            <div className="pdp-purchase-row">
+                                <div className="quantity-selector">
+                                    <button 
+                                        type="button" 
+                                        className="qty-btn" 
+                                        onClick={() => setQuantity(prev => Math.max(1, prev - 1))} 
+                                        disabled={quantity <= 1}
+                                        aria-label={t('pi_decreaseQty') || "Decrease quantity"}
+                                    >
+                                        <Minus size={16} />
+                                    </button>
+                                    <span className="qty-number">{quantity}</span>
+                                    <button 
+                                        type="button" 
+                                        className="qty-btn" 
+                                        onClick={() => setQuantity(prev => Math.min(product.stock, prev + 1))} 
+                                        disabled={quantity >= product.stock}
+                                        aria-label={t('pi_increaseQty') || "Increase quantity"}
+                                    >
+                                        <Plus size={16} />
+                                    </button>
+                                </div>
+                                <button
+                                    className='add-to-cart-big'
+                                    onClick={() => addToCart(id, quantity)}
+                                    disabled={cartItems?.[id] >= product.stock}
+                                >
+                                    {cartItems?.[id] ? `${t('pdp_inCart')} (${cartItems[id]})` : t('pdp_addToCart')}
+                                </button>
+                            </div>
                         ) : (
                             <button className='add-to-cart-big' disabled>{t('pdp_outOfStockBtn')}</button>
                         )}

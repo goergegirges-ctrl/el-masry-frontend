@@ -65,6 +65,10 @@ export const translations = {
         promo_title: 'شحن مجاني عند الطلب فوق ٥٠٠٠ ج.م',
         promo_cta: 'تسوق الآن',
 
+        // Homepage Custom Keys
+        home_noticeText: 'نأسف لأن الموقع ما زال تحت التحديث والتطوير المستمر. إذا وجدت أي اختلاف في سعر أحد المنتجات، يرجى إتمام الطلب وسيتم تأكيد السعر النهائي معكم من خلال خدمة العملاء قبل الشحن. سعدنا بزيارتكم.',
+        home_shippingMessage: 'استمتع بخدمة الشحن والدفع عند الاستلام ولا تهدر وقتاً في البحث.',
+
         // Highlighted Product
         hp_inStock: 'متوفر',
         hp_outOfStock: 'نفد المخزون',
@@ -382,6 +386,10 @@ export const translations = {
         // Promo Banner
         promo_title: 'Free delivery on orders over 5000 EGP',
         promo_cta: 'Shop Now',
+
+        // Homepage Custom Keys
+        home_noticeText: 'We apologize that the website is still under continuous update and development. If you find any discrepancy in the price of any product, please complete your order and the final price will be confirmed with you by customer service before shipping. We are glad you visited us.',
+        home_shippingMessage: 'Enjoy fast shipping and cash on delivery services, without wasting time searching.',
 
         // Highlighted Product
         hp_inStock: 'In Stock',
