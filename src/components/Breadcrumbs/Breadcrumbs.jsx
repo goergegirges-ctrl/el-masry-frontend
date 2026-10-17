@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { category_list } from '../../assets/assets';
+import { formatCategoryName } from '../../utils/seoHelpers';
 import './Breadcrumbs.css';
 
 const Breadcrumbs = () => {
@@ -24,10 +25,10 @@ const Breadcrumbs = () => {
                 // Human friendly names
                 let displayName = name.charAt(0).toUpperCase() + name.slice(1);
                 
-                // Map category slug to Arabic name
+                // Map category slug to Arabic display name (with brand suffix)
                 if (pathnames[index - 1] === 'category') {
                     const cat = category_list.find(c => c.category_slug === name);
-                    if (cat) displayName = cat.category_name;
+                    if (cat) displayName = formatCategoryName(cat.category_name);
                 }
 
                 if (name === 'order') displayName = 'Checkout';

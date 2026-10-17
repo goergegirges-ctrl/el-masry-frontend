@@ -70,12 +70,12 @@ export const category_list = [
     },
     {
         category_name: "ليدات",
-        category_slug: "led",
+        category_slug: "ledat",
         category_image: menu_3
     },
     {
         category_name: "بورد",
-        category_slug: "boards",
+        category_slug: "board",
         category_image: menu_4
     },
     {
@@ -85,7 +85,7 @@ export const category_list = [
     },
     {
         category_name: "كاميرات وأنظمة أمان",
-        category_slug: "cameras",
+        category_slug: "sec",
         category_image: menu_6
     },
     {
