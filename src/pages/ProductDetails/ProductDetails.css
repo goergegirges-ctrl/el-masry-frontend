@@ -228,6 +228,31 @@
     opacity: 0.85;
 }
 
+/* ── Compatible models ────────────────────────────────────── */
+.pdp-compat {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 0.75rem;
+    padding: 10px 14px;
+    border: 1px solid var(--line, rgba(128, 128, 128, 0.25));
+    border-radius: 10px;
+    background: var(--card, rgba(128, 128, 128, 0.06));
+    font-size: 0.95rem;
+}
+
+.pdp-compat-label {
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.pdp-compat-value {
+    color: var(--ink, inherit);
+    font-variant-numeric: tabular-nums;
+}
+
 /* ── Add to cart ───────────────────────────────────────────── */
 .product-actions {
     margin-top: 0.5rem;

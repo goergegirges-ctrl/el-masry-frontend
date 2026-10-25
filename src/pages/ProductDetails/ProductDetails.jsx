@@ -126,11 +126,16 @@ const ProductDetails = () => {
         setActiveThumb(index);
     };
 
+    const compatText = (product.compatible_models || '').trim();
+    const codeText = (product.sku || product.mpn || '').trim();
+    const seoTitle = `${product.name}${codeText ? ` ${codeText}` : ''}${compatText ? ` | متوافق مع ${compatText}` : ''} | المصري إلكترونيكس`.slice(0, 120);
+    const seoDescription = `اشتري ${product.name}${codeText ? ` ${codeText}` : ''} بأفضل سعر في مصر من المصري إلكترونيكس.${compatText ? ` متوافق مع: ${compatText}.` : ''}`.slice(0, 160);
+
     return (
         <div className='product-details'>
-            <SEO 
-                title={`${product.name} | المصري إلكترونيكس`}
-                description={`اشتري ${product.name} بأفضل سعر في مصر من المصري إلكترونيكس. ${product.mpn || product.sku || ''}`}
+            <SEO
+                title={seoTitle}
+                description={seoDescription}
                 url={`https://elmasry-electronics.com/product/${id}`}
                 image={mainImage}
             />
@@ -194,6 +199,13 @@ const ProductDetails = () => {
                     </div>
 
                     <p className='price'>{product.price} <span className="price-currency">ج.م</span></p>
+
+                    {compatText && (
+                        <div className="pdp-compat">
+                            <span className="pdp-compat-label">متوافق مع / Compatible with:</span>
+                            <span className="pdp-compat-value">{compatText}</span>
+                        </div>
+                    )}
 
                     <div className='product-actions'>
                         {product.stock > 0 ? (

@@ -68,13 +68,41 @@ const Navbar = () => {
     return false;
   };
 
+  // Relevance ranking: exact sku > exact compatible model > sku prefix > compat contains > name > brand/description
+  const scoreProduct = (product, rawQuery) => {
+    const query = rawQuery.toLowerCase().trim();
+    const sku = (product.sku || '').toLowerCase();
+    const compat = (product.compatible_models || '').toLowerCase();
+    const name = (product.name || '').toLowerCase();
+    const brand = (product.brand || '').toLowerCase();
+    const description = (product.description || '').toLowerCase();
+
+    let score = 10;
+    if (sku && sku === query) score = 100;
+    else if (compat.split(',').map(m => m.trim()).includes(query)) score = 90;
+    else if (sku && sku.startsWith(query)) score = 80;
+    else if (compat.includes(query)) score = 70;
+    else if (name.includes(query)) score = 50;
+    else if (brand.includes(query) || description.includes(query)) score = 20;
+
+    if (score > 10 && Number(product.stock) > 0) score += 5;
+    return score;
+  };
+
   useEffect(() => {
     if (!debouncedValue.trim()) {
       setSearchResults([]);
       setShowDropdown(false);
       return;
     }
-    setSearchResults(product_list.filter(p => fuzzyMatch(p.name, debouncedValue)));
+    setSearchResults(
+      product_list
+        .filter(p => fuzzyMatch(p.name, debouncedValue) || scoreProduct(p, debouncedValue) >= 50)
+        .map(p => ({ product: p, score: scoreProduct(p, debouncedValue) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6)
+        .map(({ product }) => product)
+    );
     setShowDropdown(true);
   }, [debouncedValue, product_list]);
 
