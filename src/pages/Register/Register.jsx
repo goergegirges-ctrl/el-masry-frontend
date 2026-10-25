@@ -5,6 +5,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { StoreContext } from '../../context/StoreContext';
 import { toast } from 'react-toastify';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 import './Register.css';
 
 /* ── Icons (shared with Login, inlined for isolation) ── */
@@ -114,6 +115,11 @@ const Register = () => {
 
     return (
         <div className="rp-shell">
+            <SEO
+                noindex
+                title="إنشاء حساب | المصري إلكترونيكس"
+                description="أنشئ حساباً جديداً في المصري إلكترونيكس لمتابعة طلباتك بسهولة."
+            />
             <div className="rp-blob rp-blob-1" aria-hidden="true" />
             <div className="rp-blob rp-blob-2" aria-hidden="true" />
 

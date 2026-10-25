@@ -131,9 +131,9 @@ const CategoryPage = () => {
 
     return (
         <div className='category-page'>
-            <SEO 
+            <SEO
                 title={`${formatCategoryName(currentCategory.category_name)} | المصري إلكترونيكس`}
-                description={`تصفح ${formatCategoryName(currentCategory.category_name)} بأفضل الأسعار في مصر - المصري إلكترونيكس`}
+                description={`تصفح ${formatCategoryName(currentCategory.category_name)} — قطع غيار أصلية للشاشات والكاميرات بأفضل الأسعار في مصر مع توصيل سريع. المصري إلكترونيكس.`}
                 url={`https://elmasry-electronics.com/category/${categorySlug}`}
                 image={currentCategory.category_image}
             />

@@ -11,8 +11,10 @@ const DEFAULT_IMAGE = `${SITE_URL}/favicon.svg`;
  * @param {string}  [keywords]  – Comma-separated keywords
  * @param {string}  [url]       – Canonical URL (defaults to SITE_URL)
  * @param {string}  [image]     – OG image URL (defaults to favicon)
+ * @param {boolean} [noindex]   – Exclude the page from search engines (noindex, follow)
+ * @param {object}  [jsonLd]    – Structured data object rendered as application/ld+json
  */
-const SEO = ({ title, description, keywords, url, image }) => {
+const SEO = ({ title, description, keywords, url, image, noindex, jsonLd }) => {
   const canonical = url || SITE_URL;
   const ogImage = image || DEFAULT_IMAGE;
 
@@ -21,6 +23,7 @@ const SEO = ({ title, description, keywords, url, image }) => {
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
+      {noindex && <meta name="robots" content="noindex, follow" />}
       <link rel="canonical" href={canonical} />
 
       {/* Open Graph */}
@@ -37,6 +40,9 @@ const SEO = ({ title, description, keywords, url, image }) => {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+
+      {/* Structured data */}
+      {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
     </Helmet>
   );
 };

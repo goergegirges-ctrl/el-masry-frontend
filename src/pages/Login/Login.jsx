@@ -5,6 +5,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { StoreContext } from '../../context/StoreContext';
 import { toast } from 'react-toastify';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 import './Login.css';
 
 /* ── Icons ── */
@@ -130,6 +131,11 @@ const Login = () => {
 
     return (
         <div className="fl-root">
+            <SEO
+                noindex
+                title="تسجيل الدخول | المصري إلكترونيكس"
+                description="سجّل الدخول إلى حسابك في المصري إلكترونيكس."
+            />
             {/* ── Hero panel ── */}
             <div className="fl-hero">
                 <div className="fl-brand">

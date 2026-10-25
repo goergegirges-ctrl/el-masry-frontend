@@ -5,6 +5,7 @@ import axiosClient from '../../utils/axiosClient';
 import { Package, ChevronDown, ChevronUp, ShoppingBag } from 'lucide-react';
 import './MyOrders.css';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 
 const STATUS_STEPS = [
     { key: 'placed',    labelKey: 'od_placed' },
@@ -128,6 +129,11 @@ const MyOrders = () => {
 
     return (
         <div className="my-orders-page">
+            <SEO
+                noindex
+                title="طلباتي | المصري إلكترونيكس"
+                description="تابع طلباتك السابقة وحالتها في المصري إلكترونيكس."
+            />
             <div className="mo-page-header">
                 <h1>{t('orders_title')}</h1>
                 {!loading && !error && orders.length > 0 && (

@@ -14,6 +14,17 @@ const Home = ({ selectedProduct, setSelectedProduct }) => {
   const { t } = useLanguage();
   const [category, setCategory] = useState('All')
 
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "المصري للإلكترونيات",
+    "alternateName": "El-Masry Electronics",
+    "url": "https://elmasry-electronics.com/",
+    "logo": "https://elmasry-electronics.com/logo.svg",
+    "telephone": ["+201229424078", "+201031451015"],
+    "sameAs": ["https://www.facebook.com/share/1DJTkEEifq/"]
+  };
+
   // Scroll to a section if requested by mobile Categories nav
   useEffect(() => {
     const target = sessionStorage.getItem('scrollTo');
@@ -27,11 +38,12 @@ const Home = ({ selectedProduct, setSelectedProduct }) => {
 
   return (
     <div>
-      <SEO 
-        title="المصري إلكترونيكس | قطع غيار الشاشات والكاميرات في مصر"
-        description="أفضل قطع غيار شاشات وكاميرات في مصر. كوفات المصري، ليدات المصري، تيكونات المصري، بورد المصري. شحن لجميع أنحاء مصر."
+      <SEO
+        title="المصري للإلكترونيات | قطع غيار شاشات، كوفات، ليدات وتيكونات في مصر"
+        description="+664 قطعة غيار للشاشات والكاميرات: COF، LED، T-CON، بوردات. بحث بكود الموديل وتوصيل لحد الورشة."
         keywords="المصري إلكترونيكس, كوفات, ليدات, تيكونات, قطع غيار شاشات, مصر, المصري للإلكترونيات"
         url="https://elmasry-electronics.com/"
+        jsonLd={organizationJsonLd}
       />
       {selectedProduct && <HighlightedProduct product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
       

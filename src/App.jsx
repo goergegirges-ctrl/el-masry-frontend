@@ -45,8 +45,8 @@ const App = () => {
     <>
       <ToastContainer theme={theme === 'dark' ? 'dark' : 'light'} />
       <Helmet>
-        <title>El-Masry Electronics | Leading Parts & Tech Store</title>
-        <meta name="description" content="Shop the best electronics, auto parts, and tech components at El-Masry Egypt." />
+        <title>المصري للإلكترونيات | قطع غيار شاشات، كوفات، ليدات وتيكونات في مصر</title>
+        <meta name="description" content="+664 قطعة غيار للشاشات والكاميرات: COF، LED، T-CON، بوردات. بحث بكود الموديل وتوصيل لحد الورشة." />
       </Helmet>
       <div className='app reveal-on-scroll'>
         <Navbar setSelectedProduct={setSelectedProduct} />

@@ -1,3 +1,9 @@
 User-agent: *
+Disallow: /wishlist
+Disallow: /login
+Disallow: /register
+Disallow: /cart
+Disallow: /my-orders
+Disallow: /auth/callback
 Allow: /
 Sitemap: https://elmasry-electronics.com/sitemap.xml

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Heart, Home } from 'lucide-react';
 import './Wishlist.css';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 
 const Wishlist = () => {
     const { wishlist, product_list } = useContext(StoreContext);
@@ -15,6 +16,11 @@ const Wishlist = () => {
 
     return (
         <div className='wishlist-page'>
+            <SEO
+                noindex
+                title="المفضلة | المصري إلكترونيكس"
+                description="قائمة المنتجات المفضلة لديك في المصري إلكترونيكس."
+            />
             <div className="wishlist-header">
                 <Heart size={32} className="heart-icon" fill="#ff4c24" stroke="#ff4c24" />
                 <h1>{t('wish_title')}</h1>

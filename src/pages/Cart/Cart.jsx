@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import logoMark from '@/assets/logo-mark.svg';
 import { ShoppingBag } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 
 const Cart = () => {
 
@@ -14,6 +15,11 @@ const Cart = () => {
 
   return (
     <div className='cart'>
+      <SEO
+        noindex
+        title="عربة التسوق | المصري إلكترونيكس"
+        description="راجع منتجات عربة التسوق وأكمل طلبك من المصري إلكترونيكس."
+      />
       <div className="cart-content">
         <div className="cart-items">
           <h2 className='cart-title'>{t('cart_title')}</h2>

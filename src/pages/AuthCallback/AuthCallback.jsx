@@ -5,6 +5,7 @@ import axiosClient from '../../utils/axiosClient';
 import { StoreContext } from '../../context/StoreContext';
 import { toast } from 'react-toastify';
 import { useLanguage } from '../../context/LanguageContext';
+import SEO from '../../components/SEO/SEO';
 
 const AuthCallback = () => {
     const navigate = useNavigate();
@@ -75,6 +76,11 @@ const AuthCallback = () => {
             color: 'var(--ink-500)',
             fontFamily: 'var(--font-en)',
         }}>
+            <SEO
+                noindex
+                title="جاري تسجيل الدخول | المصري إلكترونيكس"
+                description="جاري إتمام تسجيل الدخول في المصري إلكترونيكس."
+            />
             <div style={{
                 width: 40,
                 height: 40,
