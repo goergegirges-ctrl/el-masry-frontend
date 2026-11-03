@@ -11,6 +11,7 @@ import menu_5 from '../../assets/menu_5.png'
 import menu_6 from '../../assets/menu_6.png'
 import menu_7 from '../../assets/menu_7.png'
 import menu_8 from '../../assets/menu_8.png'
+import logo from '../../assets/logo.png'
 import { StoreContext } from '../../context/StoreContext'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatCategoryName } from '../../utils/seoHelpers'
@@ -29,6 +30,9 @@ const slugImageMap = {
   sec:       menu_6,
   screens:   menu_7,
   other:     menu_8,
+  // Categories without dedicated art yet — El-Masry logo as placeholder
+  'maintenance-supplies': logo,
+  converters:  logo,
   // Legacy slugs from category_list fallback
   led:       menu_3,
   boards:    menu_4,

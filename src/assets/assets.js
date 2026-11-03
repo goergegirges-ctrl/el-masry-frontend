@@ -14,7 +14,6 @@ import menu_5 from './menu_5.png'
 import menu_6 from './menu_6.png'
 import menu_7 from './menu_7.png'
 import menu_8 from './menu_8.png'
-
 import add_icon_white from './add_icon_white.png'
 import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
@@ -97,6 +96,17 @@ export const category_list = [
         category_name: "منتجات أخرى",
         category_slug: "other",
         category_image: menu_8
+    },
+    // Placeholder image = El-Masry logo until real category images are uploaded
+    {
+        category_name: "مستلزمات صيانة الماكنة",
+        category_slug: "maintenance-supplies",
+        category_image: logo
+    },
+    {
+        category_name: "تحويلات",
+        category_slug: "converters",
+        category_image: logo
     },
 ]
 
