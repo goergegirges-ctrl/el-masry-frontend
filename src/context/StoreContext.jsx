@@ -26,6 +26,13 @@ const StoreContextProvider = (props) => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user')) || null);
   const [wishlist, setWishlist] = useState(JSON.parse(localStorage.getItem("wishlist") || "[]"));
   const [categories, setCategories] = useState([]);
+  const [storefrontSettings, setStorefrontSettings] = useState({ hide_empty_new_arrivals: true });
+  const [cartQuote, setCartQuote] = useState(null);
+  const [quoteError, setQuoteError] = useState('');
+  const [priceRefresh, setPriceRefresh] = useState(0);
+  const cartKey = JSON.stringify(cartItems);
+  const quoteReady = cartQuote?.key === cartKey && cartQuote?.refresh === priceRefresh;
+  const refreshQuote = () => setPriceRefresh(value => value + 1);
 
   const addToCart = async (itemId, quantity = 1) => {
     const currentQty = cartItems[itemId] || 0;
@@ -38,7 +45,7 @@ const StoreContextProvider = (props) => {
         liveStock = res.data.data.stock;
         // Also update product_list in place so subsequent local reads are fresh
         setProductList((prev) =>
-          prev.map((p) => (p.id === itemId ? { ...p, stock: liveStock } : p))
+          prev.map((p) => (p.id === itemId ? { ...p, ...res.data.data } : p))
         );
       }
     } catch (err) {
@@ -76,18 +83,29 @@ const StoreContextProvider = (props) => {
     toast.error("Item Deleted", { position: "bottom-right", autoClose: 2000 });
   }
 
-  const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = product_list.find((product) => product.id === item);
-        if (itemInfo) {
-          totalAmount += itemInfo.price * cartItems[item];
-        }
-      }
-    }
-    return totalAmount;
-  }
+  // Totals come from the quote endpoint; browser prices never determine checkout totals.
+  const getTotalCartAmount = () => quoteReady ? cartQuote.subtotal : 0;
+
+  useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
+    const items = Object.entries(cartItems).filter(([, quantity]) => quantity > 0).map(([productId, quantity]) => ({ productId, quantity }));
+    setQuoteError('');
+    if (!items.length) { setCartQuote({ key: cartKey, refresh: priceRefresh, items: [], subtotal: 0, deliveryFee: 50 }); return; }
+    const timer = setTimeout(async () => {
+      try {
+        const { data } = await axiosClient.post('/api/order/quote', { items }, { signal: controller.signal });
+        if (!data.success) throw new Error('Unable to price cart');
+        if (cancelled) return;
+        setCartQuote({ ...data.data, key: cartKey, refresh: priceRefresh });
+        setProductList(previous => previous.map(product => {
+          const item = data.data.items.find(i => i.productId === product.id);
+          return item ? { ...product, effectivePrice: item.effectivePrice, price: item.originalPrice, hasOffer: item.hasOffer, discountPercent: item.discountPercent } : product;
+        }));
+      } catch (error) { if (!cancelled) setQuoteError(error.response?.data?.message || 'تعذر تحديث أسعار السلة / Unable to refresh cart prices'); }
+    }, 150);
+    return () => { cancelled = true; clearTimeout(timer); controller.abort(); };
+  }, [cartKey, priceRefresh]);
 
   const syncUserWishlist = async (tokenToUse, userToUse) => {
     if (!tokenToUse || !userToUse) return;
@@ -165,7 +183,13 @@ const StoreContextProvider = (props) => {
   }
 
   useEffect(() => {
-    Promise.all([fetchProductList(), fetchCategories()]);
+    const refresh = () => { fetchProductList(); fetchCategories(); refreshQuote();
+      axiosClient.get('/api/product/storefront-settings').then(({ data }) => { if (data.success) setStorefrontSettings(data.data); }).catch(() => {});
+    };
+    refresh();
+    const interval = setInterval(refresh, 60000);
+    window.addEventListener('focus', refresh);
+    return () => { clearInterval(interval); window.removeEventListener('focus', refresh); };
   }, [])
 
   useEffect(() => {
@@ -200,7 +224,7 @@ const StoreContextProvider = (props) => {
     toggleWishlist,
     getWishlistCount,
     syncUserWishlist,
-    categories
+    categories, storefrontSettings, cartQuote, quoteReady, quoteError, refreshQuote
   }
   return (
     <StoreContext.Provider value={contextValue}>

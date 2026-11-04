@@ -193,6 +193,19 @@
   }
 }
 
+.summary-item-prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.summary-item-original {
+  color: var(--text-muted, #888);
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
 [data-theme="dark"] .page-title { color: var(--text); }
 [data-theme="dark"] .section-title { color: var(--text); }
 [data-theme="dark"] .place-order-left input {

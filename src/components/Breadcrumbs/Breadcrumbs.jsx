@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { StoreContext } from '../../context/StoreContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Link, useLocation } from 'react-router-dom';
-import { category_list } from '../../assets/assets';
 import { formatCategoryName } from '../../utils/seoHelpers';
 import './Breadcrumbs.css';
 
 const Breadcrumbs = () => {
     const location = useLocation();
+    const { categories } = useContext(StoreContext);
+    const { language } = useLanguage();
     const pathnames = location.pathname.split('/').filter(x => x);
 
     if (location.pathname === '/' || pathnames[0] === 'product') return null;
@@ -27,8 +30,8 @@ const Breadcrumbs = () => {
                 
                 // Map category slug to Arabic display name (with brand suffix)
                 if (pathnames[index - 1] === 'category') {
-                    const cat = category_list.find(c => c.category_slug === name);
-                    if (cat) displayName = formatCategoryName(cat.category_name);
+                    const cat = categories.find(c => c.slug === name);
+                    if (cat) displayName = language === 'ar' ? cat.nameAr : cat.nameEn;
                 }
 
                 if (name === 'order') displayName = 'Checkout';

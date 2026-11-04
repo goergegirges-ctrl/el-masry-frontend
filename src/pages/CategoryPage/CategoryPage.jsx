@@ -1,8 +1,8 @@
+import { categoryImage } from '../../utils/categoryImage';
 import React, { useContext, useMemo, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { StoreContext } from '../../context/StoreContext';
-import { category_list } from '../../assets/assets';
 import ProductItem from '../../components/productItem/productItem';
 import './CategoryPage.css';
 import { formatCategoryName } from '../../utils/seoHelpers';
@@ -23,26 +23,35 @@ function getPageNumbers(current, total) {
 function getPrefix(name) {
     const firstWord = (name || '').trim().split(' ')[0];
     const code = firstWord.split('-')[0];
-    return code.slice(0, 3).toUpperCase();
+    return code.slice(0, 2).toUpperCase();
 }
 
 const CategoryPage = () => {
     const { categorySlug } = useParams();
     const navigate = useNavigate();
-    const { product_list, loading } = useContext(StoreContext);
-    const { t } = useLanguage();
+    const { product_list, loading, categories } = useContext(StoreContext);
+    const { t, language } = useLanguage();
     const [page, setPage] = useState(1);
     const [prefixFilter, setPrefixFilter] = useState(null);
 
     const isCofCategory = categorySlug === COF_SLUG;
 
     const currentCategory = useMemo(() => {
-        return category_list.find(cat => cat.category_slug === categorySlug);
-    }, [categorySlug]);
+        const pool = categories;
+        return pool.find(cat => (cat.slug || cat.category_slug) === categorySlug);
+    }, [categorySlug, categories]);
 
     const filteredProducts = useMemo(() => {
         if (!currentCategory) return [];
-        return product_list.filter(item => item.category === currentCategory.category_name);
+        const catName = currentCategory.nameAr || currentCategory.category_name;
+        const catSlug = currentCategory.slug || currentCategory.category_slug;
+        const catNameEn = currentCategory.nameEn;
+
+        return product_list.filter(item => 
+            item.category === catName || 
+            item.category === catSlug ||
+            (catNameEn && item.category === catNameEn)
+        );
     }, [product_list, currentCategory]);
 
     // Auto-generated prefix groups — only computed for the كوفات category
@@ -108,16 +117,16 @@ const CategoryPage = () => {
                     <p>{t('cat_subtitle')}</p>
                 </div>
                 <div className="categories-grid-circular">
-                    {category_list.map((item) => (
+                    {categories.map((item) => (
                         <div
-                            key={item.category_slug}
+                            key={item.slug}
                             className="category-card-circular"
-                            onClick={() => navigate(`/category/${item.category_slug}`)}
+                            onClick={() => navigate(`/category/${item.slug}`)}
                         >
                             <div className="circle-img-wrapper">
-                                <img src={item.category_image} alt={item.category_name} />
+                                <img src={categoryImage(item.image)} alt={item.nameAr} />
                             </div>
-                            <p>{formatCategoryName(item.category_name)}</p>
+                            <p>{formatCategoryName(item.nameAr)}</p>
                         </div>
                     ))}
                 </div>
@@ -178,6 +187,7 @@ const CategoryPage = () => {
                             name={item.name}
                             description={item.description}
                             price={item.price}
+              effectivePrice={item.effectivePrice} hasOffer={item.hasOffer} discountPercent={item.discountPercent} isNew={item.isNew}
                             images={item.images}
                             stock={item.stock}
                             condition={item.condition}

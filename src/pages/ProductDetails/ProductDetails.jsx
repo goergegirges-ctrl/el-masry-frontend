@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
-import { category_list } from '../../assets/assets';
 import logoMark from '@/assets/logo-mark.svg';
 import './ProductDetails.css';
 import Reviews from '../../components/Reviews/Reviews';
@@ -17,8 +16,8 @@ const ProductDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const { product_list, addToCart, cartItems, wishlist, toggleWishlist } = useContext(StoreContext);
-    const { t } = useLanguage();
+    const { product_list, categories, addToCart, cartItems, wishlist, toggleWishlist } = useContext(StoreContext);
+    const { t, language } = useLanguage();
 
     const [product, setProduct] = useState(null);
     const [mainImage, setMainImage] = useState('');
@@ -65,10 +64,9 @@ const ProductDetails = () => {
     const isWishlisted = wishlist.includes(id);
 
     const categorySlug = useMemo(() => {
-        if (!product?.category) return 'other';
-        const cat = category_list.find(c => c.category_name === product.category);
-        return cat ? cat.category_slug : 'other';
-    }, [product]);
+        const cat = categories.find(c => [c.slug, c.nameAr, c.nameEn].includes(product?.category));
+        return cat?.slug || '';
+    }, [product, categories]);
 
     const recommendedProducts = useMemo(() => {
         if (!product?.category || !product_list?.length) return [];
@@ -145,7 +143,7 @@ const ProductDetails = () => {
                     <span className="sep">/</span>
                     {product.category && (
                         <>
-                            <Link to={`/category/${categorySlug}`}>{formatCategoryName(product.category)}</Link>
+                            <Link to={categorySlug ? `/category/${categorySlug}` : '/'}>{formatCategoryName(product.category)}</Link>
                             <span className="sep">/</span>
                         </>
                     )}
@@ -174,6 +172,9 @@ const ProductDetails = () => {
                     )}
                     <div className='main-image-container'>
                         <img src={mainImage} alt={product.name} />
+                        {product.hasOffer && product.discountPercent > 0 && (
+                            <span className="pdp-discount-overlay">-{product.discountPercent}%</span>
+                        )}
                         <div className="tip-wrap wishlist-float-wrap">
                             <button className={`wishlist-float ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(id)}>
                                 <Heart size={22} fill={isWishlisted ? 'var(--danger)' : 'none'} stroke={isWishlisted ? 'var(--danger)' : 'currentColor'} />
@@ -196,9 +197,20 @@ const ProductDetails = () => {
                         {product.condition && (
                             <span className="pdp-condition-badge">{product.condition}</span>
                         )}
+                        {product.isNew && (
+                            <span className="details-stock-badge new-badge-pdp">جديد / NEW</span>
+                        )}
                     </div>
 
-                    <p className='price'>{product.price} <span className="price-currency">ج.م</span></p>
+                    {product.hasOffer ? (
+                      <div className="pdp-price-group">
+                        <p className='price'>{product.effectivePrice} <span className="price-currency">ج.م</span></p>
+                        <p className='price-original'>{product.price} <span className="price-currency">ج.م</span></p>
+                        <span className="pdp-savings-badge">{language === 'ar' ? 'وفّر' : 'Save'} {product.discountPercent}%</span>
+                      </div>
+                    ) : (
+                      <p className='price'>{product.price} <span className="price-currency">ج.م</span></p>
+                    )}
 
                     {compatText && (
                         <div className="pdp-compat">
@@ -302,6 +314,10 @@ const ProductDetails = () => {
                                 isActive={p.isActive}
                                 brand={p.brand}
                                 category={p.category}
+                                effectivePrice={p.effectivePrice}
+                                hasOffer={p.hasOffer}
+                                discountPercent={p.discountPercent}
+                                isNew={p.isNew}
                             />
                         ))}
                     </div>

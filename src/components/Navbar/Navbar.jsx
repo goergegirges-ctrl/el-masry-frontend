@@ -9,7 +9,6 @@ import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import { useLanguage } from '../../context/LanguageContext';
 import { formatCategoryName } from '../../utils/seoHelpers';
-import { category_list } from '../../assets/assets';
 
 const Navbar = () => {
   const { t } = useLanguage();
@@ -34,7 +33,7 @@ const Navbar = () => {
   } = useContext(StoreContext);
 
   // Fall back to static list while categories API is loading (mirrors MobileNavbar behaviour)
-  const catList = categories && categories.length > 0 ? categories : category_list;
+  const catList = categories;
 
   // Sticky on scroll
   useEffect(() => {

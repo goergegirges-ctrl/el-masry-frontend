@@ -1,49 +1,19 @@
+import { categoryImage } from '../../utils/categoryImage';
+import defaultCategoryImg from '../../assets/logo-mark.svg';
 import { useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './ExploreCategories.css'
-import { category_list } from '../../assets/assets'
-import defaultCategoryImg from '../../assets/menu_1.png'
-import menu_1 from '../../assets/menu_1.png'
-import menu_2 from '../../assets/menu_2.png'
-import menu_3 from '../../assets/menu_3.png'
-import menu_4 from '../../assets/menu_4.png'
-import menu_5 from '../../assets/menu_5.png'
-import menu_6 from '../../assets/menu_6.png'
-import menu_7 from '../../assets/menu_7.png'
-import menu_8 from '../../assets/menu_8.png'
-import logo from '../../assets/logo.png'
 import { StoreContext } from '../../context/StoreContext'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatCategoryName } from '../../utils/seoHelpers'
 import { useLanguage } from '../../context/LanguageContext'
 
-/* Map each category slug to its correctly-bundled local asset.
-   The Supabase `categories.image` column stores build-time paths like
-   "/src/assets/menu_1.png" which don't resolve at runtime — this lookup
-   ensures every category always shows its own unique image. */
-const slugImageMap = {
-  kofat:     menu_1,
-  tikounat:  menu_2,
-  ledat:     menu_3,
-  board:     menu_4,
-  pcb:       menu_5,
-  sec:       menu_6,
-  screens:   menu_7,
-  other:     menu_8,
-  // Categories without dedicated art yet — El-Masry logo as placeholder
-  'maintenance-supplies': logo,
-  converters:  logo,
-  // Legacy slugs from category_list fallback
-  led:       menu_3,
-  boards:    menu_4,
-  cameras:   menu_6,
-};
 
 const ExploreCategories = ({ category, setCategory }) => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const { categories } = useContext(StoreContext);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const scroll = (direction) => {
     const { current } = scrollRef;
@@ -69,11 +39,11 @@ const ExploreCategories = ({ category, setCategory }) => {
         </button>
 
         <div className="explore-categories-list" ref={scrollRef}>
-          {(categories && categories.length > 0 ? categories : category_list).map((item, index) => {
-            const name = item.nameAr || item.category_name;
+          {categories.map((item, index) => {
+            const name = language === 'ar' ? item.nameAr : item.nameEn;
             const slug = item.slug || item.category_slug;
             // Prefer the local bundled image via slug lookup; fall back to API value, then default
-            const image = slugImageMap[slug] || item.image || item.category_image;
+            const image = categoryImage(item.image);
 
             return (
               <button

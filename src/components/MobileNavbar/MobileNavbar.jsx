@@ -3,7 +3,6 @@ import { NavLink, Link } from 'react-router-dom';
 import { Home, LayoutGrid, ShoppingCart, Heart, User, X } from 'lucide-react';
 import { StoreContext } from '../../context/StoreContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { category_list } from '../../assets/assets';
 import { formatCategoryName } from '../../utils/seoHelpers';
 import './MobileNavbar.css';
 
@@ -13,7 +12,7 @@ const MobileNavbar = () => {
   const [showCatsSheet, setShowCatsSheet] = useState(false);
 
   // Use live categories from context; fall back to static list while loading
-  const catList = categories && categories.length > 0 ? categories : category_list;
+  const catList = categories;
 
   return (
     <>

@@ -48,15 +48,7 @@ const PlaceOrder = () => {
     if (!validate()) return;
 
     setIsProcessing(true);
-    let orderItems = [];
-    product_list.map((item) => {
-      if (cartItems[item.id] > 0) {
-        let itemInfo = { ...item };
-        itemInfo["quantity"] = cartItems[item.id];
-        itemInfo["productId"] = item.id;
-        orderItems.push(itemInfo);
-      }
-    })
+    const orderItems = Object.entries(cartItems).filter(([,quantity]) => quantity > 0).map(([productId,quantity]) => ({ productId,quantity }));
 
     let orderData = {
       customer: {
@@ -68,7 +60,7 @@ const PlaceOrder = () => {
         phone: data.phone
       },
       items: orderItems,
-      subtotal: getTotalCartAmount(),
+      shippingAddress: { street: data.street, city: data.city },
     }
 
     try {
@@ -140,7 +132,12 @@ const PlaceOrder = () => {
                   return (
                     <div key={index} className='summary-item'>
                       <span>{item.name} x {cartItems[item.id]}</span>
-                      <span>{item.price * cartItems[item.id]} ج.م</span>
+                      <div className="summary-item-prices">
+                        <span>{(item.effectivePrice != null ? item.effectivePrice : item.price) * cartItems[item.id]} ج.م</span>
+                        {item.hasOffer && (
+                          <span className="summary-item-original">{item.price * cartItems[item.id]} ج.م</span>
+                        )}
+                      </div>
                     </div>
                   )
                 }

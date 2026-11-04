@@ -9,10 +9,10 @@ import { Heart } from 'lucide-react'
 import { formatCategoryName } from '../../utils/seoHelpers'
 import { useLanguage } from '../../context/LanguageContext'
 
-const ProductItem = React.memo(({ id, name, price, description, images, stock, condition, isActive, brand, category }) => {
+const ProductItem = React.memo(({ id, name, price, description, images, stock, condition, isActive, brand, category, effectivePrice, hasOffer, discountPercent, isNew }) => {
 
   const { cartItems, addToCart, removeFromCart, url, wishlist, toggleWishlist } = useContext(StoreContext)
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const isWishlisted = wishlist.includes(id);
   const navigate = useNavigate();
 
@@ -42,6 +42,13 @@ const ProductItem = React.memo(({ id, name, price, description, images, stock, c
 
         {isOutOfStock && (
           <span className="badge out-of-stock">{t('pi_outOfStock')}</span>
+        )}
+
+        {hasOffer && discountPercent > 0 && (
+          <span className="badge discount-badge">-{discountPercent}%</span>
+        )}
+        {isNew && (
+          <span className="badge new-badge">{language === 'ar' ? 'جديد' : 'NEW'}</span>
         )}
 
         <button
@@ -90,7 +97,16 @@ const ProductItem = React.memo(({ id, name, price, description, images, stock, c
         </div>
         <p className="product-item-description">{description}</p>
         <div className="product-item-footer">
-          <p className="product-item-price">{price} ج.م</p>
+          <div className="product-item-prices">
+            {hasOffer ? (
+              <>
+                <p className="product-item-price">{effectivePrice} {language === 'ar' ? 'ج.م' : 'EGP'}</p>
+                <p className="product-item-price-original">{price} {language === 'ar' ? 'ج.م' : 'EGP'}</p>
+              </>
+            ) : (
+              <p className="product-item-price">{price} {language === 'ar' ? 'ج.م' : 'EGP'}</p>
+            )}
+          </div>
           <p className={`stock-status-text ${isOutOfStock ? 'out' : 'in'}`}>
             {isOutOfStock ? t('pi_outOfStock') : t('pi_inStock')}
           </p>

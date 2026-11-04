@@ -75,7 +75,9 @@ const HighlightedProduct = ({ product, onClose }) => {
                     <div className="highlight-footer">
                         <div className="highlight-price">
                             <span className="currency">ج.م</span>
-                            <span className="amount">{product.price}</span>
+                            <span className="amount">{product.effectivePrice ?? product.price}</span>
+                            {product.hasOffer && <del>{product.price} EGP</del>}
+                            {product.isNew && <span>جديد / NEW</span>}
                         </div>
 
                         {product.stock > 0 && (

@@ -9,6 +9,7 @@ import HighlightedProduct from '../../components/HighlightedProduct/HighlightedP
 import SEO from '../../components/SEO/SEO';
 import { Info, Truck } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import NewArrivals from '../../components/NewArrivals/NewArrivals';
 
 const Home = ({ selectedProduct, setSelectedProduct }) => {
   const { t } = useLanguage();
@@ -56,6 +57,7 @@ const Home = ({ selectedProduct, setSelectedProduct }) => {
       </div>
 
       <Header />
+      <NewArrivals />
 
       {/* Shipping & COD Trust Bar */}
       <div className="home-shipping-bar reveal-on-scroll">
@@ -66,6 +68,7 @@ const Home = ({ selectedProduct, setSelectedProduct }) => {
           <p className="home-shipping-text">{t('home_shippingMessage')}</p>
         </div>
       </div>
+
 
       <PromoBanner />
       <div className="reveal-on-scroll"><ExploreCategories category={category} setCategory={setCategory} /></div>

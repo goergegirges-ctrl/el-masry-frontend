@@ -286,3 +286,39 @@
 
 [data-theme="dark"] .product-item-counter p { color: var(--accent); }
 [data-theme="dark"] .wishlist-btn-container:hover { background-color: var(--surface-alt); }
+
+/* Discount badge */
+.badge.discount-badge {
+  background-color: var(--accent, #00B4D8);
+  color: #fff;
+}
+
+/* NEW badge */
+.badge.new-badge {
+  background-color: #00B4D8;
+  color: #fff;
+  top: auto;
+  bottom: 12px;
+  left: 12px;
+}
+
+/* When both discount and new badges show, offset new badge */
+.product-item-img-container .badge.discount-badge ~ .badge.new-badge {
+  bottom: 12px;
+}
+
+/* Original price (struck through) */
+.product-item-price-original {
+  color: var(--text-muted, #888);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: line-through;
+}
+
+.product-item-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.badge.discount-badge { inset-inline-start: 12px; inset-inline-end: auto; top: 40px; color: #0a1628; }
+.badge.new-badge { inset-inline-start: 12px; inset-inline-end: auto; color: #0a1628; }

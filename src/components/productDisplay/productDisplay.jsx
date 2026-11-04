@@ -89,6 +89,7 @@ const ProductDisplay = ({ category }) => {
               name={item.name}
               description={item.description}
               price={item.price}
+              effectivePrice={item.effectivePrice} hasOffer={item.hasOffer} discountPercent={item.discountPercent} isNew={item.isNew}
               image={item.image}
               images={item.images}
               stock={item.stock}

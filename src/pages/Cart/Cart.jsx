@@ -9,7 +9,7 @@ import SEO from '../../components/SEO/SEO';
 
 const Cart = () => {
 
-  const { cartItems, product_list, addToCart, removeFromCart, deleteFromCart, getTotalCartAmount, url } = useContext(StoreContext);
+  const { cartItems, product_list, addToCart, removeFromCart, deleteFromCart, getTotalCartAmount, url, quoteReady, quoteError, refreshQuote, cartQuote } = useContext(StoreContext);
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -23,6 +23,8 @@ const Cart = () => {
       <div className="cart-content">
         <div className="cart-items">
           <h2 className='cart-title'>{t('cart_title')}</h2>
+          {!quoteReady && !quoteError && <p role="status">تحديث الأسعار / Updating prices…</p>}
+          {quoteError && <p role="alert">{quoteError} <button onClick={refreshQuote}>إعادة المحاولة / Retry</button></p>}
           {product_list.some(item => cartItems[item.id] > 0) ? (
             product_list.map((item, index) => {
               if (cartItems[item.id] > 0) {
@@ -32,7 +34,14 @@ const Cart = () => {
                       <img src={(item.images && item.images.length > 0) ? item.images[0] : logoMark} alt={item.name} />
                       <div className='cart-item-details'>
                         <p className='item-name'>{item.name}</p>
-                        <p className='item-price'>{item.price} ج.م</p>
+                        {item.hasOffer && item.effectivePrice != null ? (
+                          <div className='item-price-group'>
+                            <p className='item-price'>{item.effectivePrice} ج.م</p>
+                            <p className='item-price-original'>{item.price} ج.م</p>
+                          </div>
+                        ) : (
+                          <p className='item-price'>{item.price} ج.م</p>
+                        )}
                       </div>
                     </div>
                     <div className='cart-item-actions'>
@@ -41,7 +50,7 @@ const Cart = () => {
                         <span>{cartItems[item.id]}</span>
                         <button onClick={() => addToCart(item.id)}>+</button>
                       </div>
-                      <p className='item-total'>{item.price * cartItems[item.id]} ج.م</p>
+                      <p className='item-total'>{(item.hasOffer && item.effectivePrice != null ? item.effectivePrice : item.price) * cartItems[item.id]} ج.م</p>
                       <button onClick={() => deleteFromCart(item.id)} className='remove-btn'>{t('cart_remove')}</button>
                     </div>
                   </div>
@@ -66,6 +75,7 @@ const Cart = () => {
               <p>{t('cart_subtotal')}</p>
               <p>{getTotalCartAmount()} ج.م</p>
             </div>
+            {cartQuote?.items.some(item => item.hasOffer) && <p>{t('cart_savings')} {cartQuote.items.reduce((sum,item) => sum + (item.originalPrice - item.price) * item.quantity, 0).toFixed(2)} EGP</p>}
             <hr />
             <div className="cart-total-details">
               <p>{t('cart_delivery')}</p>
@@ -79,7 +89,7 @@ const Cart = () => {
             <button
               className='checkout-btn'
               onClick={() => navigate('/order')}
-              disabled={getTotalCartAmount() === 0}
+              disabled={!quoteReady || !!quoteError || !Object.values(cartItems).some(q => q > 0)}
             >
               {t('cart_checkout')}
             </button>

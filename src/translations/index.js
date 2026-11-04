@@ -131,6 +131,7 @@ export const translations = {
         login_statDeliveryLabel: 'توصيل القاهرة',
 
         // Cart
+        cart_savings: 'التوفير',
         cart_title: 'سلة التسوق',
         cart_summary: 'ملخص الطلب',
         cart_subtotal: 'المجموع الفرعي',
@@ -453,6 +454,7 @@ export const translations = {
         login_statDeliveryLabel: 'Cairo Delivery',
 
         // Cart
+        cart_savings: 'Savings',
         cart_title: 'Shopping Cart',
         cart_summary: 'Order Summary',
         cart_subtotal: 'Subtotal',

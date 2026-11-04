@@ -259,6 +259,18 @@
   }
 }
 
+.item-price-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-price-original {
+  color: var(--text-muted, #888);
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
 [data-theme="dark"] .cart-title { color: var(--text); }
 [data-theme="dark"] .cart-total h3 { color: var(--text); }
 [data-theme="dark"] .quantity-controls button { color: var(--accent); }

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useLanguage } from '../../context/LanguageContext';
 
 const Checkout = () => {
-    const { getTotalCartAmount, product_list, cartItems, url, token, userData, setCartItems } = useContext(StoreContext);
+    const { quoteReady, quoteError, cartQuote, refreshQuote, getTotalCartAmount, product_list, cartItems, url, token, userData, setCartItems } = useContext(StoreContext);
     const { t } = useLanguage();
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Checkout = () => {
     });
 
     useEffect(() => {
-        if (getTotalCartAmount() === 0) {
+        if (!Object.values(cartItems).some(q => q > 0)) {
             navigate("/cart");
         }
     }, [cartItems]);
@@ -36,20 +36,12 @@ const Checkout = () => {
 
     const onPlaceOrder = async (event) => {
         event.preventDefault();
+        if (!quoteReady || quoteError) { refreshQuote(); toast.error('يرجى انتظار تحديث الأسعار / Wait for current prices'); return; }
         setIsProcessing(true);
 
-        let orderItems = [];
-        product_list.forEach((item) => {
-            if (cartItems[item.id] > 0) {
-                let itemInfo = { ...item };
-                itemInfo["quantity"] = cartItems[item.id];
-                itemInfo["productId"] = item.id;
-                orderItems.push(itemInfo);
-            }
-        });
+        const orderItems = Object.entries(cartItems).filter(([,quantity]) => quantity > 0).map(([productId,quantity]) => ({ productId,quantity }));
 
         let orderData = {
-            userId: token ? userData?.id : null,
             customer: {
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -62,8 +54,6 @@ const Checkout = () => {
                 zip: data.zip
             },
             items: orderItems,
-            subtotal: getTotalCartAmount(),
-            deliveryFee: 50, // Static for example
             paymentMethod: data.paymentMethod
         };
 
@@ -129,8 +119,11 @@ const Checkout = () => {
                 </div>
 
                 <div className="checkout-right">
+                    {quoteError && <p role="alert">{quoteError} <button type="button" onClick={refreshQuote}>إعادة المحاولة / Retry</button></p>}
+                    {!quoteReady && <p role="status">تحديث الأسعار / Updating prices…</p>}
                     <div className="cart-total">
                         <h2>{t('co_orderSummary')}</h2>
+                        {cartQuote?.items.map(item => <div key={item.productId} className="cart-total-details"><span>{item.name} × {item.quantity}</span><span>{item.hasOffer && <del>{item.originalPrice} EGP </del>} {item.price} EGP</span></div>)}
                         <div>
                             <div className="cart-total-details">
                                 <p>{t('co_subtotal')}</p>
@@ -139,15 +132,15 @@ const Checkout = () => {
                             <hr />
                             <div className="cart-total-details">
                                 <p>{t('co_delivery')}</p>
-                                <p>50 ج.م</p>
+                                <p>{cartQuote?.deliveryFee ?? 50} ج.م</p>
                             </div>
                             <hr />
                             <div className="cart-total-details total-row">
                                 <b>{t('co_total')}</b>
-                                <b>{getTotalCartAmount() + 50} ج.م</b>
+                                <b>{getTotalCartAmount() + (cartQuote?.deliveryFee ?? 50)} ج.م</b>
                             </div>
                         </div>
-                        <button type='submit' className='place-order-btn' disabled={isProcessing}>
+                        <button type='submit' className='place-order-btn' disabled={isProcessing || !quoteReady || !!quoteError}>
                             {isProcessing ? t('co_processing') : t('co_placeOrder')}
                         </button>
                     </div>

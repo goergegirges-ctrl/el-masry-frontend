@@ -152,6 +152,7 @@ const Search = () => {
                                         id={item.id}
                                         name={item.name}
                                         price={item.price}
+              effectivePrice={item.effectivePrice} hasOffer={item.hasOffer} discountPercent={item.discountPercent} isNew={item.isNew}
                                         brand={item.brand}
                                         images={item.images}
                                         category={item.category}

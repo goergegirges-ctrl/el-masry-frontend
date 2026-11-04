@@ -1,0 +1,99 @@
+.new-arrivals-section {
+  padding: 32px 20px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.new-arrivals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.new-arrivals-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.new-arrivals-icon {
+  color: var(--accent, #00B4D8);
+}
+
+.new-arrivals-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.new-arrivals-slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.new-arrivals-grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 8px 4px 16px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.new-arrivals-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.new-arrivals-card-wrap {
+  min-width: 220px;
+  max-width: 260px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.na-scroll-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.na-scroll-btn:hover {
+  background: var(--accent, #00B4D8);
+  color: #fff;
+  border-color: var(--accent, #00B4D8);
+}
+
+@media (max-width: 768px) {
+  .new-arrivals-section {
+    padding: 24px 12px 16px;
+  }
+
+  .new-arrivals-title {
+    font-size: 18px;
+  }
+
+  .na-scroll-btn {
+    display: none;
+  }
+
+  .new-arrivals-card-wrap {
+    min-width: 200px;
+    max-width: 240px;
+  }
+}

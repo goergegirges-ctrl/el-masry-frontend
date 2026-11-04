@@ -34,6 +34,7 @@ const Wishlist = () => {
                             id={item.id}
                             name={item.name}
                             price={item.price}
+              effectivePrice={item.effectivePrice} hasOffer={item.hasOffer} discountPercent={item.discountPercent} isNew={item.isNew}
                             description={item.description}
                             images={item.images}
                             stock={item.stock}

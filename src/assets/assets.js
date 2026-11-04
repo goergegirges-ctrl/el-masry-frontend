@@ -6,14 +6,6 @@ import logoMark from './logo-mark.svg'
 import logoMarkLight from './logo-mark-mono-light.svg'
 import header_img from './header_img.png'
 import search_icon from './search_icon.png'
-import menu_1 from './menu_1.png'
-import menu_2 from './menu_2.png'
-import menu_3 from './menu_3.png'
-import menu_4 from './menu_4.png'
-import menu_5 from './menu_5.png'
-import menu_6 from './menu_6.png'
-import menu_7 from './menu_7.png'
-import menu_8 from './menu_8.png'
 import add_icon_white from './add_icon_white.png'
 import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
@@ -56,59 +48,6 @@ export const assets = {
     parcel_icon
 }
 
-export const category_list = [
-    {
-        category_name: "كوفات",
-        category_slug: "kofat",
-        category_image: menu_1
-    },
-    {
-        category_name: "تيكونات",
-        category_slug: "tikounat",
-        category_image: menu_2
-    },
-    {
-        category_name: "ليدات",
-        category_slug: "ledat",
-        category_image: menu_3
-    },
-    {
-        category_name: "بورد",
-        category_slug: "board",
-        category_image: menu_4
-    },
-    {
-        category_name: "مساطر شاشات",
-        category_slug: "pcb",
-        category_image: menu_5
-    },
-    {
-        category_name: "كاميرات وأنظمة أمان",
-        category_slug: "sec",
-        category_image: menu_6
-    },
-    {
-        category_name: "شاشات",
-        category_slug: "screens",
-        category_image: menu_7
-    },
-    {
-        category_name: "منتجات أخرى",
-        category_slug: "other",
-        category_image: menu_8
-    },
-    // Placeholder image = El-Masry logo until real category images are uploaded
-    {
-        category_name: "مستلزمات صيانة الماكنة",
-        category_slug: "maintenance-supplies",
-        category_image: logo
-    },
-    {
-        category_name: "تحويلات",
-        category_slug: "converters",
-        category_image: logo
-    },
-]
 
 export const product_list = [];
 
