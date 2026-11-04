@@ -68,6 +68,9 @@ const ProductDetails = () => {
         return cat?.slug || '';
     }, [product, categories]);
 
+    const categoryRecord = categories.find(cat => cat.slug === categorySlug);
+    const categoryLabel = categoryRecord ? (language === 'ar' ? categoryRecord.nameAr : categoryRecord.nameEn) : product?.category;
+
     const recommendedProducts = useMemo(() => {
         if (!product?.category || !product_list?.length) return [];
         return product_list
@@ -143,14 +146,14 @@ const ProductDetails = () => {
                     <span className="sep">/</span>
                     {product.category && (
                         <>
-                            <Link to={categorySlug ? `/category/${categorySlug}` : '/'}>{formatCategoryName(product.category)}</Link>
+                            <Link to={categorySlug ? `/category/${categorySlug}` : '/'}>{formatCategoryName(categoryLabel)}</Link>
                             <span className="sep">/</span>
                         </>
                     )}
                     <span className="current">{product.name}</span>
                 </nav>
                 <button type="button" className='back-link' onClick={() => navigate(location.state?.from || `/category/${categorySlug}`)}>
-                    ← {t('pdp_backTo')} {formatCategoryName(product.category) || ''}
+                    ← {t('pdp_backTo')} {formatCategoryName(categoryLabel) || ''}
                 </button>
             </div>
 
@@ -286,7 +289,7 @@ const ProductDetails = () => {
                             </div>
                             <div className='meta-item'>
                                 <span className="meta-label">{t('pdp_category')}</span>
-                                <span className="meta-value">{formatCategoryName(product.category)}</span>
+                                <span className="meta-value">{formatCategoryName(categoryLabel)}</span>
                             </div>
                             <div className='meta-item'>
                                 <span className="meta-label">{t('pdp_status')}</span>

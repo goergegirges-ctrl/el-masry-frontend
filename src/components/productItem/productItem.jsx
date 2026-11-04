@@ -11,9 +11,11 @@ import { useLanguage } from '../../context/LanguageContext'
 
 const ProductItem = React.memo(({ id, name, price, description, images, stock, condition, isActive, brand, category, effectivePrice, hasOffer, discountPercent, isNew }) => {
 
-  const { cartItems, addToCart, removeFromCart, url, wishlist, toggleWishlist } = useContext(StoreContext)
+  const { cartItems, addToCart, removeFromCart, url, wishlist, toggleWishlist, categories } = useContext(StoreContext)
   const { t, language } = useLanguage();
   const isWishlisted = wishlist.includes(id);
+  const categoryRecord = categories.find(cat => [cat.slug, cat.nameAr, cat.nameEn].includes(category));
+  const categoryLabel = categoryRecord ? (language === 'ar' ? categoryRecord.nameAr : categoryRecord.nameEn) : category;
   const navigate = useNavigate();
 
   const isOutOfStock = stock <= 0;
@@ -63,7 +65,7 @@ const ProductItem = React.memo(({ id, name, price, description, images, stock, c
 
         <LazyImage
           src={productImageUrl}
-          alt={`${formatCategoryName(category)} من المصري إلكترونك`}
+          alt={`${formatCategoryName(categoryLabel)} من المصري إلكترونك`}
           className='product-item-image'
         />
 
@@ -91,7 +93,7 @@ const ProductItem = React.memo(({ id, name, price, description, images, stock, c
 
       <div className="product-item-info">
         <div className="product-item-header">
-          {category && <p className="product-category-label">{formatCategoryName(category)}</p>}
+          {category && <p className="product-category-label">{formatCategoryName(categoryLabel)}</p>}
           {brand && <p className="product-brand">{brand}</p>}
           <p className="product-name">{name}</p>
         </div>
