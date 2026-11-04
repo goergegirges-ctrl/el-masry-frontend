@@ -11,7 +11,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { formatCategoryName } from '../../utils/seoHelpers';
 
 const Navbar = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isSticky, setIsSticky] = useState(false);
   const navigate = useNavigate();
 
@@ -192,7 +192,7 @@ const Navbar = () => {
                       role="menuitem"
                       onClick={() => setShowCategoriesDropdown(false)}
                     >
-                      {formatCategoryName(cat.nameAr || cat.category_name)}
+                      {formatCategoryName(language === 'ar' ? cat.nameAr : cat.nameEn)}
                     </Link>
                   ))}
                 </div>

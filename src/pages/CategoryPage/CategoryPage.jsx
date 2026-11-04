@@ -47,8 +47,8 @@ const CategoryPage = () => {
         const catSlug = currentCategory.slug || currentCategory.category_slug;
         const catNameEn = currentCategory.nameEn;
 
-        return product_list.filter(item => 
-            item.category === catName || 
+        return product_list.filter(item =>
+            item.category === catName ||
             item.category === catSlug ||
             (catNameEn && item.category === catNameEn)
         );

@@ -42,7 +42,7 @@ const ExploreCategories = ({ category, setCategory }) => {
           {categories.map((item, index) => {
             const name = language === 'ar' ? item.nameAr : item.nameEn;
             const slug = item.slug || item.category_slug;
-            // Prefer the local bundled image via slug lookup; fall back to API value, then default
+            // Resolve legacy image paths by filename; new images use Storage URLs.
             const image = categoryImage(item.image);
 
             return (

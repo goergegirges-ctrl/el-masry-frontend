@@ -8,7 +8,7 @@ import './MobileNavbar.css';
 
 const MobileNavbar = () => {
   const { getTotalCartCount, getWishlistCount, token, categories } = useContext(StoreContext);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [showCatsSheet, setShowCatsSheet] = useState(false);
 
   // Use live categories from context; fall back to static list while loading
@@ -97,7 +97,7 @@ const MobileNavbar = () => {
                   className="cats-sheet-item"
                   onClick={() => setShowCatsSheet(false)}
                 >
-                  {formatCategoryName(cat.nameAr || cat.category_name)}
+                  {formatCategoryName(language === 'ar' ? cat.nameAr : cat.nameEn)}
                 </Link>
               ))}
             </div>
