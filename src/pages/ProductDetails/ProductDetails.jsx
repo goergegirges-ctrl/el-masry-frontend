@@ -168,13 +168,15 @@ const ProductDetails = () => {
                                     className={`thumbnail ${activeThumb === index ? 'active' : ''}`}
                                     onClick={() => handleThumbClick(img, index)}
                                 >
-                                    <img src={img} alt={`${product.name} ${index + 1}`} />
+                                    <img src={img} alt={`${product.name} ${index + 1}`} loading="lazy" decoding="async"
+                                        onError={event => { event.currentTarget.src = logoMark; }} />
                                 </div>
                             ))}
                         </div>
                     )}
                     <div className='main-image-container'>
-                        <img src={mainImage} alt={product.name} />
+                        <img src={mainImage} alt={product.name} decoding="async"
+                            onError={event => { event.currentTarget.src = logoMark; }} />
                         {product.hasOffer && product.discountPercent > 0 && (
                             <span className="pdp-discount-overlay">-{product.discountPercent}%</span>
                         )}

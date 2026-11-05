@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import logoMark from '@/assets/logo-mark.svg';
 import './LazyImage.css';
 
-const LazyImage = ({ src, alt, className, fallback = "/fallback-product.png" }) => {
+const LazyImage = ({ src, alt, className, fallback = logoMark }) => {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
 
@@ -18,6 +19,7 @@ const LazyImage = ({ src, alt, className, fallback = "/fallback-product.png" }) 
                     setLoaded(true);
                 }}
                 loading="lazy"
+                decoding="async"
             />
         </div>
     );

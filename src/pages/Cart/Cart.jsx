@@ -31,7 +31,9 @@ const Cart = () => {
                 return (
                   <div key={index} className='cart-item-card'>
                     <div className="cart-item-info">
-                      <img src={(item.images && item.images.length > 0) ? item.images[0] : logoMark} alt={item.name} />
+                      <img src={(item.images && item.images.length > 0) ? item.images[0] : logoMark} alt={item.name}
+                        width="70" height="70" loading="lazy" decoding="async"
+                        onError={event => { event.currentTarget.src = logoMark; }} />
                       <div className='cart-item-details'>
                         <p className='item-name'>{item.name}</p>
                         {item.hasOffer && item.effectivePrice != null ? (

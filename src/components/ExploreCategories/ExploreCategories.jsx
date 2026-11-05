@@ -69,6 +69,9 @@ const ExploreCategories = ({ category, setCategory }) => {
                     src={image || defaultCategoryImg}
                     alt=""
                     aria-hidden="true"
+                    width="100" height="100"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => { e.currentTarget.src = defaultCategoryImg; }}
                   />
                 </div>
